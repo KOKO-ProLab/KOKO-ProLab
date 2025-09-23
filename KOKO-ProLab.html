@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOKO ProLab - خدمات احترافية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #4a44b5;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --text-color: #f0f0f0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .notification-icon, .user-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 40px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 12px 30px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Services Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .service-card p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .dark-mode .service-card p {
+            color: #ccc;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .buy-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .buy-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Reviews Section */
+        .reviews {
+            margin-bottom: 60px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .reviewer {
+            font-weight: bold;
+        }
+
+        .stars {
+            color: gold;
+        }
+
+        .show-more {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .show-more-button {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+        }
+
+        .show-more-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .about h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 40px 0 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+
+        .dark-mode .copyright {
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+
+        /* Floating Elements */
+        .floating-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .floating-chat:hover {
+            transform: scale(1.1);
+        }
+
+        .balance-button {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition);
+            font-weight: bold;
+        }
+
+        .balance-button:hover {
+            background-color: #ff5252;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .submit-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Login Styles */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+
+        .login-box {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .google-login {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .google-login:hover {
+            background-color: #357ae8;
+        }
+
+        .divider {
+            margin: 20px 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .divider span {
+            background-color: var(--card-bg);
+            padding: 0 15px;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .services-grid, .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <h1>KOKO ProLab</h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="#services">الخدمات</a>
+                    <a href="#reviews">التقييمات</a>
+                    <a href="#about">من نحن</a>
+                    <a href="#contact">اتصل بنا</a>
+                </nav>
+                <div class="user-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-icon" id="userIcon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>خدمات احترافية لوسائل التواصل الاجتماعي والتطبيقات</h2>
+            <p>KOKO ProLab يقدم أفضل الخدمات لتعزيز وجودك الرقمي بأسعار تنافسية وجودة مضمونة</p>
+            <a href="#services" class="cta-button">استكشف الخدمات</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="container">
+        <h2 class="section-title">خدماتنا</h2>
+        <div class="services-grid" id="servicesContainer">
+            <!-- Services will be loaded dynamically from Firebase -->
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews container">
+        <h2 class="section-title">تقييمات العملاء</h2>
+        <div class="reviews-grid">
+            <div class="review-card fade-in">
+                <div class="review-header">
+                    <span class="reviewer">أحمد محمد</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p>خدمة ممتازة وسريعة! زادت متابعيني بشكل ملحوظ خلال أيام قليلة.</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-header">
+                    <span class="reviewer">فاطمة علي</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p>التصميم كان احترافي جداً وتجاوز توقعاتي. شكراً KOKO ProLab!</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-header">
+                    <span class="reviewer">خالد عبدالله</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <p>الخدمة جيدة ولكن تأخرت قليلاً في التسليم. بشكل عام راضٍ عن النتيجة.</p>
+            </div>
+        </div>
+        <div class="show-more">
+            <button class="show-more-button">عرض المزيد</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about container">
+        <h2>من نحن</h2>
+        <p>KOKO ProLab هي منصة رائدة في تقديم خدمات وسائل التواصل الاجتماعي وتصميم التطبيقات والمواقع الإلكترونية. نحن نقدم حلولاً مبتكرة وخدمات عالية الجودة تلبي احتياجات عملائنا في جميع أنحاء العالم.</p>
+        <p>بفضل فريقنا من المحترفين ذوي الخبرة الواسعة، نضمن تقديم خدمات سريعة وموثوقة تساعدك على تحقيق أهدافك الرقمية. نؤمن بالجودة والشفافية ونضع رضا العملاء في مقدمة أولوياتنا.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#services">الخدمات</a></li>
+                        <li><a href="#reviews">التقييمات</a></li>
+                        <li><a href="#about">من نحن</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>خدماتنا</h3>
+                    <ul>
+                        <li><a href="#">تصميم مواقع</a></li>
+                        <li><a href="#">تطبيقات أندرويد</a></li>
+                        <li><a href="#">برامج ويندوز</a></li>
+                        <li><a href="#">زيادة المتابعين</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>معلومات الاتصال</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@kokoprolab.com</li>
+                        <li><i class="fas fa-phone"></i> +1234567890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> مدينة، دولة</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>سياسات الموقع</h3>
+                    <ul>
+                        <li><a href="#">شروط الخدمة</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#">سياسة الاسترجاع</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; KOKO ProLab 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Elements -->
+    <div class="floating-chat" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </div>
+    <div class="balance-button" id="balanceButton">
+        <i class="fas fa-wallet"></i> رصيدك: <span id="userBalance">0</span> دولار
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLogin">&times;</span>
+            <h2>تسجيل الدخول</h2>
+            <button class="google-login" id="googleLogin">
+                <i class="fab fa-google"></i> تسجيل الدخول بحساب Google
+            </button>
+            <div class="divider">
+                <span>أو</span>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="submit-button">تسجيل الدخول</button>
+            </form>
+            <p style="margin-top: 15px; text-align: center;">ليس لديك حساب؟ <a href="#" id="showRegister">إنشاء حساب</a></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeRegister">&times;</span>
+            <h2>إنشاء حساب جديد</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regUsername">اسم المستخدم</label>
+                    <input type="text" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">البريد الإلكتروني</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">كلمة المرور</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="regConfirmPassword" required>
+                </div>
+                <button type="submit" class="submit-button">إنشاء حساب</button>
+            </form>
+            <p style="margin-top: 15px; text-align: center;">لديك حساب بالفعل؟ <a href="#" id="showLogin">تسجيل الدخول</a></p>
+        </div>
+    </div>
+
+    <!-- Balance Modal -->
+    <div class="modal" id="balanceModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeBalance">&times;</span>
+            <h2>إيداع الرصيد</h2>
+            <form id="depositForm">
+                <div class="form-group">
+                    <label for="depositAmount">المبلغ (دولار)</label>
+                    <input type="number" id="depositAmount" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">طريقة الدفع</label>
+                    <select id="paymentMethod" required>
+                        <option value="">اختر طريقة الدفع</option>
+                        <option value="visa">فيزا/ماستركارد</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="crypto">عملات رقمية</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">إيداع</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeChat">&times;</span>
+            <h2>الدعم الفني المباشر</h2>
+            <div id="chatMessages" style="height: 300px; overflow-y: auto; margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: var(--border-radius);">
+                <div class="message support">
+                    <p>مرحباً! كيف يمكنني مساعدتك اليوم؟</p>
+                    <span class="time">10:00</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا...">
+            </div>
+            <button class="submit-button" id="sendMessage">إرسال</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow",
+            authDomain: "koko-prolab.firebaseapp.com",
+            projectId: "koko-prolab",
+            storageBucket: "koko-prolab.firebasestorage.app",
+            messagingSenderId: "61256824707",
+            appId: "1:61256824707:web:a853065ec0a19f8d57e8b6",
+            measurementId: "G-0JQ80XFM9E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const userIcon = document.getElementById('userIcon');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const balanceModal = document.getElementById('balanceModal');
+        const chatModal = document.getElementById('chatModal');
+        const closeLogin = document.getElementById('closeLogin');
+        const closeRegister = document.getElementById('closeRegister');
+        const closeBalance = document.getElementById('closeBalance');
+        const closeChat = document.getElementById('closeChat');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const balanceButton = document.getElementById('balanceButton');
+        const chatButton = document.getElementById('chatButton');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const depositForm = document.getElementById('depositForm');
+        const googleLogin = document.getElementById('googleLogin');
+        const servicesContainer = document.getElementById('servicesContainer');
+        const userBalance = document.getElementById('userBalance');
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Modal Controls
+        userIcon.addEventListener('click', () => {
+            if (auth.currentUser) {
+                // User is logged in, show profile or logout options
+                if (confirm('هل تريد تسجيل الخروج؟')) {
+                    auth.signOut();
+                    updateUI();
+                }
+            } else {
+                loginModal.style.display = 'flex';
+            }
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        closeRegister.addEventListener('click', () => {
+            registerModal.style.display = 'none';
+        });
+
+        closeBalance.addEventListener('click', () => {
+            balanceModal.style.display = 'none';
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatModal.style.display = 'none';
+        });
+
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        balanceButton.addEventListener('click', () => {
+            if (auth.currentUser) {
+                balanceModal.style.display = 'flex';
+            } else {
+                loginModal.style.display = 'flex';
+            }
+        });
+
+        chatButton.addEventListener('click', () => {
+            chatModal.style.display = 'flex';
+        });
+
+        // Authentication
+        googleLogin.addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    createUserDocument(user);
+                    loginModal.style.display = 'none';
+                    updateUI();
+                })
+                .catch((error) => {
+                    console.error('Error signing in with Google:', error);
+                    alert('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى.');
+                });
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, username + '@kokoprolab.com', password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    loginModal.style.display = 'none';
+                    updateUI();
+                })
+                .catch((error) => {
+                    console.error('Error signing in:', error);
+                    alert('اسم المستخدم أو كلمة المرور غير صحيحة.');
+                });
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('كلمات المرور غير متطابقة.');
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    createUserDocument(user, username);
+                    registerModal.style.display = 'none';
+                    updateUI();
+                })
+                .catch((error) => {
+                    console.error('Error creating account:', error);
+                    alert('حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى.');
+                });
+        });
+
+        // Deposit Form
+        depositForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const amount = document.getElementById('depositAmount').value;
+            const method = document.getElementById('paymentMethod').value;
+
+            if (auth.currentUser) {
+                // In a real app, you would integrate with a payment gateway here
+                alert(`سيتم توجيهك إلى صفحة الدفع لإيداع ${amount} دولار باستخدام ${method}`);
+                balanceModal.style.display = 'none';
+            }
+        });
+
+        // Create User Document in Firestore
+        async function createUserDocument(user, username = null) {
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    uid: user.uid,
+                    email: user.email,
+                    username: username || user.displayName || user.email.split('@')[0],
+                    balance: 0,
+                    createdAt: new Date()
+                });
+            }
+        }
+
+        // Update UI based on authentication state
+        function updateUI() {
+            if (auth.currentUser) {
+                userIcon.innerHTML = '<i class="fas fa-user-check"></i>';
+                // Get user balance
+                getUserBalance();
+            } else {
+                userIcon.innerHTML = '<i class="fas fa-user"></i>';
+                userBalance.textContent = '0';
+            }
+        }
+
+        // Get user balance from Firestore
+        async function getUserBalance() {
+            if (auth.currentUser) {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    userBalance.textContent = userData.balance || 0;
+                }
+            }
+        }
+
+        // Load services from Firestore
+        async function loadServices() {
+            const querySnapshot = await getDocs(collection(db, 'services'));
+            servicesContainer.innerHTML = '';
+            
+            querySnapshot.forEach((doc) => {
+                const service = doc.data();
+                const serviceCard = document.createElement('div');
+                serviceCard.className = 'service-card fade-in';
+                serviceCard.innerHTML = `
+                    <div class="service-icon">
+                        <i class="${service.icon || 'fas fa-star'}"></i>
+                    </div>
+                    <h3>${service.name}</h3>
+                    <p>${service.description}</p>
+                    <div class="price">$${service.price}</div>
+                    <button class="buy-button" data-id="${doc.id}">شراء الآن</button>
+                `;
+                servicesContainer.appendChild(serviceCard);
+            });
+
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.buy-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (auth.currentUser) {
+                        const serviceId = this.getAttribute('data-id');
+                        purchaseService(serviceId);
+                    } else {
+                        loginModal.style.display = 'flex';
+                    }
+                });
+            });
+        }
+
+        // Purchase service function
+        async function purchaseService(serviceId) {
+            if (auth.currentUser) {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    const serviceRef = doc(db, 'services', serviceId);
+                    const serviceSnap = await getDoc(serviceRef);
+                    
+                    if (serviceSnap.exists()) {
+                        const serviceData = serviceSnap.data();
+                        
+                        if (userData.balance >= serviceData.price) {
+                            // Deduct balance and create order
+                            const newBalance = userData.balance - serviceData.price;
+                            await updateDoc(userRef, { balance: newBalance });
+                            
+                            // Create order document
+                            await addDoc(collection(db, 'orders'), {
+                                userId: auth.currentUser.uid,
+                                serviceId: serviceId,
+                                serviceName: serviceData.name,
+                                price: serviceData.price,
+                                status: 'pending',
+                                createdAt: new Date()
+                            });
+                            
+                            alert(`تم شراء خدمة ${serviceData.name} بنجاح!`);
+                            getUserBalance(); // Update balance display
+                        } else {
+                            alert('رصيدك غير كافي لشراء هذه الخدمة. يرجى إيداع رصيد إضافي.');
+                            balanceModal.style.display = 'flex';
+                        }
+                    }
+                }
+            }
+        }
+
+        // Real-time listener for authentication state
+        auth.onAuthStateChanged((user) => {
+            updateUI();
+            if (user) {
+                loadServices();
+            }
+        });
+
+        // Initialize services on page load
+        loadServices();
+
+        // Chat functionality
+        document.getElementById('sendMessage').addEventListener('click', () => {
+            const messageInput = document.getElementById('chatInput');
+            const message = messageInput.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message user';
+                messageElement.innerHTML = `
+                    <p>${message}</p>
+                    <span class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                `;
+                chatMessages.appendChild(messageElement);
+                messageInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate support response after a delay
+                setTimeout(() => {
+                    const responseElement = document.createElement('div');
+                    responseElement.className = 'message support';
+                    responseElement.innerHTML = `
+                        <p>شكراً لتواصلكم. سيقوم أحد ممثلينا بالرد عليكم قريباً.</p>
+                        <span class="time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    `;
+                    chatMessages.appendChild(responseElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 2000);
+            }
+        });
+
+        // Enter key to send message
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('sendMessage').click();
+            }
+        });
+
+        // Show more reviews
+        document.querySelector('.show-more-button').addEventListener('click', function() {
+            const reviewsGrid = document.querySelector('.reviews-grid');
+            const newReviews = [
+                {name: 'سارة خالد', rating: 5, text: 'الخدمة سريعة والنتائج ممتازة. أنصح الجميع بالتعامل مع KOKO ProLab.'},
+                {name: 'محمد أحمد', rating: 5, text: 'تصميم التطبيق كان احترافي جداً. شكراً لكم على العمل الرائع.'},
+                {name: 'ليلى عبدالله', rating: 4, text: 'خدمة جيدة ولكن تحتاج إلى تحسين في وقت الاستجابة للدعم.'}
+            ];
+            
+            newReviews.forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card fade-in';
+                reviewCard.innerHTML = `
+                    <div class="review-header">
+                        <span class="reviewer">${review.name}</span>
+                        <div class="stars">
+                            ${'<i class="fas fa-star"></i>'.repeat(review.rating)}
+                            ${review.rating < 5 ? '<i class="far fa-star"></i>'.repeat(5 - review.rating) : ''}
+                        </div>
+                    </div>
+                    <p>${review.text}</p>
+                `;
+                reviewsGrid.appendChild(reviewCard);
+            });
+            
+            this.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
