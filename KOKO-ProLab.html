@@ -424,6 +424,8 @@
             max-width: 500px;
             box-shadow: var(--shadow);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-modal {
@@ -450,7 +452,7 @@
             font-weight: 500;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -459,7 +461,7 @@
             color: var(--text-color);
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
         }
@@ -547,6 +549,142 @@
             color: #666;
         }
 
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-rank {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .user-rank.premium {
+            background-color: gold;
+            color: black;
+        }
+
+        .verified-badge {
+            color: #1da1f2;
+            font-size: 0.9rem;
+        }
+
+        /* Deposit Methods */
+        .deposit-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .deposit-method {
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .deposit-method:hover, .deposit-method.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.1);
+        }
+
+        .deposit-method i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Orders Section */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .orders-table th, .orders-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .orders-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .order-status.pending {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .order-status.completed {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .order-status.processing {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        /* Top Traders */
+        .top-traders {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .trader-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .trader-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 15px;
+        }
+
+        .trader-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .trader-volume {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .trader-volume {
+            color: #ccc;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -568,6 +706,10 @@
             }
             
             .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .deposit-methods {
                 grid-template-columns: 1fr;
             }
         }
@@ -595,6 +737,7 @@
                 <nav class="nav-links">
                     <a href="#services">الخدمات</a>
                     <a href="#reviews">التقييمات</a>
+                    <a href="#traders">أفضل المتداولين</a>
                     <a href="#about">من نحن</a>
                     <a href="#contact">اتصل بنا</a>
                 </nav>
@@ -631,13 +774,21 @@
         </div>
     </section>
 
+    <!-- Top Traders Section -->
+    <section id="traders" class="container">
+        <h2 class="section-title">أفضل 10 متداولين اليوم</h2>
+        <div class="top-traders" id="topTradersContainer">
+            <!-- Top traders will be loaded dynamically -->
+        </div>
+    </section>
+
     <!-- Reviews Section -->
     <section id="reviews" class="reviews container">
         <h2 class="section-title">تقييمات العملاء</h2>
         <div class="reviews-grid">
             <div class="review-card fade-in">
                 <div class="review-header">
-                    <span class="reviewer">أحمد محمد</span>
+                    <span class="reviewer">أحمد محمد <i class="fas fa-check-circle verified-badge"></i></span>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -650,7 +801,7 @@
             </div>
             <div class="review-card fade-in">
                 <div class="review-header">
-                    <span class="reviewer">فاطمة علي</span>
+                    <span class="reviewer">فاطمة علي <i class="fas fa-check-circle verified-badge"></i></span>
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -696,6 +847,7 @@
                     <ul>
                         <li><a href="#services">الخدمات</a></li>
                         <li><a href="#reviews">التقييمات</a></li>
+                        <li><a href="#traders">أفضل المتداولين</a></li>
                         <li><a href="#about">من نحن</a></li>
                         <li><a href="#contact">اتصل بنا</a></li>
                     </ul>
@@ -799,22 +951,129 @@
         <div class="modal-content">
             <span class="close-modal" id="closeBalance">&times;</span>
             <h2>إيداع الرصيد</h2>
+            
+            <div class="deposit-methods" id="depositMethods">
+                <div class="deposit-method active" data-method="vodafone">
+                    <i class="fas fa-mobile-alt"></i>
+                    <p>فودافون كاش</p>
+                    <small>للمستخدمين داخل مصر</small>
+                </div>
+                <div class="deposit-method" data-method="crypto">
+                    <i class="fab fa-bitcoin"></i>
+                    <p>عملات رقمية</p>
+                    <small>للمستخدمين خارج مصر</small>
+                </div>
+            </div>
+            
             <form id="depositForm">
-                <div class="form-group">
-                    <label for="depositAmount">المبلغ (دولار)</label>
-                    <input type="number" id="depositAmount" min="1" required>
+                <div id="vodafoneDeposit">
+                    <div class="form-group">
+                        <label for="vodafoneNumber">رقم فودافون كاش</label>
+                        <input type="text" id="vodafoneNumber" placeholder="010XXXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vodafoneAmount">المبلغ (جنيه مصري)</label>
+                        <input type="number" id="vodafoneAmount" min="10" required>
+                    </div>
+                    <div class="form-group">
+                        <p><strong>رقم فودافون كاش:</strong> 01012345678</p>
+                        <p><strong>اسم المستلم:</strong> KOKO ProLab</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="paymentMethod">طريقة الدفع</label>
-                    <select id="paymentMethod" required>
-                        <option value="">اختر طريقة الدفع</option>
-                        <option value="visa">فيزا/ماستركارد</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="crypto">عملات رقمية</option>
-                    </select>
+                
+                <div id="cryptoDeposit" style="display: none;">
+                    <div class="form-group">
+                        <label for="cryptoAmount">المبلغ (دولار)</label>
+                        <input type="number" id="cryptoAmount" min="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cryptoCurrency">اختر العملة</label>
+                        <select id="cryptoCurrency" required>
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="usdt">USDT (TRC20)</option>
+                            <option value="litecoin">Litecoin (LTC)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <p><strong>عنوان المحفظة:</strong> <span id="walletAddress">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span></p>
+                        <button type="button" id="copyWallet" class="submit-button" style="background-color: #666; margin-top: 10px;">نسخ العنوان</button>
+                    </div>
                 </div>
+                
                 <button type="submit" class="submit-button">إيداع</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Orders Modal -->
+    <div class="modal" id="ordersModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeOrders">&times;</span>
+            <h2>طلباتي</h2>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>الخدمة</th>
+                            <th>السعر</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userOrders">
+                        <!-- User orders will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="show-more-button" id="closeOrdersBtn">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeProfile">&times;</span>
+            <h2>ملفي الشخصي</h2>
+            <div class="user-profile" style="justify-content: center; margin-bottom: 20px;">
+                <div class="user-avatar" style="width: 80px; height: 80px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3 id="profileUsername">اسم المستخدم</h3>
+                    <div class="user-rank" id="profileRank">مبتدئ</div>
+                    <div id="profileVerified" style="display: none;"><i class="fas fa-check-circle verified-badge"></i> موثق</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="profilePageLink">رابط البيدج/الحساب</label>
+                <input type="url" id="profilePageLink" placeholder="https://">
+            </div>
+            
+            <div class="form-group">
+                <label for="profilePostLink">رابط المنشور</label>
+                <input type="url" id="profilePostLink" placeholder="https://">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileLikes">كمية الإعجابات المطلوبة</label>
+                <input type="number" id="profileLikes" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileFollowers">كمية المتابعين المطلوبة</label>
+                <input type="number" id="profileFollowers" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileGameId">معرف اللعبة (إذا applicable)</label>
+                <input type="text" id="profileGameId">
+            </div>
+            
+            <button class="submit-button" id="saveProfile">حفظ التغييرات</button>
         </div>
     </div>
 
@@ -841,7 +1100,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, onSnapshot, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -866,10 +1125,14 @@
         const loginModal = document.getElementById('loginModal');
         const registerModal = document.getElementById('registerModal');
         const balanceModal = document.getElementById('balanceModal');
+        const ordersModal = document.getElementById('ordersModal');
+        const profileModal = document.getElementById('profileModal');
         const chatModal = document.getElementById('chatModal');
         const closeLogin = document.getElementById('closeLogin');
         const closeRegister = document.getElementById('closeRegister');
         const closeBalance = document.getElementById('closeBalance');
+        const closeOrders = document.getElementById('closeOrders');
+        const closeProfile = document.getElementById('closeProfile');
         const closeChat = document.getElementById('closeChat');
         const showRegister = document.getElementById('showRegister');
         const showLogin = document.getElementById('showLogin');
@@ -880,7 +1143,26 @@
         const depositForm = document.getElementById('depositForm');
         const googleLogin = document.getElementById('googleLogin');
         const servicesContainer = document.getElementById('servicesContainer');
+        const topTradersContainer = document.getElementById('topTradersContainer');
         const userBalance = document.getElementById('userBalance');
+        const depositMethods = document.getElementById('depositMethods');
+        const vodafoneDeposit = document.getElementById('vodafoneDeposit');
+        const cryptoDeposit = document.getElementById('cryptoDeposit');
+        const copyWallet = document.getElementById('copyWallet');
+        const userOrders = document.getElementById('userOrders');
+        const closeOrdersBtn = document.getElementById('closeOrdersBtn');
+        const profileUsername = document.getElementById('profileUsername');
+        const profileRank = document.getElementById('profileRank');
+        const profileVerified = document.getElementById('profileVerified');
+        const saveProfile = document.getElementById('saveProfile');
+
+        // Initialize wallet addresses
+        const walletAddresses = {
+            bitcoin: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+            ethereum: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+            usdt: "TNDhxLfP8y5n7gF9sRq2Wt3bV6cX1z4M7",
+            litecoin: "LSNhxLfP8y5n7gF9sRq2Wt3bV6cX1z4M7"
+        };
 
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
@@ -893,16 +1175,24 @@
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
+            
+            // Save theme preference
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
+
+        // Load theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.remove('fa-moon');
+            themeToggle.querySelector('i').classList.add('fa-sun');
+        }
 
         // Modal Controls
         userIcon.addEventListener('click', () => {
             if (auth.currentUser) {
-                // User is logged in, show profile or logout options
-                if (confirm('هل تريد تسجيل الخروج؟')) {
-                    auth.signOut();
-                    updateUI();
-                }
+                // User is logged in, show profile modal
+                loadUserProfile();
+                profileModal.style.display = 'flex';
             } else {
                 loginModal.style.display = 'flex';
             }
@@ -918,6 +1208,14 @@
 
         closeBalance.addEventListener('click', () => {
             balanceModal.style.display = 'none';
+        });
+
+        closeOrders.addEventListener('click', () => {
+            ordersModal.style.display = 'none';
+        });
+
+        closeProfile.addEventListener('click', () => {
+            profileModal.style.display = 'none';
         });
 
         closeChat.addEventListener('click', () => {
@@ -946,6 +1244,41 @@
 
         chatButton.addEventListener('click', () => {
             chatModal.style.display = 'flex';
+        });
+
+        closeOrdersBtn.addEventListener('click', () => {
+            ordersModal.style.display = 'none';
+        });
+
+        // Deposit Methods Selection
+        depositMethods.querySelectorAll('.deposit-method').forEach(method => {
+            method.addEventListener('click', () => {
+                depositMethods.querySelectorAll('.deposit-method').forEach(m => m.classList.remove('active'));
+                method.classList.add('active');
+                
+                const methodType = method.getAttribute('data-method');
+                if (methodType === 'vodafone') {
+                    vodafoneDeposit.style.display = 'block';
+                    cryptoDeposit.style.display = 'none';
+                } else {
+                    vodafoneDeposit.style.display = 'none';
+                    cryptoDeposit.style.display = 'block';
+                }
+            });
+        });
+
+        // Crypto Currency Selection
+        document.getElementById('cryptoCurrency').addEventListener('change', function() {
+            const currency = this.value;
+            document.getElementById('walletAddress').textContent = walletAddresses[currency];
+        });
+
+        // Copy Wallet Address
+        copyWallet.addEventListener('click', () => {
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                alert('تم نسخ عنوان المحفظة بنجاح!');
+            });
         });
 
         // Authentication
@@ -1008,13 +1341,49 @@
         // Deposit Form
         depositForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const amount = document.getElementById('depositAmount').value;
-            const method = document.getElementById('paymentMethod').value;
+            const activeMethod = depositMethods.querySelector('.active').getAttribute('data-method');
+            
+            if (activeMethod === 'vodafone') {
+                const number = document.getElementById('vodafoneNumber').value;
+                const amount = document.getElementById('vodafoneAmount').value;
+                
+                if (!number || !amount) {
+                    alert('يرجى ملء جميع الحقول المطلوبة.');
+                    return;
+                }
+                
+                // Simulate deposit process
+                alert(`تم استلام طلب إيداق بقيمة ${amount} جنيه من رقم ${number}. سيتم تفعيل الرصيد خلال 24 ساعة بعد التحقق من التحويلة.`);
+            } else {
+                const amount = document.getElementById('cryptoAmount').value;
+                const currency = document.getElementById('cryptoCurrency').value;
+                
+                if (!amount) {
+                    alert('يرجى إدخال المبلغ المطلوب.');
+                    return;
+                }
+                
+                // Simulate deposit process
+                alert(`يرجى تحويل ${amount} دولار بقيمة ${currency} إلى العنوان المحدد. سيتم تفعيل الرصيد بعد تأكيد التحويل.`);
+            }
+            
+            balanceModal.style.display = 'none';
+        });
 
+        // Save Profile
+        saveProfile.addEventListener('click', async () => {
             if (auth.currentUser) {
-                // In a real app, you would integrate with a payment gateway here
-                alert(`سيتم توجيهك إلى صفحة الدفع لإيداع ${amount} دولار باستخدام ${method}`);
-                balanceModal.style.display = 'none';
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                const profileData = {
+                    pageLink: document.getElementById('profilePageLink').value,
+                    postLink: document.getElementById('profilePostLink').value,
+                    likes: parseInt(document.getElementById('profileLikes').value) || 0,
+                    followers: parseInt(document.getElementById('profileFollowers').value) || 0,
+                    gameId: document.getElementById('profileGameId').value
+                };
+                
+                await updateDoc(userRef, { profile: profileData });
+                alert('تم حفظ التغييرات بنجاح!');
             }
         });
 
@@ -1024,12 +1393,25 @@
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
+                // Generate random trade volume for demo
+                const tradeVolume = Math.floor(Math.random() * 10000) + 100;
+                
                 await setDoc(userRef, {
                     uid: user.uid,
                     email: user.email,
                     username: username || user.displayName || user.email.split('@')[0],
                     balance: 0,
-                    createdAt: new Date()
+                    rank: 'مبتدئ',
+                    verified: false,
+                    tradeVolume: tradeVolume,
+                    createdAt: new Date(),
+                    profile: {
+                        pageLink: '',
+                        postLink: '',
+                        likes: 0,
+                        followers: 0,
+                        gameId: ''
+                    }
                 });
             }
         }
@@ -1038,16 +1420,16 @@
         function updateUI() {
             if (auth.currentUser) {
                 userIcon.innerHTML = '<i class="fas fa-user-check"></i>';
-                // Get user balance
-                getUserBalance();
+                // Get user balance and data
+                getUserData();
             } else {
                 userIcon.innerHTML = '<i class="fas fa-user"></i>';
                 userBalance.textContent = '0';
             }
         }
 
-        // Get user balance from Firestore
-        async function getUserBalance() {
+        // Get user data from Firestore
+        async function getUserData() {
             if (auth.currentUser) {
                 const userRef = doc(db, 'users', auth.currentUser.uid);
                 const userSnap = await getDoc(userRef);
@@ -1055,6 +1437,69 @@
                 if (userSnap.exists()) {
                     const userData = userSnap.data();
                     userBalance.textContent = userData.balance || 0;
+                    
+                    // Load user orders
+                    loadUserOrders();
+                }
+            }
+        }
+
+        // Load user profile
+        async function loadUserProfile() {
+            if (auth.currentUser) {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    profileUsername.textContent = userData.username;
+                    profileRank.textContent = userData.rank;
+                    profileRank.className = 'user-rank';
+                    
+                    if (userData.rank === 'متميز') {
+                        profileRank.classList.add('premium');
+                    }
+                    
+                    if (userData.verified) {
+                        profileVerified.style.display = 'block';
+                    } else {
+                        profileVerified.style.display = 'none';
+                    }
+                    
+                    // Load profile data
+                    if (userData.profile) {
+                        document.getElementById('profilePageLink').value = userData.profile.pageLink || '';
+                        document.getElementById('profilePostLink').value = userData.profile.postLink || '';
+                        document.getElementById('profileLikes').value = userData.profile.likes || '';
+                        document.getElementById('profileFollowers').value = userData.profile.followers || '';
+                        document.getElementById('profileGameId').value = userData.profile.gameId || '';
+                    }
+                }
+            }
+        }
+
+        // Load user orders
+        async function loadUserOrders() {
+            if (auth.currentUser) {
+                const ordersQuery = query(collection(db, 'orders'), where('userId', '==', auth.currentUser.uid), orderBy('createdAt', 'desc'));
+                const querySnapshot = await getDocs(ordersQuery);
+                
+                userOrders.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    userOrders.innerHTML = '<tr><td colspan="4" style="text-align: center;">لا توجد طلبات سابقة</td></tr>';
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const order = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${order.serviceName}</td>
+                            <td>$${order.price}</td>
+                            <td><span class="order-status ${order.status}">${order.status}</span></td>
+                            <td>${order.createdAt.toDate().toLocaleDateString()}</td>
+                        `;
+                        userOrders.appendChild(row);
+                    });
                 }
             }
         }
@@ -1093,6 +1538,41 @@
             });
         }
 
+        // Load top traders
+        async function loadTopTraders() {
+            // In a real app, you would query users by trade volume
+            // For demo, we'll create some fake data
+            const traders = [
+                { name: 'أحمد محمد', volume: '9,845', verified: true },
+                { name: 'فاطمة علي', volume: '8,921', verified: true },
+                { name: 'خالد عبدالله', volume: '7,654', verified: false },
+                { name: 'سارة خالد', volume: '6,987', verified: true },
+                { name: 'محمد أحمد', volume: '6,543', verified: false },
+                { name: 'ليلى عبدالله', volume: '5,876', verified: true },
+                { name: 'يوسف محمود', volume: '5,432', verified: false },
+                { name: 'نورا سعيد', volume: '4,987', verified: true },
+                { name: 'عمر حسن', volume: '4,567', verified: false },
+                { name: 'هدى كمال', volume: '4,321', verified: true }
+            ];
+            
+            topTradersContainer.innerHTML = '';
+            
+            traders.forEach(trader => {
+                const traderCard = document.createElement('div');
+                traderCard.className = 'trader-card fade-in';
+                traderCard.innerHTML = `
+                    <div class="trader-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="trader-name">
+                        ${trader.name} ${trader.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}
+                    </div>
+                    <div class="trader-volume">حجم التداول: $${trader.volume}</div>
+                `;
+                topTradersContainer.appendChild(traderCard);
+            });
+        }
+
         // Purchase service function
         async function purchaseService(serviceId) {
             if (auth.currentUser) {
@@ -1112,6 +1592,19 @@
                             const newBalance = userData.balance - serviceData.price;
                             await updateDoc(userRef, { balance: newBalance });
                             
+                            // Update trade volume
+                            const newTradeVolume = (userData.tradeVolume || 0) + serviceData.price;
+                            await updateDoc(userRef, { tradeVolume: newTradeVolume });
+                            
+                            // Update user rank based on trade volume
+                            let newRank = 'مبتدئ';
+                            if (newTradeVolume >= 5000) newRank = 'متميز';
+                            else if (newTradeVolume >= 1000) newRank = 'متوسط';
+                            
+                            if (newRank !== userData.rank) {
+                                await updateDoc(userRef, { rank: newRank });
+                            }
+                            
                             // Create order document
                             await addDoc(collection(db, 'orders'), {
                                 userId: auth.currentUser.uid,
@@ -1123,7 +1616,7 @@
                             });
                             
                             alert(`تم شراء خدمة ${serviceData.name} بنجاح!`);
-                            getUserBalance(); // Update balance display
+                            getUserData(); // Update balance display
                         } else {
                             alert('رصيدك غير كافي لشراء هذه الخدمة. يرجى إيداع رصيد إضافي.');
                             balanceModal.style.display = 'flex';
@@ -1138,11 +1631,13 @@
             updateUI();
             if (user) {
                 loadServices();
+                loadTopTraders();
             }
         });
 
-        // Initialize services on page load
+        // Initialize services and top traders on page load
         loadServices();
+        loadTopTraders();
 
         // Chat functionality
         document.getElementById('sendMessage').addEventListener('click', () => {
@@ -1209,6 +1704,54 @@
             
             this.style.display = 'none';
         });
+
+        // Initialize with some demo services if none exist
+        async function initializeDemoServices() {
+            const servicesSnapshot = await getDocs(collection(db, 'services'));
+            if (servicesSnapshot.empty) {
+                const demoServices = [
+                    {
+                        name: 'تصميم موقع إلكتروني',
+                        category: 'تصميم مواقع',
+                        price: 299,
+                        description: 'تصميم موقع إلكتروني احترافي متجاوب مع جميع الأجهزة',
+                        icon: 'fas fa-laptop-code',
+                        status: 'active'
+                    },
+                    {
+                        name: 'تطبيق أندرويد',
+                        category: 'تطبيقات أندرويد',
+                        price: 499,
+                        description: 'تطبيق أندرويد متكامل مع أحدث التقنيات',
+                        icon: 'fab fa-android',
+                        status: 'active'
+                    },
+                    {
+                        name: 'زيادة متابعين انستجرام',
+                        category: 'زيادة متابعين',
+                        price: 19,
+                        description: 'زيادة متابعين حقيقين ونشطين لحسابك على انستجرام',
+                        icon: 'fab fa-instagram',
+                        status: 'active'
+                    },
+                    {
+                        name: 'زيادة لايكات فيسبوك',
+                        category: 'زيادة لايكات',
+                        price: 9,
+                        description: 'زيادة لايكات حقيقية لمنشوراتك على فيسبوك',
+                        icon: 'fab fa-facebook',
+                        status: 'active'
+                    }
+                ];
+                
+                for (const service of demoServices) {
+                    await addDoc(collection(db, 'services'), service);
+                }
+            }
+        }
+
+        // Initialize demo data
+        initializeDemoServices();
     </script>
 </body>
 </html>
