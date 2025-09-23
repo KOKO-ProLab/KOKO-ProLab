@@ -190,6 +190,10 @@
             background-color: #f44336;
         }
 
+        .action-button.verify {
+            background-color: #1da1f2;
+        }
+
         .action-button:hover {
             opacity: 0.9;
         }
@@ -265,6 +269,54 @@
             color: #ccc;
         }
 
+        /* Deposit Settings */
+        .deposit-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .deposit-method-settings {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .deposit-method-settings h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        /* User Verification */
+        .verified-badge {
+            color: #1da1f2;
+            margin-right: 5px;
+        }
+
+        /* Order Status */
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .order-status.pending {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .order-status.completed {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .order-status.processing {
+            background-color: #17a2b8;
+            color: white;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .admin-panel {
@@ -282,6 +334,10 @@
             table {
                 display: block;
                 overflow-x: auto;
+            }
+            
+            .deposit-settings {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -326,8 +382,9 @@
                     <li><a href="#" data-section="services">إدارة الخدمات</a></li>
                     <li><a href="#" data-section="orders">إدارة الطلبات</a></li>
                     <li><a href="#" data-section="users">إدارة المستخدمين</a></li>
-                    <li><a href="#" data-section="balance">إدارة الرصيد</a></li>
-                    <li><a href="#" data-section="settings">الإعدادات</a></li>
+                    <li><a href="#" data-section="deposit">إعدادات الإيداع</a></li>
+                    <li><a href="#" data-section="verification">توثيق المستخدمين</a></li>
+                    <li><a href="#" data-section="settings">الإعدادات العامة</a></li>
                 </ul>
             </div>
 
@@ -339,19 +396,19 @@
                     
                     <div class="stats-grid">
                         <div class="stat-card fade-in">
-                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-value" id="totalUsers">62,458</div>
                             <div class="stat-label">إجمالي المستخدمين</div>
                         </div>
                         <div class="stat-card fade-in">
-                            <div class="stat-value" id="totalOrders">0</div>
+                            <div class="stat-value" id="totalOrders">12,847</div>
                             <div class="stat-label">إجمالي الطلبات</div>
                         </div>
                         <div class="stat-card fade-in">
-                            <div class="stat-value" id="totalRevenue">0</div>
-                            <div class="stat-label">إجمالي الإيرادات ($)</div>
+                            <div class="stat-value" id="totalRevenue">$98,452</div>
+                            <div class="stat-label">إجمالي الإيرادات</div>
                         </div>
                         <div class="stat-card fade-in">
-                            <div class="stat-value" id="pendingOrders">0</div>
+                            <div class="stat-value" id="pendingOrders">347</div>
                             <div class="stat-label">طلبات قيد الانتظار</div>
                         </div>
                     </div>
@@ -476,6 +533,8 @@
                                 <th>اسم المستخدم</th>
                                 <th>البريد الإلكتروني</th>
                                 <th>الرصيد ($)</th>
+                                <th>الرتبة</th>
+                                <th>الحالة</th>
                                 <th>تاريخ التسجيل</th>
                                 <th>الإجراءات</th>
                             </tr>
@@ -486,39 +545,75 @@
                     </table>
                 </div>
 
-                <!-- Balance Section -->
-                <div id="balance" class="section">
-                    <h2 class="section-title">إدارة الرصيد</h2>
+                <!-- Deposit Settings Section -->
+                <div id="deposit" class="section">
+                    <h2 class="section-title">إعدادات الإيداع</h2>
                     
-                    <div class="form-group">
-                        <label for="userSelect">اختر المستخدم</label>
-                        <select id="userSelect">
-                            <option value="">اختر المستخدم</option>
-                        </select>
+                    <div class="deposit-settings">
+                        <div class="deposit-method-settings">
+                            <h3>فودافون كاش</h3>
+                            <form id="vodafoneSettings">
+                                <div class="form-group">
+                                    <label for="vodafoneNumber">رقم فودافون كاش</label>
+                                    <input type="text" id="vodafoneNumber" value="01012345678" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vodafoneName">اسم المستلم</label>
+                                    <input type="text" id="vodafoneName" value="KOKO ProLab" required>
+                                </div>
+                                <button type="submit" class="submit-button">حفظ الإعدادات</button>
+                            </form>
+                        </div>
+                        
+                        <div class="deposit-method-settings">
+                            <h3>العملات الرقمية</h3>
+                            <form id="cryptoSettings">
+                                <div class="form-group">
+                                    <label for="bitcoinAddress">عنوان Bitcoin</label>
+                                    <input type="text" id="bitcoinAddress" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ethereumAddress">عنوان Ethereum</label>
+                                    <input type="text" id="ethereumAddress" value="0x742d35Cc6634C0532925a3b844Bc454e4438f44e" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usdtAddress">عنوان USDT (TRC20)</label>
+                                    <input type="text" id="usdtAddress" value="TNDhxLfP8y5n7gF9sRq2Wt3bV6cX1z4M7" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="litecoinAddress">عنوان Litecoin</label>
+                                    <input type="text" id="litecoinAddress" value="LSNhxLfP8y5n7gF9sRq2Wt3bV6cX1z4M7" required>
+                                </div>
+                                <button type="submit" class="submit-button">حفظ الإعدادات</button>
+                            </form>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Verification Section -->
+                <div id="verification" class="section">
+                    <h2 class="section-title">توثيق المستخدمين</h2>
                     
-                    <div class="form-group">
-                        <label for="balanceAction">الإجراء</label>
-                        <select id="balanceAction">
-                            <option value="add">إضافة رصيد</option>
-                            <option value="subtract">خصم رصيد</option>
-                            <option value="set">تعيين رصيد</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="balanceAmount">المبلغ ($)</label>
-                        <input type="number" id="balanceAmount" min="0" step="0.01" required>
-                    </div>
-                    
-                    <button class="submit-button" id="updateBalance">تحديث الرصيد</button>
-                    
-                    <div id="balanceResult" style="margin-top: 20px;"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم المستخدم</th>
+                                <th>البريد الإلكتروني</th>
+                                <th>الرتبة</th>
+                                <th>حجم التداول</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="verificationTable">
+                            <!-- Users for verification will be loaded dynamically -->
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Settings Section -->
                 <div id="settings" class="section">
-                    <h2 class="section-title">إعدادات الموقع</h2>
+                    <h2 class="section-title">الإعدادات العامة</h2>
                     
                     <form id="siteSettings">
                         <div class="form-group">
@@ -539,6 +634,14 @@
                         <div class="form-group">
                             <label for="adminTelegramId">معرف التليجرام للإدارة</label>
                             <input type="text" id="adminTelegramId" value="5582333658" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="autoApproveOrders">الموافقة التلقائية على الطلبات</label>
+                            <select id="autoApproveOrders">
+                                <option value="yes">نعم</option>
+                                <option value="no">لا</option>
+                            </select>
                         </div>
                         
                         <button type="submit" class="submit-button">حفظ الإعدادات</button>
@@ -606,15 +709,13 @@
         // Users elements
         const usersTable = document.getElementById('usersTable');
         
-        // Balance elements
-        const userSelect = document.getElementById('userSelect');
-        const balanceAction = document.getElementById('balanceAction');
-        const balanceAmount = document.getElementById('balanceAmount');
-        const updateBalanceBtn = document.getElementById('updateBalance');
-        const balanceResult = document.getElementById('balanceResult');
+        // Verification elements
+        const verificationTable = document.getElementById('verificationTable');
         
         // Settings elements
         const siteSettings = document.getElementById('siteSettings');
+        const vodafoneSettings = document.getElementById('vodafoneSettings');
+        const cryptoSettings = document.getElementById('cryptoSettings');
 
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
@@ -627,7 +728,17 @@
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
+            
+            // Save theme preference
+            localStorage.setItem('admin-theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
+
+        // Load theme preference
+        if (localStorage.getItem('admin-theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.remove('fa-moon');
+            themeToggle.querySelector('i').classList.add('fa-sun');
+        }
 
         // Sidebar Navigation
         sidebarLinks.forEach(link => {
@@ -667,8 +778,8 @@
                 case 'users':
                     loadUsers();
                     break;
-                case 'balance':
-                    loadUsersForBalance();
+                case 'verification':
+                    loadVerificationUsers();
                     break;
             }
         }
@@ -677,11 +788,11 @@
         async function loadDashboardData() {
             // Load users count
             const usersSnapshot = await getDocs(collection(db, 'users'));
-            totalUsers.textContent = usersSnapshot.size;
+            totalUsers.textContent = usersSnapshot.size.toLocaleString();
             
             // Load orders data
             const ordersSnapshot = await getDocs(collection(db, 'orders'));
-            totalOrders.textContent = ordersSnapshot.size;
+            totalOrders.textContent = ordersSnapshot.size.toLocaleString();
             
             // Calculate revenue and pending orders
             let revenue = 0;
@@ -692,8 +803,8 @@
                 if (order.status === 'pending') pending++;
             });
             
-            totalRevenue.textContent = revenue.toFixed(2);
-            pendingOrders.textContent = pending;
+            totalRevenue.textContent = '$' + revenue.toLocaleString();
+            pendingOrders.textContent = pending.toLocaleString();
             
             // Load recent orders
             recentOrders.innerHTML = '';
@@ -708,7 +819,7 @@
                     <td>${order.userId.substring(0, 8)}...</td>
                     <td>${order.serviceName}</td>
                     <td>$${order.price}</td>
-                    <td>${order.status}</td>
+                    <td><span class="order-status ${order.status}">${order.status}</span></td>
                     <td>${order.createdAt.toDate().toLocaleDateString()}</td>
                     <td>
                         <button class="action-button edit" data-id="${doc.id}">تعديل</button>
@@ -822,7 +933,7 @@
                     <td>${order.userId.substring(0, 8)}...</td>
                     <td>${order.serviceName}</td>
                     <td>$${order.price}</td>
-                    <td>${order.status}</td>
+                    <td><span class="order-status ${order.status}">${order.status}</span></td>
                     <td>${order.createdAt.toDate().toLocaleDateString()}</td>
                     <td>
                         <button class="action-button edit" data-id="${doc.id}">تعديل</button>
@@ -845,72 +956,83 @@
                     <td>${user.username}</td>
                     <td>${user.email}</td>
                     <td>$${user.balance || 0}</td>
+                    <td>${user.rank || 'مبتدئ'}</td>
+                    <td>${user.verified ? '<i class="fas fa-check-circle verified-badge"></i> موثق' : 'غير موثق'}</td>
                     <td>${user.createdAt.toDate().toLocaleDateString()}</td>
                     <td>
                         <button class="action-button edit" data-id="${doc.id}">تعديل</button>
-                        <button class="action-button delete" data-id="${doc.id}">حذف</button>
+                        <button class="action-button verify" data-id="${doc.id}">توثيق</button>
                     </td>
                 `;
                 usersTable.appendChild(row);
             });
+            
+            // Add event listeners to user buttons
+            document.querySelectorAll('#usersTable .verify').forEach(button => {
+                button.addEventListener('click', function() {
+                    verifyUser(this.getAttribute('data-id'));
+                });
+            });
         }
 
-        // Load users for balance management
-        async function loadUsersForBalance() {
-            userSelect.innerHTML = '<option value="">اختر المستخدم</option>';
+        // Load users for verification
+        async function loadVerificationUsers() {
+            verificationTable.innerHTML = '';
             const snapshot = await getDocs(collection(db, 'users'));
             
             snapshot.forEach(doc => {
                 const user = doc.data();
-                const option = document.createElement('option');
-                option.value = doc.id;
-                option.textContent = `${user.username} (${user.email}) - $${user.balance || 0}`;
-                userSelect.appendChild(option);
+                if (!user.verified) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${user.rank || 'مبتدئ'}</td>
+                        <td>$${user.tradeVolume || 0}</td>
+                        <td>غير موثق</td>
+                        <td>
+                            <button class="action-button verify" data-id="${doc.id}">توثيق</button>
+                        </td>
+                    `;
+                    verificationTable.appendChild(row);
+                }
+            });
+            
+            // Add event listeners to verification buttons
+            document.querySelectorAll('#verificationTable .verify').forEach(button => {
+                button.addEventListener('click', function() {
+                    verifyUser(this.getAttribute('data-id'));
+                });
             });
         }
 
-        // Update user balance
-        updateBalanceBtn.addEventListener('click', async () => {
-            const userId = userSelect.value;
-            const action = balanceAction.value;
-            const amount = parseFloat(balanceAmount.value);
-            
-            if (!userId || !amount || amount <= 0) {
-                balanceResult.innerHTML = '<p style="color: red;">يرجى اختيار المستخدم وإدخال مبلغ صحيح</p>';
-                return;
+        // Verify user
+        async function verifyUser(userId) {
+            if (confirm('هل تريد توثيق هذا المستخدم؟')) {
+                const userRef = doc(db, 'users', userId);
+                await updateDoc(userRef, { verified: true });
+                alert('تم توثيق المستخدم بنجاح');
+                loadUsers();
+                loadVerificationUsers();
             }
-            
-            const userRef = doc(db, 'users', userId);
-            const userSnap = await getDoc(userRef);
-            
-            if (userSnap.exists()) {
-                const userData = userSnap.data();
-                let newBalance = userData.balance || 0;
-                
-                switch(action) {
-                    case 'add':
-                        newBalance += amount;
-                        break;
-                    case 'subtract':
-                        newBalance -= amount;
-                        break;
-                    case 'set':
-                        newBalance = amount;
-                        break;
-                }
-                
-                await updateDoc(userRef, { balance: newBalance });
-                balanceResult.innerHTML = `<p style="color: green;">تم تحديث رصيد المستخدم إلى $${newBalance}</p>`;
-                balanceAmount.value = '';
-                loadUsersForBalance();
-            }
-        });
+        }
 
         // Save site settings
         siteSettings.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('تم حفظ الإعدادات بنجاح');
             // In a real app, you would save these settings to Firestore
+        });
+
+        // Save deposit settings
+        vodafoneSettings.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('تم حفظ إعدادات فودافون كاش بنجاح');
+        });
+
+        cryptoSettings.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('تم حفظ إعدادات العملات الرقمية بنجاح');
         });
 
         // Load initial data
