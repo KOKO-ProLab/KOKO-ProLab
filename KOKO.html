@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOKO ProLab - لوحة الإدارة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #4a44b5;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --text-color: #f0f0f0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .sidebar {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .admin-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: rgba(108, 99, 255, 0.1);
+        }
+
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0 3px;
+        }
+
+        .action-button.edit {
+            background-color: #4caf50;
+        }
+
+        .action-button.delete {
+            background-color: #f44336;
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .submit-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+        }
+
+        .dark-mode .stat-label {
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-panel {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .admin-content {
+                order: 1;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <h1>KOKO ProLab - لوحة الإدارة</h1>
+                </div>
+                <div class="user-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="index.html" class="action-button">العودة للموقع</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Panel -->
+    <div class="container">
+        <div class="admin-panel">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3>لوحة التحكم</h3>
+                <ul>
+                    <li><a href="#" class="active" data-section="dashboard">لوحة المعلومات</a></li>
+                    <li><a href="#" data-section="services">إدارة الخدمات</a></li>
+                    <li><a href="#" data-section="orders">إدارة الطلبات</a></li>
+                    <li><a href="#" data-section="users">إدارة المستخدمين</a></li>
+                    <li><a href="#" data-section="balance">إدارة الرصيد</a></li>
+                    <li><a href="#" data-section="settings">الإعدادات</a></li>
+                </ul>
+            </div>
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="section active">
+                    <h2 class="section-title">لوحة المعلومات</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card fade-in">
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-label">إجمالي المستخدمين</div>
+                        </div>
+                        <div class="stat-card fade-in">
+                            <div class="stat-value" id="totalOrders">0</div>
+                            <div class="stat-label">إجمالي الطلبات</div>
+                        </div>
+                        <div class="stat-card fade-in">
+                            <div class="stat-value" id="totalRevenue">0</div>
+                            <div class="stat-label">إجمالي الإيرادات ($)</div>
+                        </div>
+                        <div class="stat-card fade-in">
+                            <div class="stat-value" id="pendingOrders">0</div>
+                            <div class="stat-label">طلبات قيد الانتظار</div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">آخر الطلبات</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>المستخدم</th>
+                                <th>الخدمة</th>
+                                <th>السعر</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrders">
+                            <!-- Orders will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Services Section -->
+                <div id="services" class="section">
+                    <h2 class="section-title">إدارة الخدمات</h2>
+                    
+                    <button class="submit-button" id="addServiceBtn" style="margin-bottom: 20px;">إضافة خدمة جديدة</button>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم الخدمة</th>
+                                <th>الفئة</th>
+                                <th>السعر ($)</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicesTable">
+                            <!-- Services will be loaded dynamically -->
+                        </tbody>
+                    </table>
+
+                    <!-- Add/Edit Service Form -->
+                    <div id="serviceForm" style="display: none; margin-top: 30px;">
+                        <h3 id="formTitle">إضافة خدمة جديدة</h3>
+                        <form id="serviceFormData">
+                            <div class="form-group">
+                                <label for="serviceName">اسم الخدمة</label>
+                                <input type="text" id="serviceName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceCategory">الفئة</label>
+                                <select id="serviceCategory" required>
+                                    <option value="">اختر الفئة</option>
+                                    <option value="تصميم مواقع">تصميم مواقع</option>
+                                    <option value="تطبيقات أندرويد">تطبيقات أندرويد</option>
+                                    <option value="برامج ويندوز">برامج ويندوز</option>
+                                    <option value="زيادة متابعين">زيادة متابعين</option>
+                                    <option value="زيادة لايكات">زيادة لايكات</option>
+                                    <option value="بلاغات إغلاق">بلاغات إغلاق</option>
+                                    <option value="تحقيق أرباح">تحقيق أرباح</option>
+                                    <option value="ظهور في الاكسبلور">ظهور في الاكسبلور</option>
+                                    <option value="شحن تطبيقات">شحن تطبيقات</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="servicePrice">السعر ($)</label>
+                                <input type="number" id="servicePrice" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceDescription">الوصف</label>
+                                <textarea id="serviceDescription" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceIcon">الأيقونة (Font Awesome class)</label>
+                                <input type="text" id="serviceIcon" placeholder="fas fa-star" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceStatus">الحالة</label>
+                                <select id="serviceStatus" required>
+                                    <option value="active">نشط</option>
+                                    <option value="inactive">غير نشط</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="submit-button" id="saveService">حفظ الخدمة</button>
+                            <button type="button" class="action-button" id="cancelService" style="background-color: #666;">إلغاء</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="orders" class="section">
+                    <h2 class="section-title">إدارة الطلبات</h2>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>المستخدم</th>
+                                <th>الخدمة</th>
+                                <th>السعر ($)</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <!-- Orders will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users" class="section">
+                    <h2 class="section-title">إدارة المستخدمين</h2>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم المستخدم</th>
+                                <th>البريد الإلكتروني</th>
+                                <th>الرصيد ($)</th>
+                                <th>تاريخ التسجيل</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Balance Section -->
+                <div id="balance" class="section">
+                    <h2 class="section-title">إدارة الرصيد</h2>
+                    
+                    <div class="form-group">
+                        <label for="userSelect">اختر المستخدم</label>
+                        <select id="userSelect">
+                            <option value="">اختر المستخدم</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="balanceAction">الإجراء</label>
+                        <select id="balanceAction">
+                            <option value="add">إضافة رصيد</option>
+                            <option value="subtract">خصم رصيد</option>
+                            <option value="set">تعيين رصيد</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="balanceAmount">المبلغ ($)</label>
+                        <input type="number" id="balanceAmount" min="0" step="0.01" required>
+                    </div>
+                    
+                    <button class="submit-button" id="updateBalance">تحديث الرصيد</button>
+                    
+                    <div id="balanceResult" style="margin-top: 20px;"></div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings" class="section">
+                    <h2 class="section-title">إعدادات الموقع</h2>
+                    
+                    <form id="siteSettings">
+                        <div class="form-group">
+                            <label for="siteName">اسم الموقع</label>
+                            <input type="text" id="siteName" value="KOKO ProLab" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="siteDescription">وصف الموقع</label>
+                            <textarea id="siteDescription" rows="3" required>KOKO ProLab يقدم أفضل الخدمات لوسائل التواصل الاجتماعي والتطبيقات</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telegramBotToken">توكن بوت التليجرام</label>
+                            <input type="text" id="telegramBotToken" value="8403086051:AAFCUdViHB7bydfRIfhBRWujXiS348ykCVk" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="adminTelegramId">معرف التليجرام للإدارة</label>
+                            <input type="text" id="adminTelegramId" value="5582333658" required>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">حفظ الإعدادات</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow",
+            authDomain: "koko-prolab.firebaseapp.com",
+            projectId: "koko-prolab",
+            storageBucket: "koko-prolab.firebasestorage.app",
+            messagingSenderId: "61256824707",
+            appId: "1:61256824707:web:a853065ec0a19f8d57e8b6",
+            measurementId: "G-0JQ80XFM9E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check if user is admin (you would implement proper admin authentication)
+        // For demo purposes, we'll use a simple check
+        const isAdmin = true; // In a real app, you would check the user's role
+
+        if (!isAdmin) {
+            alert('ليس لديك صلاحية للوصول إلى لوحة الإدارة');
+            window.location.href = 'index.html';
+        }
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        const sections = document.querySelectorAll('.section');
+        
+        // Dashboard elements
+        const totalUsers = document.getElementById('totalUsers');
+        const totalOrders = document.getElementById('totalOrders');
+        const totalRevenue = document.getElementById('totalRevenue');
+        const pendingOrders = document.getElementById('pendingOrders');
+        const recentOrders = document.getElementById('recentOrders');
+        
+        // Services elements
+        const servicesTable = document.getElementById('servicesTable');
+        const addServiceBtn = document.getElementById('addServiceBtn');
+        const serviceForm = document.getElementById('serviceForm');
+        const formTitle = document.getElementById('formTitle');
+        const serviceFormData = document.getElementById('serviceFormData');
+        const cancelService = document.getElementById('cancelService');
+        
+        // Orders elements
+        const ordersTable = document.getElementById('ordersTable');
+        
+        // Users elements
+        const usersTable = document.getElementById('usersTable');
+        
+        // Balance elements
+        const userSelect = document.getElementById('userSelect');
+        const balanceAction = document.getElementById('balanceAction');
+        const balanceAmount = document.getElementById('balanceAmount');
+        const updateBalanceBtn = document.getElementById('updateBalance');
+        const balanceResult = document.getElementById('balanceResult');
+        
+        // Settings elements
+        const siteSettings = document.getElementById('siteSettings');
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Sidebar Navigation
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = link.getAttribute('data-section');
+                
+                // Update active link
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show target section
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetSection) {
+                        section.classList.add('active');
+                        
+                        // Load section data
+                        loadSectionData(targetSection);
+                    }
+                });
+            });
+        });
+
+        // Load section data
+        function loadSectionData(section) {
+            switch(section) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'services':
+                    loadServices();
+                    break;
+                case 'orders':
+                    loadOrders();
+                    break;
+                case 'users':
+                    loadUsers();
+                    break;
+                case 'balance':
+                    loadUsersForBalance();
+                    break;
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            // Load users count
+            const usersSnapshot = await getDocs(collection(db, 'users'));
+            totalUsers.textContent = usersSnapshot.size;
+            
+            // Load orders data
+            const ordersSnapshot = await getDocs(collection(db, 'orders'));
+            totalOrders.textContent = ordersSnapshot.size;
+            
+            // Calculate revenue and pending orders
+            let revenue = 0;
+            let pending = 0;
+            ordersSnapshot.forEach(doc => {
+                const order = doc.data();
+                revenue += order.price;
+                if (order.status === 'pending') pending++;
+            });
+            
+            totalRevenue.textContent = revenue.toFixed(2);
+            pendingOrders.textContent = pending;
+            
+            // Load recent orders
+            recentOrders.innerHTML = '';
+            const recentQuery = query(collection(db, 'orders'), orderBy('createdAt', 'desc'), limit(5));
+            const recentSnapshot = await getDocs(recentQuery);
+            
+            recentSnapshot.forEach(doc => {
+                const order = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${doc.id.substring(0, 8)}...</td>
+                    <td>${order.userId.substring(0, 8)}...</td>
+                    <td>${order.serviceName}</td>
+                    <td>$${order.price}</td>
+                    <td>${order.status}</td>
+                    <td>${order.createdAt.toDate().toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-button edit" data-id="${doc.id}">تعديل</button>
+                        <button class="action-button delete" data-id="${doc.id}">حذف</button>
+                    </td>
+                `;
+                recentOrders.appendChild(row);
+            });
+        }
+
+        // Load services
+        async function loadServices() {
+            servicesTable.innerHTML = '';
+            const snapshot = await getDocs(collection(db, 'services'));
+            
+            snapshot.forEach(doc => {
+                const service = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${service.name}</td>
+                    <td>${service.category}</td>
+                    <td>$${service.price}</td>
+                    <td>${service.status === 'active' ? 'نشط' : 'غير نشط'}</td>
+                    <td>
+                        <button class="action-button edit" data-id="${doc.id}">تعديل</button>
+                        <button class="action-button delete" data-id="${doc.id}">حذف</button>
+                    </td>
+                `;
+                servicesTable.appendChild(row);
+            });
+            
+            // Add event listeners to service buttons
+            document.querySelectorAll('#servicesTable .edit').forEach(button => {
+                button.addEventListener('click', function() {
+                    editService(this.getAttribute('data-id'));
+                });
+            });
+            
+            document.querySelectorAll('#servicesTable .delete').forEach(button => {
+                button.addEventListener('click', function() {
+                    deleteService(this.getAttribute('data-id'));
+                });
+            });
+        }
+
+        // Add service button
+        addServiceBtn.addEventListener('click', () => {
+            serviceForm.style.display = 'block';
+            formTitle.textContent = 'إضافة خدمة جديدة';
+            serviceFormData.reset();
+            serviceFormData.setAttribute('data-mode', 'add');
+        });
+
+        // Cancel service form
+        cancelService.addEventListener('click', () => {
+            serviceForm.style.display = 'none';
+        });
+
+        // Save service
+        serviceFormData.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const serviceData = {
+                name: document.getElementById('serviceName').value,
+                category: document.getElementById('serviceCategory').value,
+                price: parseFloat(document.getElementById('servicePrice').value),
+                description: document.getElementById('serviceDescription').value,
+                icon: document.getElementById('serviceIcon').value,
+                status: document.getElementById('serviceStatus').value
+            };
+            
+            const mode = serviceFormData.getAttribute('data-mode');
+            
+            if (mode === 'add') {
+                await addDoc(collection(db, 'services'), serviceData);
+                alert('تم إضافة الخدمة بنجاح');
+            } else {
+                // In a real app, you would update the existing service
+                alert('سيتم تحديث الخدمة في التطبيق الكامل');
+            }
+            
+            serviceForm.style.display = 'none';
+            loadServices();
+        });
+
+        // Edit service
+        async function editService(serviceId) {
+            // In a real app, you would load the service data and populate the form
+            alert('سيتم تحميل بيانات الخدمة للتعديل في التطبيق الكامل');
+        }
+
+        // Delete service
+        async function deleteService(serviceId) {
+            if (confirm('هل أنت متأكد من حذف هذه الخدمة؟')) {
+                await deleteDoc(doc(db, 'services', serviceId));
+                alert('تم حذف الخدمة بنجاح');
+                loadServices();
+            }
+        }
+
+        // Load orders
+        async function loadOrders() {
+            ordersTable.innerHTML = '';
+            const snapshot = await getDocs(collection(db, 'orders'));
+            
+            snapshot.forEach(doc => {
+                const order = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${doc.id.substring(0, 8)}...</td>
+                    <td>${order.userId.substring(0, 8)}...</td>
+                    <td>${order.serviceName}</td>
+                    <td>$${order.price}</td>
+                    <td>${order.status}</td>
+                    <td>${order.createdAt.toDate().toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-button edit" data-id="${doc.id}">تعديل</button>
+                        <button class="action-button delete" data-id="${doc.id}">حذف</button>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
+            });
+        }
+
+        // Load users
+        async function loadUsers() {
+            usersTable.innerHTML = '';
+            const snapshot = await getDocs(collection(db, 'users'));
+            
+            snapshot.forEach(doc => {
+                const user = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>$${user.balance || 0}</td>
+                    <td>${user.createdAt.toDate().toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-button edit" data-id="${doc.id}">تعديل</button>
+                        <button class="action-button delete" data-id="${doc.id}">حذف</button>
+                    </td>
+                `;
+                usersTable.appendChild(row);
+            });
+        }
+
+        // Load users for balance management
+        async function loadUsersForBalance() {
+            userSelect.innerHTML = '<option value="">اختر المستخدم</option>';
+            const snapshot = await getDocs(collection(db, 'users'));
+            
+            snapshot.forEach(doc => {
+                const user = doc.data();
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = `${user.username} (${user.email}) - $${user.balance || 0}`;
+                userSelect.appendChild(option);
+            });
+        }
+
+        // Update user balance
+        updateBalanceBtn.addEventListener('click', async () => {
+            const userId = userSelect.value;
+            const action = balanceAction.value;
+            const amount = parseFloat(balanceAmount.value);
+            
+            if (!userId || !amount || amount <= 0) {
+                balanceResult.innerHTML = '<p style="color: red;">يرجى اختيار المستخدم وإدخال مبلغ صحيح</p>';
+                return;
+            }
+            
+            const userRef = doc(db, 'users', userId);
+            const userSnap = await getDoc(userRef);
+            
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                let newBalance = userData.balance || 0;
+                
+                switch(action) {
+                    case 'add':
+                        newBalance += amount;
+                        break;
+                    case 'subtract':
+                        newBalance -= amount;
+                        break;
+                    case 'set':
+                        newBalance = amount;
+                        break;
+                }
+                
+                await updateDoc(userRef, { balance: newBalance });
+                balanceResult.innerHTML = `<p style="color: green;">تم تحديث رصيد المستخدم إلى $${newBalance}</p>`;
+                balanceAmount.value = '';
+                loadUsersForBalance();
+            }
+        });
+
+        // Save site settings
+        siteSettings.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('تم حفظ الإعدادات بنجاح');
+            // In a real app, you would save these settings to Firestore
+        });
+
+        // Load initial data
+        loadDashboardData();
+    </script>
+</body>
+</html>
