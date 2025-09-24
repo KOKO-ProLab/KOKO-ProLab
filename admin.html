@@ -112,7 +112,52 @@
     </div>
     <div id="adminPanel" style="display:none">
       <button class="btn" id="logoutBtn">تسجيل الخروج</button>
-      <!-- باقي لوحة التحكم سيتم تطويرها لاحقاً -->
+      <div style="margin:24px 0 0 0">
+        <h2 style="text-align:center">إدارة المنتجات والأسعار</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <form id="productForm">
+            <input class="input" type="text" id="productName" placeholder="اسم المنتج أو الخدمة" required>
+            <input class="input" type="number" id="productPrice" placeholder="السعر" required>
+            <button class="btn" type="submit">إضافة/تعديل المنتج</button>
+          </form>
+          <div id="productsList" style="margin-top:16px;"></div>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">استلام الطلبات وتغيير الحالة</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <div id="ordersList"></div>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">إيداع رصيد يدوي</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <form id="depositForm">
+            <input class="input" type="text" id="depositUser" placeholder="معرف المستخدم" required>
+            <input class="input" type="number" id="depositAmount" placeholder="المبلغ" required>
+            <button class="btn" type="submit">إيداع رصيد</button>
+          </form>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">إدارة طرق الدفع</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <form id="paymentForm">
+            <input class="input" type="text" id="walletAddress" placeholder="عنوان المحفظة (عملات رقمية)">
+            <input class="input" type="text" id="vodafoneNumber" placeholder="رقم فودافون كاش">
+            <button class="btn" type="submit">تعديل بيانات الدفع</button>
+          </form>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">إدارة المستخدمين</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <div id="usersList"></div>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">التقارير والإحصائيات</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <div id="reportsBox"></div>
+        </div>
+        <h2 style="text-align:center;margin-top:40px">إعدادات عامة</h2>
+        <div style="background:#333;border-radius:16px;padding:16px;box-shadow:0 2px 8px #444;max-width:600px;margin:0 auto;">
+          <form id="settingsForm">
+            <input class="input" type="text" id="googleClientId" placeholder="Google Client ID">
+            <button class="btn" type="submit">تعديل إعدادات Google</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   <script>
