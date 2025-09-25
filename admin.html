@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOKO ProLab - منصة الخدمات الاحترافية</title>
+    <title>KOKO ProLab - لوحة الإدارة</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     
@@ -14,6 +14,7 @@
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
+            --info-color: #3b82f6;
             --dark-bg: #0f172a;
             --dark-surface: #1e293b;
             --dark-card: #334155;
@@ -34,50 +35,35 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            transition: all 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        .light-theme {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--text-dark);
-        }
-
-        .dark-theme {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: var(--text-light);
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
         }
 
-        /* Header */
-        .header {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px 0;
             transition: all 0.3s ease;
         }
 
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .sidebar-header {
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #fff;
-            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -90,79 +76,150 @@
             background-clip: text;
         }
 
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .theme-toggle, .notification-btn, .user-menu {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 10px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover, .notification-btn:hover, .user-menu:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .notification-btn {
-            position: relative;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger-color);
+        .admin-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-left-color: #667eea;
+        }
+
+        .menu-item i {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            width: 20px;
         }
 
         /* Main Content */
-        .main {
-            margin-top: 100px;
-            min-height: calc(100vh - 100px);
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        /* User Info Section */
-        .user-info {
+        .content-header {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px 30px;
             margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .user-stats {
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         }
 
         .stat-card:hover {
@@ -170,256 +227,149 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-        }
-
-        /* Services Section */
-        .services-section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .category-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .category-card:hover::before {
-            opacity: 1;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .category-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .category-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .category-desc {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .service-count {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            color: #fff;
-            font-size: 0.8rem;
-            display: inline-block;
-        }
-
-        /* Top Users Section */
-        .top-users {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .top-users-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .user-item {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            gap: 15px;
-        }
-
-        .user-item:hover {
-            transform: translateX(-5px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .user-rank {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-details {
-            flex: 1;
-        }
-
-        .user-name {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .user-orders {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-        }
-
-        .verified-badge {
-            color: #3b82f6;
-            margin-right: 5px;
-        }
-
-        /* Reviews Section */
-        .reviews-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .review-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .review-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .review-header {
+        .stat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
 
-        .reviewer-name {
+        .stat-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--danger-color);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table th {
+            color: #fff;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .table td {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: #fff;
+            margin-bottom: 8px;
             font-weight: 600;
         }
 
-        .stars {
-            color: #fbbf24;
-        }
-
-        .review-text {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-        }
-
-        /* Floating Action Button */
-        .floating-chat {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            z-index: 1000;
         }
 
-        .floating-chat:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
 
-        /* Modal Styles */
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -439,438 +389,946 @@
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 40px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
         }
 
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
         .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
             background: none;
             border: none;
             color: #fff;
             font-size: 1.5rem;
             cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            color: #fff;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
+        .modal-close:hover {
             background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
-
-        .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+        /* Status badges */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        .status-active {
+            background: var(--success-color);
             color: white;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .status-inactive {
+            background: var(--danger-color);
+            color: white;
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .status-verified {
+            background: var(--info-color);
+            color: white;
         }
 
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 40px 0;
-            margin-top: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h3 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .footer-section p, .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 8px;
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
         }
 
-        .footer-section a:hover {
-            color: #667eea;
+        .action-btn:hover {
+            transform: translateY(-1px);
         }
 
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Deposit Methods */
-        .deposit-methods {
+        /* Quick actions */
+        .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        .deposit-method {
+        .quick-action {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            backdrop-filter: blur(20px);
             border-radius: 15px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .deposit-method:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+        .quick-action:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        .deposit-method i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #667eea;
+        .quick-action i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .deposit-method h4 {
+        .quick-action h3 {
             color: #fff;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
-        .deposit-method p {
+        .quick-action p {
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.9rem;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+            
+            .content-header {
                 flex-direction: column;
                 gap: 15px;
+                text-align: center;
             }
-
-            .main {
-                margin-top: 120px;
-            }
-
-            .user-stats {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-
-            .categories {
+            
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
-
-            .floating-chat {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+            
+            .form-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .content-section {
+            animation: fadeIn 0.6s ease forwards;
         }
 
-        /* Notification Styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            color: #fff;
-            padding: 15px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 3000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
+            border-radius: 4px;
         }
 
-        .notification.show {
-            transform: translateX(0);
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
         }
 
-        .notification.success {
-            border-left: 4px solid var(--success-color);
-        }
-
-        .notification.error {
-            border-left: 4px solid var(--danger-color);
-        }
-
-        .notification.warning {
-            border-left: 4px solid var(--warning-color);
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
 
-<body class="light-theme">
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav container">
-            <a href="#" class="logo">
-                <i class="fas fa-rocket"></i>
-                KOKO ProLab
-            </a>
-            
-            <div class="nav-actions">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <i class="fas fa-moon" id="theme-icon"></i>
-                </button>
-                
-                <button class="notification-btn" onclick="showNotifications()">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </button>
-                
-                <div class="user-menu">
-                    <span id="user-name">مرحباً، المستخدم</span>
-                    <button onclick="logout()" style="background: none; border: none; color: #fff; margin-right: 10px;">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    KOKO ProLab
+                </div>
+                <div class="admin-badge">
+                    <i class="fas fa-crown"></i> إدارة
                 </div>
             </div>
-        </nav>
-    </header>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    لوحة التحكم
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('users')">
+                    <i class="fas fa-users"></i>
+                    إدارة المستخدمين
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('services')">
+                    <i class="fas fa-cogs"></i>
+                    إدارة الخدمات
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('orders')">
+                    <i class="fas fa-shopping-cart"></i>
+                    إدارة الطلبات
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('deposits')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    طلبات الإيداع
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('payments')">
+                    <i class="fas fa-credit-card"></i>
+                    إعدادات الدفع
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar"></i>
+                    التقارير
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('settings')">
+                    <i class="fas fa-sliders-h"></i>
+                    الإعدادات
+                </a>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <!-- User Info Section -->
-            <section class="user-info">
-                <h1>مرحباً بك في KOKO ProLab</h1>
-                <p>منصة الخدمات الاحترافية الرائدة في الشرق الأوسط</p>
-                
-                <div class="user-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="user-balance">0.00</div>
-                        <div class="stat-label">الرصيد المتاح (ج.م)</div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="section">
+                <div class="content-header">
+                    <h1 class="page-title">لوحة التحكم</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="refreshStats()">
+                            <i class="fas fa-sync-alt"></i> تحديث البيانات
+                        </button>
+                        <button class="btn btn-warning" onclick="initializeDatabase()">
+                            <i class="fas fa-database"></i> تهيئة قاعدة البيانات
+                        </button>
                     </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value">15</div>
-                        <div class="stat-label">إجمالي الطلبات</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">مبتدئ</div>
-                        <div class="stat-label">رتبة الحساب</div>
-                    </div>
-                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">إجمالي المستخدمين</span>
+                            <i class="fas fa-users stat-icon"></i>
+                        </div>
                         <div class="stat-value">60,453</div>
-                        <div class="stat-label">المستخدمين المسجلين</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +12.5% هذا الشهر
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">إجمالي الطلبات</span>
+                            <i class="fas fa-shopping-cart stat-icon"></i>
+                        </div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +8.3% هذا الأسبوع
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">إجمالي الإيرادات</span>
+                            <i class="fas fa-dollar-sign stat-icon"></i>
+                        </div>
+                        <div class="stat-value">₹89,450</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +15.2% هذا الشهر
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">الطلبات المعلقة</span>
+                            <i class="fas fa-clock stat-icon"></i>
+                        </div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            -3.1% من أمس
+                        </div>
                     </div>
                 </div>
 
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="showDepositModal()">
-                        <i class="fas fa-plus-circle"></i> إيداع رصيد
-                    </button>
-                    <button class="btn btn-secondary" onclick="showOrderHistory()" style="margin-right: 10px;">
-                        <i class="fas fa-history"></i> تاريخ الطلبات
-                    </button>
+                <!-- Quick Actions -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bolt"></i>
+                        إجراءات سريعة
+                    </h2>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="showAddServiceModal()">
+                            <i class="fas fa-plus-circle"></i>
+                            <h3>إضافة خدمة</h3>
+                            <p>إضافة خدمة جديدة للموقع</p>
+                        </div>
+                        <div class="quick-action" onclick="showAddUserModal()">
+                            <i class="fas fa-user-plus"></i>
+                            <h3>إضافة مستخدم</h3>
+                            <p>إضافة مستخدم جديد</p>
+                        </div>
+                        <div class="quick-action" onclick="showSection('deposits')">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h3>طلبات الإيداع</h3>
+                            <p>مراجعة طلبات الإيداع</p>
+                        </div>
+                        <div class="quick-action" onclick="showSection('reports')">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>عرض التقارير</h3>
+                            <p>تقارير مفصلة للنشاط</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-history"></i>
+                        النشاطات الأخيرة
+                    </h2>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>النشاط</th>
+                                    <th>المستخدم</th>
+                                    <th>الوقت</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>طلب خدمة زيادة متابعين</td>
+                                    <td>أحمد محمد</td>
+                                    <td>منذ 5 دقائق</td>
+                                    <td><span class="status-badge status-pending">قيد المعالجة</span></td>
+                                </tr>
+                                <tr>
+                                    <td>إيداع رصيد</td>
+                                    <td>سارة أحمد</td>
+                                    <td>منذ 12 دقيقة</td>
+                                    <td><span class="status-badge status-active">مكتمل</span></td>
+                                </tr>
+                                <tr>
+                                    <td>تسجيل مستخدم جديد</td>
+                                    <td>محمد علي</td>
+                                    <td>منذ 25 دقيقة</td>
+                                    <td><span class="status-badge status-active">نشط</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
-            <!-- Services Categories -->
-            <section class="services-section">
-                <h2 class="section-title">خدماتنا المميزة</h2>
-                
-                <div class="categories" id="categories-container">
-                    <!-- Categories will be loaded here -->
+            <!-- Users Management Section -->
+            <section id="users-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">إدارة المستخدمين</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="showAddUserModal()">
+                            <i class="fas fa-user-plus"></i> إضافة مستخدم
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportUsers()">
+                            <i class="fas fa-download"></i> تصدير البيانات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم المستخدم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>الرصيد</th>
+                                    <th>عدد الطلبات</th>
+                                    <th>الرتبة</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
-            <!-- Top Users -->
-            <section class="top-users">
-                <h2 class="section-title">أفضل المتداولين هذا الأسبوع</h2>
-                <div class="top-users-list" id="top-users-list">
-                    <!-- Top users will be loaded here -->
+            <!-- Services Management Section -->
+            <section id="services-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">إدارة الخدمات</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="showAddServiceModal()">
+                            <i class="fas fa-plus-circle"></i> إضافة خدمة
+                        </button>
+                        <button class="btn btn-secondary" onclick="showCategoriesModal()">
+                            <i class="fas fa-tags"></i> إدارة الفئات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم الخدمة</th>
+                                    <th>الفئة</th>
+                                    <th>السعر</th>
+                                    <th>الحد الأدنى</th>
+                                    <th>الحد الأقصى</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="services-table-body">
+                                <!-- Services will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
-            <!-- Reviews Section -->
-            <section class="reviews-section">
-                <h2 class="section-title">آراء عملائنا</h2>
-                <div class="reviews-grid" id="reviews-container">
-                    <!-- Reviews will be loaded here -->
+            <!-- Orders Management Section -->
+            <section id="orders-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">إدارة الطلبات</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-success" onclick="processAllPending()">
+                            <i class="fas fa-play-circle"></i> معالجة الطلبات المعلقة
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportOrders()">
+                            <i class="fas fa-download"></i> تصدير الطلبات
+                        </button>
+                    </div>
                 </div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-secondary" onclick="loadMoreReviews()">
-                        <i class="fas fa-eye"></i> عرض المزيد
-                    </button>
+
+                <div class="content-section">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>المستخدم</th>
+                                    <th>الخدمة</th>
+                                    <th>الكمية</th>
+                                    <th>المبلغ</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body">
+                                <!-- Orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
-        </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>عن KOKO ProLab</h3>
-                    <p>منصة رائدة تقدم خدمات احترافية في مجال التسويق الرقمي وتطوير التطبيقات والمواقع الإلكترونية.</p>
+            <!-- Deposits Section -->
+            <section id="deposits-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">طلبات الإيداع</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-success" onclick="approveAllDeposits()">
+                            <i class="fas fa-check-circle"></i> اعتماد الكل
+                        </button>
+                        <button class="btn btn-warning" onclick="showBulkDepositModal()">
+                            <i class="fas fa-coins"></i> إيداع جماعي
+                        </button>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>خدماتنا</h3>
-                    <a href="#">تصميم المواقع</a>
-                    <a href="#">تطبيقات الأندرويد</a>
-                    <a href="#">برامج الويندوز</a>
-                    <a href="#">خدمات السوشيال ميديا</a>
-                </div>
-                <div class="footer-section">
-                    <h3>الدعم</h3>
-                    <a href="#" onclick="showPrivacyPolicy()">سياسة الخصوصية</a>
-                    <a href="#" onclick="showTermsOfService()">شروط الاستخدام</a>
-                    <a href="#" onclick="showChat()">الدعم المباشر</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 KOKO ProLab. جميع الحقوق محفوظة.</p>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Floating Chat Button -->
-    <button class="floating-chat" onclick="showChat()">
-        <i class="fas fa-comments"></i>
-    </button>
+                <div class="content-section">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>المستخدم</th>
+                                    <th>المبلغ</th>
+                                    <th>طريقة الدفع</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deposits-table-body">
+                                <!-- Deposits will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Deposit Modal -->
-    <div class="modal" id="deposit-modal">
+            <!-- Payment Settings Section -->
+            <section id="payments-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">إعدادات الدفع</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="savePaymentSettings()">
+                            <i class="fas fa-save"></i> حفظ الإعدادات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-mobile-alt"></i>
+                        فودافون كاش
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">رقم فودافون كاش</label>
+                            <input type="text" class="form-input" id="vodafone-number" value="01012345678" placeholder="أدخل رقم فودافون كاش">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">اسم صاحب الحساب</label>
+                            <input type="text" class="form-input" id="vodafone-name" value="KOKO ProLab" placeholder="اسم صاحب الحساب">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fab fa-bitcoin"></i>
+                        العملات الرقمية
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">عنوان محفظة Bitcoin</label>
+                            <input type="text" class="form-input" id="bitcoin-address" value="1A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S" placeholder="عنوان محفظة البيتكوين">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">عنوان محفظة Ethereum</label>
+                            <input type="text" class="form-input" id="ethereum-address" value="0x1234567890123456789012345678901234567890" placeholder="عنوان محفظة الإيثريوم">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">عنوان محفظة USDT</label>
+                            <input type="text" class="form-input" id="usdt-address" value="TXYZabcdefghijklmnopqrstuvwxyz123456789" placeholder="عنوان محفظة USDT">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-percentage"></i>
+                        رسوم المعاملات
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">رسوم فودافون كاش (%)</label>
+                            <input type="number" class="form-input" id="vodafone-fee" value="2" min="0" max="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رسوم العملات الرقمية (%)</label>
+                            <input type="number" class="form-input" id="crypto-fee" value="1.5" min="0" max="100" step="0.1">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">التقارير والإحصائيات</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            <i class="fas fa-file-pdf"></i> إنشاء تقرير
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i> تصدير البيانات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">إجمالي المبيعات اليوم</span>
+                            <i class="fas fa-calendar-day stat-icon"></i>
+                        </div>
+                        <div class="stat-value">₹12,450</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +25.3% من أمس
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">إجمالي المبيعات هذا الشهر</span>
+                            <i class="fas fa-calendar-alt stat-icon"></i>
+                        </div>
+                        <div class="stat-value">₹345,670</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +18.7% من الشهر الماضي
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">متوسط قيمة الطلب</span>
+                            <i class="fas fa-receipt stat-icon"></i>
+                        </div>
+                        <div class="stat-value">₹125</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            -5.2% من الأسبوع الماضي
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">معدل نمو المستخدمين</span>
+                            <i class="fas fa-chart-line stat-icon"></i>
+                        </div>
+                        <div class="stat-value">15.8%</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +3.2% من الشهر الماضي
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        أداء الخدمات
+                    </h2>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم الخدمة</th>
+                                    <th>عدد الطلبات</th>
+                                    <th>إجمالي الإيرادات</th>
+                                    <th>متوسط التقييم</th>
+                                    <th>معدل النجاح</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>زيادة متابعين إنستجرام</td>
+                                    <td>1,247</td>
+                                    <td>₹24,940</td>
+                                    <td>4.8 ⭐</td>
+                                    <td><span class="status-badge status-active">98.5%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>زيادة إعجابات فيسبوك</td>
+                                    <td>856</td>
+                                    <td>₹17,120</td>
+                                    <td>4.7 ⭐</td>
+                                    <td><span class="status-badge status-active">97.2%</span></td>
+                                </tr>
+                                <tr>
+                                    <td>تصميم موقع إلكتروني</td>
+                                    <td>234</td>
+                                    <td>₹46,800</td>
+                                    <td>4.9 ⭐</td>
+                                    <td><span class="status-badge status-active">99.1%</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">إعدادات الموقع</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> حفظ الإعدادات
+                        </button>
+                        <button class="btn btn-warning" onclick="resetSettings()">
+                            <i class="fas fa-undo"></i> استعادة الافتراضية
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        معلومات الموقع
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">اسم الموقع</label>
+                            <input type="text" class="form-input" id="site-name" value="KOKO ProLab" placeholder="اسم الموقع">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">وصف الموقع</label>
+                            <textarea class="form-textarea" id="site-description" placeholder="وصف الموقع">منصة رائدة تقدم خدمات احترافية في مجال التسويق الرقمي وتطوير التطبيقات والمواقع الإلكترونية.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الدعم الفني</label>
+                            <input type="tel" class="form-input" id="support-phone" value="+201012345678" placeholder="رقم الدعم الفني">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">بريد الدعم الفني</label>
+                            <input type="email" class="form-input" id="support-email" value="support@kokoprolab.com" placeholder="بريد الدعم الفني">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-cog"></i>
+                        إعدادات النظام
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">الحد الأدنى للإيداع (ج.م)</label>
+                            <input type="number" class="form-input" id="min-deposit" value="10" min="1" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الحد الأقصى للإيداع (ج.م)</label>
+                            <input type="number" class="form-input" id="max-deposit" value="10000" min="1" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رسوم المعاملة الثابتة (ج.م)</label>
+                            <input type="number" class="form-input" id="fixed-fee" value="2" min="0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">وقت انتظار معالجة الطلب (ساعة)</label>
+                            <input type="number" class="form-input" id="processing-time" value="24" min="1" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-bell"></i>
+                        إعدادات الإشعارات
+                    </h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" id="email-notifications" checked>
+                                تفعيل إشعارات البريد الإلكتروني
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" id="sms-notifications" checked>
+                                تفعيل إشعارات الرسائل النصية
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" id="auto-approval" checked>
+                                الموافقة التلقائية على الإيداعات
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" id="maintenance-mode">
+                                وضع الصيانة
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Add Service Modal -->
+    <div class="modal" id="add-service-modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('deposit-modal')">&times;</button>
-            <h2 style="color: #fff; margin-bottom: 20px; text-align: center;">إيداع رصيد</h2>
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة خدمة جديدة</h2>
+                <button class="modal-close" onclick="closeModal('add-service-modal')">&times;</button>
+            </div>
             
-            <div class="deposit-methods">
-                <div class="deposit-method" onclick="selectDepositMethod('crypto')">
-                    <i class="fab fa-bitcoin"></i>
-                    <h4>العملات الرقمية</h4>
-                    <p>بيتكوين، إيثريوم، تيثر</p>
-                </div>
-                <div class="deposit-method" onclick="selectDepositMethod('vodafone')">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h4>فودافون كاش</h4>
-                    <p>للمستخدمين من مصر</p>
-                </div>
-            </div>
-
-            <div id="deposit-form" style="display: none; margin-top: 20px;">
+            <form id="add-service-form">
                 <div class="form-group">
-                    <label class="form-label">المبلغ</label>
-                    <input type="number" class="form-input" id="deposit-amount" placeholder="أدخل المبلغ">
+                    <label class="form-label">اسم الخدمة</label>
+                    <input type="text" class="form-input" id="service-name" placeholder="أدخل اسم الخدمة" required>
                 </div>
-                <div class="form-group" id="deposit-details">
-                    <!-- Deposit details will be shown here -->
+                
+                <div class="form-group">
+                    <label class="form-label">الفئة</label>
+                    <select class="form-select" id="service-category" required>
+                        <option value="">اختر الفئة</option>
+                        <option value="social-media">السوشيال ميديا</option>
+                        <option value="web-design">تصميم مواقع</option>
+                        <option value="app-development">تطوير تطبيقات</option>
+                        <option value="software">برامج الويندوز</option>
+                    </select>
                 </div>
-                <button class="btn btn-primary" onclick="submitDeposit()" style="width: 100%;">
-                    تأكيد الإيداع
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">السعر لكل 1000</label>
+                        <input type="number" class="form-input" id="service-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الحد الأدنى</label>
+                        <input type="number" class="form-input" id="service-min" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الحد الأقصى</label>
+                        <input type="number" class="form-input" id="service-max" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">وقت التسليم (ساعة)</label>
+                        <input type="number" class="form-input" id="service-delivery" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">وصف الخدمة</label>
+                    <textarea class="form-textarea" id="service-description" placeholder="اكتب وصفاً مفصلاً للخدمة" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">حالة الخدمة</label>
+                    <select class="form-select" id="service-status" required>
+                        <option value="active">نشطة</option>
+                        <option value="inactive">غير نشطة</option>
+                        <option value="maintenance">قيد الصيانة</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-plus-circle"></i> إضافة الخدمة
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- Chat Modal -->
-    <div class="modal" id="chat-modal">
-        <div class="modal-content" style="max-width: 600px; height: 80vh; display: flex; flex-direction: column;">
-            <button class="modal-close" onclick="closeModal('chat-modal')">&times;</button>
-            <h2 style="color: #fff; margin-bottom: 20px;">الدعم المباشر</h2>
+    <!-- Add User Modal -->
+    <div class="modal" id="add-user-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة مستخدم جديد</h2>
+                <button class="modal-close" onclick="closeModal('add-user-modal')">&times;</button>
+            </div>
             
-            <div id="chat-messages" style="flex: 1; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px; margin-bottom: 20px; overflow-y: auto;">
-                <div class="chat-message" style="background: rgba(102, 126, 234, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-                    <strong style="color: #667eea;">الدعم الفني:</strong>
-                    <p style="color: #fff; margin: 5px 0;">مرحباً بك! كيف يمكنني مساعدتك اليوم؟</p>
+            <form id="add-user-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">اسم المستخدم</label>
+                        <input type="text" class="form-input" id="user-username" placeholder="اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-input" id="user-email" placeholder="البريد الإلكتروني" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">كلمة المرور</label>
+                        <input type="password" class="form-input" id="user-password" placeholder="كلمة المرور" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الرصيد الابتدائي</label>
+                        <input type="number" class="form-input" id="user-balance" value="0" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رتبة الحساب</label>
+                        <select class="form-select" id="user-rank" required>
+                            <option value="مبتدئ">مبتدئ</option>
+                            <option value="متوسط">متوسط</option>
+                            <option value="متقدم">متقدم</option>
+                            <option value="متميز">متميز</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="user-verified">
+                            حساب موثق
+                        </label>
+                    </div>
                 </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> إضافة المستخدم
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bulk Deposit Modal -->
+    <div class="modal" id="bulk-deposit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إيداع جماعي</h2>
+                <button class="modal-close" onclick="closeModal('bulk-deposit-modal')">&times;</button>
             </div>
             
-            <div style="display: flex; gap: 10px;">
-                <input type="text" class="form-input" id="chat-input" placeholder="اكتب رسالتك هنا..." style="flex: 1;">
-                <button class="btn btn-primary" onclick="sendChatMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+            <div class="form-group">
+                <label class="form-label">قائمة المستخدمين والمبالغ</label>
+                <textarea class="form-textarea" id="bulk-deposit-list" placeholder="أدخل كل سطر بالشكل التالي:&#10;اسم_المستخدم,المبلغ&#10;أحمد محمد,100&#10;سارة أحمد,250" style="min-height: 200px;"></textarea>
+                <small style="color: rgba(255,255,255,0.7); display: block; margin-top: 5px;">
+                    أدخل كل مستخدم ومبلغه في سطر منفصل، مفصولاً بفاصلة
+                </small>
             </div>
+            
+            <button class="btn btn-primary" onclick="processBulkDeposit()" style="width: 100%;">
+                <i class="fas fa-coins"></i> تنفيذ الإيداع الجماعي
+            </button>
         </div>
     </div>
 
     <script type="module">
-        // Firebase Configuration
+        // Firebase Configuration (same as user page)
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy, limit, updateDoc, deleteDoc, writeBatch, addDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
         const firebaseConfig = {
             "projectId": "studio-9537618434-79056",
@@ -882,170 +1340,352 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
 
         // Global variables
-        window.auth = auth;
         window.db = db;
-        window.provider = provider;
+    </script>
 
-        // Authentication check
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.querySelector('.modal')?.remove(); // Close any open login modals
-                loadUserData(user);
-                loadAllData();
-            } else {
-                showLoginModal();
+    <script>
+        async function initializeDatabase() {
+            if (!confirm('هل أنت متأكد من أنك تريد تهيئة قاعدة البيانات؟ سيؤدي هذا إلى مسح جميع البيانات الحالية وكتابة البيانات الأولية.')) {
+                return;
             }
-        });
 
-        async function loadUserData(user) {
+            showNotification('بدء تهيئة قاعدة البيانات...', 'info');
+
+            const batch = writeBatch(db);
+
+            // Dummy Data
+            const users = [
+                { id: 'user1', username: 'أحمد محمد', email: 'ahmed@example.com', balance: 150.00, orders: 15, rank: 'متقدم', status: 'active', verified: true },
+                { id: 'user2', username: 'سارة أحمد', email: 'sara@example.com', balance: 89.50, orders: 8, rank: 'متوسط', status: 'active', verified: false },
+                { id: 'user3', username: 'محمد علي', email: 'mohamed@example.com', balance: 0.00, orders: 0, rank: 'مبتدئ', status: 'inactive', verified: false },
+                { id: 'user4', username: 'فاطمة حسن', email: 'fatma@example.com', balance: 320.75, orders: 42, rank: 'متميز', status: 'active', verified: true },
+                { id: 'user5', username: 'عمر خالد', email: 'omar@example.com', balance: 67.25, orders: 5, rank: 'مبتدئ', status: 'active', verified: false }
+            ];
+
+            const services = [
+                { name: 'زيادة متابعين إنستجرام', category: 'السوشيال ميديا', price: 2.50, min: 100, max: 10000, status: 'active' },
+                { name: 'زيادة إعجابات فيسبوك', category: 'السوشيال ميديا', price: 1.80, min: 50, max: 5000, status: 'active' },
+                { name: 'تصميم موقع إلكتروني', category: 'تصميم مواقع', price: 200.00, min: 1, max: 10, status: 'active' },
+                { name: 'تطوير تطبيق أندرويد', category: 'تطوير تطبيقات', price: 500.00, min: 1, max: 5, status: 'maintenance' },
+                { name: 'برنامج إدارة مخزون', category: 'برامج الويندوز', price: 350.00, min: 1, max: 3, status: 'active' }
+            ];
+
+            const categories = [
+                { icon: 'fas fa-globe', title: 'تصميم المواقع', description: 'مواقع احترافية متجاوبة مع جميع الأجهزة', count: 25 },
+                { icon: 'fab fa-android', title: 'تطبيقات الأندرويد', description: 'تطبيقات متطورة وسهلة الاستخدام', count: 18 },
+                { icon: 'fab fa-windows', title: 'برامج الويندوز', description: 'برامج سطح المكتب المتخصصة', count: 12 },
+                { icon: 'fas fa-users', title: 'زيادة المتابعين', description: 'متابعين حقيقيين لجميع المنصات', count: 156 },
+                { icon: 'fas fa-heart', title: 'زيادة الإعجابات', description: 'إعجابات عالية الجودة', count: 89 },
+                { icon: 'fas fa-flag', title: 'بلاغات الحسابات', description: 'إبلاغ الحسابات المشبوهة والمزيفة', count: 34 },
+                { icon: 'fas fa-dollar-sign', title: 'تحقيق الأرباح', description: 'استراتيجيات الربح من المنصات', count: 67 },
+                { icon: 'fas fa-search', title: 'الظهور في الاستكشاف', description: 'زيادة الوصول والانتشار', count: 43 },
+                { icon: 'fas fa-gamepad', title: 'شحن التطبيقات', description: 'شحن جميع الألعاب والتطبيقات', count: 78 },
+                { icon: 'fas fa-credit-card', title: 'فيزا الدفع الإلكتروني', description: 'بطاقات دفع بأي مبلغ تريده', count: 21 }
+            ];
+
+            const topUsers = [
+                { name: 'أحمد محمد', orders: 1247, verified: true },
+                { name: 'سارة عبدالله', orders: 1156, verified: true },
+                { name: 'محمد علي', orders: 1089, verified: false },
+                { name: 'فاطمة حسن', orders: 967, verified: true },
+                { name: 'عمر خالد', orders: 834, verified: false },
+                { name: 'نور أحمد', orders: 756, verified: true },
+                { name: 'يوسف محمود', orders: 678, verified: false },
+                { name: 'ريم سالم', orders: 589, verified: true },
+                { name: 'كريم وائل', orders: 467, verified: false },
+                { name: 'دينا طارق', orders: 398, verified: true }
+            ];
+
+            const reviews = [
+                { name: 'عبدالرحمن أحمد', rating: 5, text: 'خدمة ممتازة وسرعة في التنفيذ. حصلت على ما طلبته بالضبط وأكثر.' },
+                { name: 'ليلى محمد', rating: 5, text: 'أفضل موقع للخدمات الرقمية. الأسعار مناسبة والجودة عالية جداً.' },
+                { name: 'كريم عثمان', rating: 5, text: 'تعامل راقي ومهني. أنصح الجميع بالتعامل مع هذا الموقع.' }
+            ];
+
+            const orders = [
+                { user: 'أحمد محمد', service: 'زيادة متابعين إنستجرام', quantity: 1000, amount: 25.00, status: 'completed', date: '2025-01-15' },
+                { user: 'سارة أحمد', service: 'زيادة إعجابات فيسبوك', quantity: 500, amount: 9.00, status: 'processing', date: '2025-01-15' },
+                { user: 'فاطمة حسن', service: 'تصميم موقع إلكتروني', quantity: 1, amount: 200.00, status: 'pending', date: '2025-01-14' }
+            ];
+
+            const deposits = [
+                { user: 'أحمد محمد', amount: 100.00, method: 'فودافون كاش', status: 'pending', date: '2025-01-15 14:30' },
+                { user: 'سارة أحمد', amount: 50.00, method: 'Bitcoin', status: 'approved', date: '2025-01-15 12:15' }
+            ];
+
             try {
-                const userDocRef = doc(db, 'users', user.uid);
-                const userDoc = await getDoc(userDocRef);
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    document.getElementById('user-name').textContent = `مرحباً، ${userData.displayName || user.displayName}`;
-                    document.getElementById('user-balance').textContent = (userData.balance || 0).toFixed(2);
-                } else {
-                    // Create new user document if it doesn't exist
-                    const newUserData = {
-                        displayName: user.displayName || 'مستخدم جديد',
-                        email: user.email,
-                        balance: 0, // As requested, new users start with 0 balance
-                        rank: 'مبتدئ',
-                        orders: 0,
-                        verified: false,
-                        createdAt: new Date()
-                    };
-                    await setDoc(userDocRef, newUserData);
-                    document.getElementById('user-name').textContent = `مرحباً، ${newUserData.displayName}`;
-                    document.getElementById('user-balance').textContent = (0).toFixed(2);
-                }
+                // Set data for each collection
+                users.forEach(item => {
+                    const docRef = doc(db, "users", item.id);
+                    batch.set(docRef, item);
+                });
+                services.forEach(item => {
+                    const docRef = doc(collection(db, "services"));
+                    batch.set(docRef, item);
+                });
+                categories.forEach(item => {
+                    const docRef = doc(collection(db, "categories"));
+                    batch.set(docRef, item);
+                });
+                topUsers.forEach(item => {
+                    const docRef = doc(collection(db, "topUsers"));
+                    batch.set(docRef, item);
+                });
+                reviews.forEach(item => {
+                    const docRef = doc(collection(db, "reviews"));
+                    batch.set(docRef, item);
+                });
+                orders.forEach(item => {
+                    const docRef = doc(collection(db, "orders"));
+                    batch.set(docRef, item);
+                });
+                deposits.forEach(item => {
+                    const docRef = doc(collection(db, "deposits"));
+                    batch.set(docRef, item);
+                });
+
+                await batch.commit();
+                showNotification('تمت تهيئة قاعدة البيانات بنجاح!', 'success');
+                // Refresh data in the view
+                loadAllData();
             } catch (error) {
-                console.error('Error loading user data:', error);
-                showNotification('حدث خطأ في تحميل بيانات المستخدم', 'error');
+                console.error("Error initializing database: ", error);
+                showNotification('حدث خطأ أثناء تهيئة قاعدة البيانات.', 'error');
             }
         }
 
         function loadAllData(){
-            loadCategories();
-            loadTopUsers();
-            loadReviews();
+            loadUsersData();
+            loadServicesData();
+            loadOrdersData();
+            loadDepositsData();
         }
 
-        window.loadUserData = loadUserData;
-    </script>
-
-    <script>
-        // Load categories from Firestore
-        async function loadCategories() {
-            const container = document.getElementById('categories-container');
-            container.innerHTML = '<div class="loading"></div>'; // Show loading animation
-            try {
-                const querySnapshot = await getDocs(collection(db, "categories"));
-                container.innerHTML = '';
-                querySnapshot.forEach(doc => {
-                    const category = doc.data();
-                    const categoryEl = document.createElement('div');
-                    categoryEl.className = 'category-card';
-                    categoryEl.innerHTML = `
-                        <div class="category-icon">
-                            <i class="${category.icon}"></i>
-                        </div>
-                        <h3 class="category-title">${category.title}</h3>
-                        <p class="category-desc">${category.description}</p>
-                        <span class="service-count">${category.count} خدمة متاحة</span>
-                    `;
-                    categoryEl.onclick = () => selectCategory(category);
-                    container.appendChild(categoryEl);
-                });
-            } catch (error) {
-                console.error("Error loading categories: ", error);
-                container.innerHTML = '<p style="color:white;">حدث خطأ في تحميل الخدمات.</p>';
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').style.display = 'block';
+            
+            // Update active menu item
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Load section-specific data
+            switch(sectionName) {
+                case 'users':
+                    loadUsersData();
+                    break;
+                case 'services':
+                    loadServicesData();
+                    break;
+                case 'orders':
+                    loadOrdersData();
+                    break;
+                case 'deposits':
+                    loadDepositsData();
+                    break;
             }
         }
 
-        // Load top users from Firestore
-        async function loadTopUsers() {
-            const container = document.getElementById('top-users-list');
-            container.innerHTML = '<div class="loading"></div>';
+        // Load Users Data
+        async function loadUsersData() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">جاري تحميل المستخدمين...</td></tr>';
+            
             try {
-                const querySnapshot = await getDocs(query(collection(db, "topUsers"), orderBy("orders", "desc")));
-                container.innerHTML = '';
-                let rank = 1;
+                const querySnapshot = await getDocs(collection(db, "users"));
+                tbody.innerHTML = ''; // Clear loading message
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">لا يوجد مستخدمين لعرضهم.</td></tr>';
+                    return;
+                }
+
                 querySnapshot.forEach(doc => {
                     const user = doc.data();
-                    const userEl = document.createElement('div');
-                    userEl.className = 'user-item';
-                    userEl.innerHTML = `
-                        <div class="user-rank">${rank++}</div>
-                        <div class="user-details">
-                            <div class="user-name">
-                                ${user.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}
-                                ${user.name}
-                            </div>
-                            <div class="user-orders">${user.orders} طلب</div>
-                        </div>
+                    const userId = doc.id;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            ${user.verified ? '<i class="fas fa-check-circle" style="color: #3b82f6; margin-left: 5px;"></i>' : ''}
+                            ${user.username}
+                        </td>
+                        <td>${user.email}</td>
+                        <td>${(user.balance || 0).toFixed(2)} ج.م</td>
+                        <td>${user.orders || 0}</td>
+                        <td><span class="status-badge ${user.rank === 'متميز' ? 'status-verified' : user.rank === 'متقدم' ? 'status-active' : user.rank === 'متوسط' ? 'status-pending' : 'status-inactive'}">${user.rank}</span></td>
+                        <td><span class="status-badge ${user.status === 'active' ? 'status-active' : 'status-inactive'}">${user.status === 'active' ? 'نشط' : 'غير نشط'}</span></td>
+                        <td class="action-buttons">
+                            <button class="action-btn btn-primary" onclick="editUser('${userId}')" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn btn-success" onclick="addBalance('${userId}')" title="إضافة رصيد">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="action-btn btn-warning" onclick="toggleVerification('${userId}')" title="توثيق/إلغاء توثيق">
+                                <i class="fas fa-certificate"></i>
+                            </button>
+                            <button class="action-btn btn-danger" onclick="deleteUser('${userId}')" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
                     `;
-                    container.appendChild(userEl);
+                    tbody.appendChild(row);
                 });
             } catch (error) {
-                console.error("Error loading top users: ", error);
-                container.innerHTML = '<p style="color:white;">حدث خطأ في تحميل المستخدمين.</p>';
+                console.error("Error loading users: ", error);
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: var(--danger-color);">حدث خطأ أثناء تحميل المستخدمين.</td></tr>';
             }
         }
 
-        // Load reviews from Firestore
-        let reviewsDisplayed = 6;
-        async function loadReviews() {
-            const container = document.getElementById('reviews-container');
-            container.innerHTML = '<div class="loading"></div>';
-            try {
-                const querySnapshot = await getDocs(query(collection(db, "reviews"), limit(reviewsDisplayed)));
-                container.innerHTML = '';
-                querySnapshot.forEach(doc => {
-                    const review = doc.data();
-                    const reviewEl = document.createElement('div');
-                    reviewEl.className = 'review-card';
-                    reviewEl.innerHTML = `
-                        <div class="review-header">
-                            <span class="reviewer-name">${review.name}</span>
-                            <div class="stars">
-                                ${'<i class="fas fa-star"></i>'.repeat(review.rating)}
-                            </div>
-                        </div>
-                        <p class="review-text">${review.text}</p>
-                    `;
-                    container.appendChild(reviewEl);
-                });
-            } catch (error) {
-                console.error("Error loading reviews: ", error);
-                container.innerHTML = '<p style="color:white;">حدث خطأ في تحميل الآراء.</p>';
-            }
-        }
-
-        function loadMoreReviews() {
-            reviewsDisplayed += 6;
-            loadReviews();
-        }
-
-        // Theme toggle
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('theme-icon');
+        // Load Services Data
+        async function loadServicesData() {
+            const tbody = document.getElementById('services-table-body');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">جاري تحميل الخدمات...</td></tr>';
             
-            if (body.classList.contains('light-theme')) {
-                body.classList.remove('light-theme');
-                body.classList.add('dark-theme');
-                icon.className = 'fas fa-sun';
-            } else {
-                body.classList.remove('dark-theme');
-                body.classList.add('light-theme');
-                icon.className = 'fas fa-moon';
+            try {
+                const querySnapshot = await getDocs(collection(db, "services"));
+                tbody.innerHTML = ''; // Clear loading message
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">لا توجد خدمات لعرضها.</td></tr>';
+                    return;
+                }
+
+                querySnapshot.forEach(doc => {
+                    const service = doc.data();
+                    const serviceId = doc.id;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${service.name}</td>
+                        <td>${service.category}</td>
+                        <td>${(service.price || 0).toFixed(2)} ج.م</td>
+                        <td>${service.min || 0}</td>
+                        <td>${service.max || 0}</td>
+                        <td><span class="status-badge ${service.status === 'active' ? 'status-active' : service.status === 'maintenance' ? 'status-pending' : 'status-inactive'}">${service.status === 'active' ? 'نشطة' : service.status === 'maintenance' ? 'صيانة' : 'معطلة'}</span></td>
+                        <td class="action-buttons">
+                            <button class="action-btn btn-primary" onclick="editService('${serviceId}')" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn btn-warning" onclick="toggleServiceStatus('${serviceId}', '${service.status}')" title="تغيير الحالة">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                            <button class="action-btn btn-danger" onclick="deleteService('${serviceId}')" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error loading services: ", error);
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: var(--danger-color);">حدث خطأ أثناء تحميل الخدمات.</td></tr>';
+            }
+        }
+
+        // Load Orders Data
+        async function loadOrdersData() {
+            const tbody = document.getElementById('orders-table-body');
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">جاري تحميل الطلبات...</td></tr>';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "orders"));
+                tbody.innerHTML = ''; // Clear loading message
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">لا توجد طلبات لعرضها.</td></tr>';
+                    return;
+                }
+
+                querySnapshot.forEach(doc => {
+                    const order = doc.data();
+                    const orderId = doc.id;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>#${orderId.substring(0, 6)}</td>
+                        <td>${order.user}</td>
+                        <td>${order.service}</td>
+                        <td>${order.quantity.toLocaleString()}</td>
+                        <td>${order.amount.toFixed(2)} ج.م</td>
+                        <td><span class="status-badge ${
+                            order.status === 'completed' ? 'status-active' : 
+                            order.status === 'processing' ? 'status-pending' : 
+                            order.status === 'pending' ? 'status-warning' : 'status-inactive'
+                        }">${{
+                            completed: 'مكتمل',
+                            processing: 'قيد المعالجة',
+                            pending: 'معلق',
+                            cancelled: 'ملغي'
+                        }[order.status]}</span></td>
+                        <td>${new Date(order.date).toLocaleDateString('ar-EG')}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn btn-success" onclick="updateOrderStatus('${orderId}', 'processing')" title="معالجة">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-btn btn-danger" onclick="updateOrderStatus('${orderId}', 'cancelled')" title="إلغاء">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error loading orders: ", error);
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color: var(--danger-color);">حدث خطأ أثناء تحميل الطلبات.</td></tr>';
+            }
+        }
+
+        // Load Deposits Data
+        async function loadDepositsData() {
+            const tbody = document.getElementById('deposits-table-body');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">جاري تحميل طلبات الإيداع...</td></tr>';
+
+            try {
+                const querySnapshot = await getDocs(query(collection(db, "deposits"), orderBy("date", "desc")));
+                tbody.innerHTML = ''; // Clear loading message
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">لا توجد طلبات إيداع لعرضها.</td></tr>';
+                    return;
+                }
+
+                querySnapshot.forEach(doc => {
+                    const deposit = doc.data();
+                    const depositId = doc.id;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${deposit.user}</td>
+                        <td>${deposit.amount.toFixed(2)} ج.م</td>
+                        <td>${deposit.method}</td>
+                        <td><span class="status-badge ${
+                            deposit.status === 'approved' ? 'status-active' : 
+                            deposit.status === 'pending' ? 'status-pending' : 'status-inactive'
+                        }">${{
+                            approved: 'معتمد',
+                            pending: 'معلق',
+                            rejected: 'مرفوض'
+                        }[deposit.status]}</span></td>
+                        <td>${new Date(deposit.date).toLocaleString('ar-EG')}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn btn-success" onclick="updateDepositStatus('${depositId}', 'approved')" title="اعتماد" ${deposit.status !== 'pending' ? 'disabled' : ''}>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn btn-danger" onclick="updateDepositStatus('${depositId}', 'rejected')" title="رفض" ${deposit.status !== 'pending' ? 'disabled' : ''}>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error loading deposits: ", error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--danger-color);">حدث خطأ أثناء تحميل طلبات الإيداع.</td></tr>';
             }
         }
 
@@ -1058,330 +1698,353 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function showDepositModal() {
-            showModal('deposit-modal');
+        function showAddServiceModal() {
+            showModal('add-service-modal');
         }
 
-        function showChat() {
-            showModal('chat-modal');
+        function showAddUserModal() {
+            showModal('add-user-modal');
         }
 
-        // Deposit functions
-        function selectDepositMethod(method) {
-            const form = document.getElementById('deposit-form');
-            const details = document.getElementById('deposit-details');
-            
-            form.style.display = 'block';
-            
-            if (method === 'crypto') {
-                details.innerHTML = `
-                    <label class="form-label">اختر العملة</label>
-                    <select class="form-input" id="crypto-type">
-                        <option value="bitcoin">Bitcoin (BTC)</option>
-                        <option value="ethereum">Ethereum (ETH)</option>
-                        <option value="usdt">Tether (USDT)</option>
-                    </select>
-                    <div style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;">
-                        <small style="color: rgba(255,255,255,0.8);">سيتم عرض عنوان المحفظة بعد تحديد المبلغ</small>
-                    </div>
-                `;
-            } else if (method === 'vodafone') {
-                details.innerHTML = `
-                    <label class="form-label">رقم فودافون كاش</label>
-                    <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: center;">
-                        <strong style="color: #fff; font-size: 1.2rem;">01012345678</strong>
-                        <p style="color: rgba(255,255,255,0.8); margin-top: 5px;">احول المبلغ ثم أرسل صورة الإيصال</p>
-                    </div>
-                `;
+        function showBulkDepositModal() {
+            showModal('bulk-deposit-modal');
+        }
+
+        // User management functions
+        async function editUser(userId) {
+            try {
+                const userRef = doc(db, 'users', userId);
+                const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    showNotification('المستخدم غير موجود', 'error');
+                    return;
+                }
+                const user = userSnap.data();
+
+                const newUsername = prompt('أدخل الاسم الجديد:', user.username);
+                const newRank = prompt('أدخل الرتبة الجديدة:', user.rank);
+
+                if (newUsername && newRank) {
+                    await updateDoc(userRef, {
+                        username: newUsername,
+                        rank: newRank
+                    });
+                    loadUsersData();
+                    showNotification('تم تحديث بيانات المستخدم بنجاح', 'success');
+                }
+            } catch (error) {
+                console.error("Error editing user: ", error);
+                showNotification('حدث خطأ أثناء تعديل المستخدم', 'error');
             }
         }
 
-        function submitDeposit() {
-            const amount = document.getElementById('deposit-amount').value;
-            if (!amount || amount <= 0) {
-                showNotification('يرجى إدخال مبلغ صحيح', 'error');
-                return;
+        async function addBalance(userId) {
+            const amount = prompt('أدخل المبلغ المراد إضافته:', '0');
+            const parsedAmount = parseFloat(amount);
+            if (parsedAmount && parsedAmount > 0) {
+                try {
+                    const userRef = doc(db, "users", userId);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        const currentBalance = userSnap.data().balance || 0;
+                        await updateDoc(userRef, { balance: currentBalance + parsedAmount });
+                        loadUsersData();
+                        showNotification(`تم إضافة الرصيد بنجاح`, 'success');
+                    }
+                } catch (error) {
+                    console.error("Error adding balance: ", error);
+                    showNotification('حدث خطأ أثناء إضافة الرصيد', 'error');
+                }
             }
-            
-            showNotification('تم إرسال طلب الإيداع بنجاح. سيتم مراجعته قريباً.', 'success');
-            closeModal('deposit-modal');
         }
 
-        // Chat functions
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
+        async function toggleVerification(userId) {
+            try {
+                const userRef = doc(db, 'users', userId);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    const currentStatus = userSnap.data().verified || false;
+                    await updateDoc(userRef, { verified: !currentStatus });
+                    loadUsersData();
+                    showNotification(`تم تغيير حالة التوثيق بنجاح`, 'success');
+                }
+            } catch (error) {
+                console.error("Error toggling verification: ", error);
+                showNotification('حدث خطأ', 'error');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (confirm('هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                try {
+                    await deleteDoc(doc(db, "users", userId));
+                    loadUsersData();
+                    showNotification('تم حذف المستخدم بنجاح', 'success');
+                } catch (error) {
+                    console.error("Error deleting user: ", error);
+                    showNotification('حدث خطأ أثناء حذف المستخدم', 'error');
+                }
+            }
+        }
+
+        // Service management functions
+        async function editService(serviceId) {
+            try {
+                const serviceRef = doc(db, 'services', serviceId);
+                const serviceSnap = await getDoc(serviceRef);
+                if (!serviceSnap.exists()) {
+                    showNotification('الخدمة غير موجودة', 'error');
+                    return;
+                }
+                const service = serviceSnap.data();
+
+                const newName = prompt('أدخل اسم الخدمة الجديد:', service.name);
+                const newPrice = prompt('أدخل السعر الجديد:', service.price);
+
+                if (newName && newPrice !== null) {
+                    await updateDoc(serviceRef, {
+                        name: newName,
+                        price: parseFloat(newPrice) || 0
+                    });
+                    loadServicesData();
+                    showNotification('تم تحديث الخدمة بنجاح', 'success');
+                }
+            } catch (error) {
+                console.error("Error editing service: ", error);
+                showNotification('حدث خطأ أثناء تعديل الخدمة', 'error');
+            }
+        }
+
+        async function toggleServiceStatus(serviceId, currentStatus) {
+            const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+            if (confirm(`هل أنت متأكد من تغيير حالة الخدمة إلى ${newStatus === 'active' ? 'نشطة' : 'غير نشطة'}؟`)) {
+                try {
+                    const serviceRef = doc(db, 'services', serviceId);
+                    await updateDoc(serviceRef, { status: newStatus });
+                    loadServicesData();
+                    showNotification(`تم تغيير حالة الخدمة بنجاح`, 'success');
+                } catch (error) {
+                    console.error("Error toggling service status: ", error);
+                    showNotification('حدث خطأ أثناء تغيير حالة الخدمة', 'error');
+                }
+            }
+        }
+
+        async function deleteService(serviceId) {
+            if (confirm('هل أنت متأكد من حذف هذه الخدمة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                try {
+                    await deleteDoc(doc(db, "services", serviceId));
+                    loadServicesData();
+                    showNotification('تم حذف الخدمة بنجاح', 'success');
+                } catch (error) {
+                    console.error("Error deleting service: ", error);
+                    showNotification('حدث خطأ أثناء حذف الخدمة', 'error');
+                }
+            }
+        }
+
+        // Order management functions
+        async function updateOrderStatus(orderId, newStatus) {
+            if (confirm(`هل أنت متأكد من تغيير حالة الطلب إلى ${newStatus}؟`)) {
+                try {
+                    const orderRef = doc(db, 'orders', orderId);
+                    await updateDoc(orderRef, { status: newStatus });
+                    loadOrdersData();
+                    showNotification(`تم تحديث حالة الطلب بنجاح`, 'success');
+                } catch (error) {
+                    console.error("Error updating order status: ", error);
+                    showNotification('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+                }
+            }
+        }
+
+        // Deposit management functions
+        async function updateDepositStatus(depositId, newStatus) {
+            if (confirm(`هل أنت متأكد من تغيير حالة طلب الإيداع إلى ${newStatus}؟`)) {
+                try {
+                    const depositRef = doc(db, 'deposits', depositId);
+                    await updateDoc(depositRef, { status: newStatus });
+                    loadDepositsData();
+                    showNotification(`تم تحديث حالة طلب الإيداع بنجاح`, 'success');
+                } catch (error) {
+                    console.error("Error updating deposit status: ", error);
+                    showNotification('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+                }
+            }
+        }
+
+        // Form handlers
+        document.getElementById('add-service-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const newService = {
+                name: document.getElementById('service-name').value,
+                category: document.getElementById('service-category').value,
+                price: parseFloat(document.getElementById('service-price').value),
+                min: parseInt(document.getElementById('service-min').value),
+                max: parseInt(document.getElementById('service-max').value),
+                status: document.getElementById('service-status').value,
+                description: document.getElementById('service-description').value
+            };
             
-            if (!message) return;
+            try {
+                await addDoc(collection(db, "services"), newService);
+                closeModal('add-service-modal');
+                loadServicesData();
+                showNotification('تم إضافة الخدمة بنجاح', 'success');
+                this.reset();
+            } catch (error) {
+                console.error("Error adding service: ", error);
+                showNotification('حدث خطأ أثناء إضافة الخدمة', 'error');
+            }
+        });
+
+        document.getElementById('add-user-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const newUser = {
+                username: document.getElementById('user-username').value,
+                email: document.getElementById('user-email').value,
+                balance: parseFloat(document.getElementById('user-balance').value) || 0,
+                orders: 0,
+                rank: document.getElementById('user-rank').value,
+                status: 'active',
+                verified: document.getElementById('user-verified').checked
+            };
             
-            const messagesContainer = document.getElementById('chat-messages');
-            const messageEl = document.createElement('div');
-            messageEl.className = 'chat-message';
-            messageEl.style.cssText = 'background: rgba(118, 75, 162, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 10px; text-align: right;';
-            messageEl.innerHTML = `
-                <strong style="color: #764ba2;">أنت:</strong>
-                <p style="color: #fff; margin: 5px 0;">${message}</p>
-            `;
-            messagesContainer.appendChild(messageEl);
-            
-            input.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            // Auto reply after 2 seconds
-            setTimeout(() => {
-                const replyEl = document.createElement('div');
-                replyEl.className = 'chat-message';
-                replyEl.style.cssText = 'background: rgba(102, 126, 234, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 10px;';
-                replyEl.innerHTML = `
-                    <strong style="color: #667eea;">الدعم الفني:</strong>
-                    <p style="color: #fff; margin: 5px 0;">شكراً لتواصلك معنا. سيتم الرد عليك في أقرب وقت ممكن.</p>
-                `;
-                messagesContainer.appendChild(replyEl);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 2000);
+            try {
+                // Note: This doesn't create an auth user, just a DB entry.
+                await addDoc(collection(db, "users"), newUser);
+                closeModal('add-user-modal');
+                loadUsersData();
+                showNotification('تم إضافة المستخدم بنجاح', 'success');
+                this.reset();
+            } catch (error) {
+                console.error("Error adding user: ", error);
+                showNotification('حدث خطأ أثناء إضافة المستخدم', 'error');
+            }
+        });
+
+        // Other functions
+        function refreshStats() {
+            loadAllData();
+            showNotification('تم تحديث البيانات', 'success');
+        }
+
+        function exportUsers() {
+            showNotification('سيتم إضافة ميزة تصدير المستخدمين قريباً', 'info');
+        }
+
+        function exportOrders() {
+            showNotification('سيتم إضافة ميزة تصدير الطلبات قريباً', 'info');
+        }
+
+        function exportData() {
+            showNotification('سيتم إضافة ميزة تصدير البيانات قريباً', 'info');
+        }
+
+        function generateReport() {
+            showNotification('سيتم إضافة ميزة إنشاء التقارير قريباً', 'info');
+        }
+
+        function savePaymentSettings() {
+            showNotification('تم حفظ إعدادات الدفع بنجاح', 'success');
+        }
+
+        function saveSettings() {
+            showNotification('تم حفظ الإعدادات بنجاح', 'success');
+        }
+
+        function resetSettings() {
+            if (confirm('هل أنت متأكد من استعادة الإعدادات الافتراضية؟')) {
+                showNotification('تم استعادة الإعدادات الافتراضية', 'success');
+            }
+        }
+
+        function showCategoriesModal() {
+            alert('سيتم إضافة إدارة الفئات في التحديث القادم');
         }
 
         // Notification function
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
+            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                color: #fff;
+                padding: 15px 20px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                z-index: 3000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 
+                        type === 'warning' ? 'exclamation-triangle' : 
+                        'info-circle';
+            
+            const color = type === 'success' ? '#10b981' : 
+                         type === 'error' ? '#ef4444' : 
+                         type === 'warning' ? '#f59e0b' : 
+                         '#3b82f6';
+            
+            notification.style.borderLeftColor = color;
             notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'exclamation-triangle'}"></i>
+                <i class="fas fa-${icon}" style="color: ${color}; margin-left: 10px;"></i>
                 ${message}
             `;
             
             document.body.appendChild(notification);
             
-            setTimeout(() => notification.classList.add('show'), 100);
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
                 setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            }, 4000);
         }
 
-        // Other functions
-        function showNotifications() {
-            showNotification('لديك 3 إشعارات جديدة', 'success');
-        }
-
-        function selectCategory(category) {
-            showNotification(`تم اختيار فئة: ${category.title}`, 'success');
-        }
-
-        function showOrderHistory() {
-            showNotification('سيتم إضافة صفحة تاريخ الطلبات قريباً', 'warning');
-        }
-
-        function showPrivacyPolicy() {
-            alert(`سياسة الخصوصية - KOKO ProLab
-
-نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. 
-
-جمع البيانات:
-- نجمع البيانات الضرورية لتقديم خدماتنا فقط
-- لا نشارك بياناتك مع أطراف ثالثة
-
-استخدام البيانات:
-- تحسين جودة خدماتنا
-- التواصل معك حول طلباتك
-- إرسال التحديثات المهمة
-
-الأمان:
-- نستخدم أحدث تقنيات الحماية
-- بياناتك محمية بتشفير عالي المستوى
-
-للاستفسارات: support@kokoprolab.com`);
-        }
-
-        function showTermsOfService() {
-            alert(`شروط الاستخدام - KOKO ProLab
-
-شروط الخدمة:
-1. يجب أن تكون أكبر من 18 عاماً لاستخدام خدماتنا
-2. يُمنع استخدام خدماتنا لأغراض غير قانونية
-3. نحتفظ بالحق في إيقاف أي حساب ينتهك شروطنا
-
-الدفع والاسترداد:
-- جميع المدفوعات نهائية
-- لا يمكن استرداد الأموال إلا في حالات خاصة
-- يتم معالجة الطلبات خلال 24-48 ساعة
-
-المسؤولية:
-- نسعى لتقديم أفضل خدمة ممكنة
-- غير مسؤولين عن أي أضرار غير مباشرة
-- جميع خدماتنا تتوافق مع القوانين المحلية
-
-للاستفسارات: support@kokoprolab.com`);
-        }
-
-        async function logout() {
-            try {
-                await window.auth.signOut();
-                showNotification('تم تسجيل الخروج بنجاح', 'success');
-            } catch (error) {
-                showNotification('حدث خطأ أثناء تسجيل الخروج', 'error');
-            }
-        }
-
-        function showLoginModal() {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'flex';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <h2 style="color: #fff; margin-bottom: 30px; text-align: center;">تسجيل الدخول</h2>
-                    
-                    <div class="form-group">
-                        <label class="form-label">البريد الإلكتروني</label>
-                        <input type="email" class="form-input" id="login-email" placeholder="أدخل بريدك الإلكتروني">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">كلمة المرور</label>
-                        <input type="password" class="form-input" id="login-password" placeholder="أدخل كلمة المرور">
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="loginUser()" style="width: 100%; margin-bottom: 15px;">
-                        <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
-                    </button>
-                    
-                    <div style="text-align: center; margin: 20px 0; color: rgba(255,255,255,0.6);">أو</div>
-                    
-                    <button class="btn btn-secondary" onclick="loginWithGoogle()" style="width: 100%;">
-                        <i class="fab fa-google"></i> تسجيل الدخول بجوجل
-                    </button>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="#" onclick="showRegisterForm()" style="color: #667eea; text-decoration: none;">
-                            إنشاء حساب جديد
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            window.loginUser = async function() {
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                
-                if (!email || !password) {
-                    showNotification('يرجى إدخال جميع البيانات', 'error');
-                    return;
-                }
-                
-                try {
-                    await signInWithEmailAndPassword(window.auth, email, password);
-                    showNotification('تم تسجيل الدخول بنجاح', 'success');
-                    modal.remove();
-                } catch (error) {
-                    showNotification(error.message, 'error');
-                }
-            };
-            
-            window.loginWithGoogle = async function() {
-                try {
-                    await signInWithPopup(window.auth, window.provider);
-                    showNotification('تم تسجيل الدخول بنجاح', 'success');
-                    modal.remove();
-                } catch (error) {
-                    showNotification(error.message, 'error');
-                }
-            };
-            
-            window.showRegisterForm = function() {
-                modal.querySelector('.modal-content').innerHTML = `
-                    <h2 style="color: #fff; margin-bottom: 30px; text-align: center;">إنشاء حساب جديد</h2>
-                    
-                    <div class="form-group">
-                        <label class="form-label">اسم المستخدم</label>
-                        <input type="text" class="form-input" id="register-username" placeholder="اختر اسم مستخدم فريد">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">البريد الإلكتروني</label>
-                        <input type="email" class="form-input" id="register-email" placeholder="أدخل بريدك الإلكتروني">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">كلمة المرور</label>
-                        <input type="password" class="form-input" id="register-password" placeholder="اختر كلمة مرور قوية">
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="registerUser()" style="width: 100%; margin-bottom: 15px;">
-                        <i class="fas fa-user-plus"></i> إنشاء الحساب
-                    </button>
-                    
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="#" onclick="showLoginModal()" style="color: #667eea; text-decoration: none;">
-                            لديك حساب بالفعل؟ سجل الدخول
-                        </a>
-                    </div>
-                `;
-                
-                window.registerUser = async function() {
-                    const username = document.getElementById('register-username').value;
-                    const email = document.getElementById('register-email').value;
-                    const password = document.getElementById('register-password').value;
-                    
-                    if (!username || !email || !password) {
-                        showNotification('يرجى إدخال جميع البيانات', 'error');
-                        return;
-                    }
-                    
-                    if (password.length < 6) {
-                        showNotification('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
-                        return;
-                    }
-                    
-                    try {
-                        const userCredential = await createUserWithEmailAndPassword(window.auth, email, password);
-                        // Now create the user document in Firestore
-                        const userDocRef = doc(db, 'users', userCredential.user.uid);
-                        await setDoc(userDocRef, {
-                            displayName: username,
-                            email: email,
-                            balance: 0,
-                            rank: 'مبتدئ',
-                            orders: 0,
-                            verified: false,
-                            createdAt: new Date()
-                        });
-                        showNotification('تم إنشاء الحساب بنجاح', 'success');
-                        modal.remove();
-                    } catch (error) {
-                        showNotification(error.message, 'error');
-                    }
-                };
-            };
-        }
-
-        // Initialize the app
+        // Initialize data on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Add enter key support for chat
-            document.getElementById('chat-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendChatMessage();
-                }
-            });
+            loadAllData();
         });
 
         // Global functions
-        window.toggleTheme = toggleTheme;
-        window.showNotifications = showNotifications;
-        window.logout = logout;
-        window.showDepositModal = showDepositModal;
-        window.showOrderHistory = showOrderHistory;
-        window.selectCategory = selectCategory;
-        window.loadMoreReviews = loadMoreReviews;
-        window.showChat = showChat;
+        window.showSection = showSection;
+        window.showAddServiceModal = showAddServiceModal;
+        window.showAddUserModal = showAddUserModal;
+        window.showBulkDepositModal = showBulkDepositModal;
         window.closeModal = closeModal;
-        window.selectDepositMethod = selectDepositMethod;
-        window.submitDeposit = submitDeposit;
-        window.sendChatMessage = sendChatMessage;
-        window.showPrivacyPolicy = showPrivacyPolicy;
-        window.showTermsOfService = showTermsOfService;
-        window.showLoginModal = showLoginModal;
+        window.editUser = editUser;
+        window.addBalance = addBalance;
+        window.toggleVerification = toggleVerification;
+        window.deleteUser = deleteUser;
+        window.editService = editService;
+        window.toggleServiceStatus = toggleServiceStatus;
+        window.deleteService = deleteService;
+        window.updateOrderStatus = updateOrderStatus;
+        window.updateDepositStatus = updateDepositStatus;
+        window.processAllPending = () => showNotification('سيتم تفعيل هذه الميزة قريباً', 'info');
+        window.approveAllDeposits = () => showNotification('سيتم تفعيل هذه الميزة قريباً', 'info');
+        window.processBulkDeposit = () => showNotification('سيتم تفعيل هذه الميزة قريباً', 'info');
+        window.refreshStats = refreshStats;
+        window.exportUsers = exportUsers;
+        window.exportOrders = exportOrders;
+        window.exportData = exportData;
+        window.generateReport = generateReport;
+        window.savePaymentSettings = savePaymentSettings;
+        window.saveSettings = saveSettings;
+        window.resetSettings = resetSettings;
+        window.showCategoriesModal = showCategoriesModal;
+        window.initializeDatabase = initializeDatabase;
+
     </script>
 </body>
 </html>
