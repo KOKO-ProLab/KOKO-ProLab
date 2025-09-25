@@ -1,344 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KOKO ProLab | منصة الخدمات الرقمية</title>
-  <style>
-    body {
-      font-family: 'Cairo', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f6fa;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    .dark {
-      background: #222;
-      color: #f5f6fa;
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: rgba(255,255,255,0.9);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-      padding: 32px;
-      backdrop-filter: blur(8px);
-    }
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 2em;
-      letter-spacing: 1px;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg,#6a11cb,#2575fc);
-      color: #fff;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(106,17,203,0.12);
-    }
-    .btn:hover {
-      background: linear-gradient(90deg,#2575fc,#6a11cb);
-      box-shadow: 0 4px 16px rgba(106,17,203,0.18);
-    }
-    .input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-    }
-    .switch-mode {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      background: #eee;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      z-index: 999;
-    }
-    .floating-btn {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      z-index: 99;
-      width: auto;
-      padding: 16px 32px;
-      font-size: 1.2em;
-      box-shadow: 0 4px 16px #6a11cb80;
-      border-radius: 24px;
-      background: linear-gradient(90deg,#6a11cb,#2575fc);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    .notif {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      background: #fff;
-      color: #2575fc;
-      border-radius: 12px;
-      padding: 10px 24px;
-      box-shadow: 0 2px 8px #eee;
-      font-weight: bold;
-      display: none;
-      z-index: 999;
-    }
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-      gap: 18px;
-      margin: 18px 0;
-    }
-    .category {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      padding: 18px;
-      text-align: center;
-      font-size: 1.1em;
-      transition: box-shadow 0.2s;
-      cursor: pointer;
-    }
-    .category:hover {
-      box-shadow: 0 4px 16px rgba(106,17,203,0.18);
-      background: #f0f4ff;
-    }
-    @media (max-width: 600px) {
-      .container { max-width: 98vw; padding: 8px; }
-      h1, h2 { font-size: 1.3em; }
-      .categories { grid-template-columns: 1fr; }
-      .switch-mode { left: 8px; top: 8px; }
-      .notif { right: 8px; top: 8px; }
-      .floating-btn { right: 8px; bottom: 8px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="switch-mode" id="modeBtn" title="تغيير الوضع">🌙</div>
-  <div class="notif" id="notifBox">تم تسجيل الدخول بنجاح!</div>
-  <div class="container">
-    <h1>KOKO ProLab</h1>
-    <div id="loginSection">
-      <input class="input" type="text" id="username" placeholder="اسم المستخدم الفريد" autocomplete="off">
-      <button class="btn" id="loginBtn">تسجيل الدخول</button>
-      <button class="btn" id="googleBtn">تسجيل دخول Google</button>
-      <div id="loginMsg"></div>
-    </div>
-    <div id="mainSection" style="display:none">
-      <h2>الفئات والخدمات</h2>
-      <div class="categories">
-        <div class="category" onclick="showRequest('تصميم مواقع')">تصميم مواقع</div>
-        <div class="category" onclick="showRequest('تصميم تطبيقات اندوريد')">تصميم تطبيقات اندوريد</div>
-        <div class="category" onclick="showRequest('تصميم برامج ويندوز')">تصميم برامج ويندوز</div>
-        <div class="category" onclick="showRequest('زياده متابعين')">زياده متابعين</div>
-        <div class="category" onclick="showRequest('زياده لايكات')">زياده لايكات</div>
-        <div class="category" onclick="showRequest('بلاغات لاغلاق حسابات مشبوه')">بلاغات</div>
-        <div class="category" onclick="showRequest('تحقيق ارباح')">تحقيق ارباح</div>
-        <div class="category" onclick="showRequest('ظهور في الاكسبلور')">ظهور في الاكسبلور</div>
-        <div class="category" onclick="showRequest('شحن تطبيقات و العاب')">شحن تطبيقات و العاب</div>
-        <div class="category" onclick="showRequest('فيزا دفع اونلاين')">فيزا دفع اونلاين</div>
-      </div>
-      <div id="requestFormBox" style="display:none;margin:24px 0;"></div>
-      <button class="floating-btn" onclick="showDeposit()">💰 إيداع رصيد</button>
-      <div id="depositBox" style="display:none;margin:24px 0;"></div>
-      <h2>تقييمات العملاء</h2>
-      <div id="reviewsBox" style="display:flex;flex-direction:column;gap:10px;margin:18px 0;align-items:center;">
-        <div class="btn" style="background:#fff;color:#ffb400;">سرعة الأداء ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">مصداقية تامة ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">دعم سريع ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">خدمات متنوعة ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">أسعار مناسبة ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">تجربة ممتازة ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">سهولة الاستخدام ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">تواصل فعال ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">توصيل سريع ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">دعم فني متواصل ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">تحديثات مستمرة ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">خدمات حصرية ★★★★★</div>
-        <div class="btn" style="background:#fff;color:#ffb400;">سهولة الدفع ★★★★★</div>
-        <button class="btn" onclick="showMoreReviews()">عرض المزيد</button>
-      </div>
-      <h2>لايف شات الدعم</h2>
-      <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px #eee;max-width:400px;margin:0 auto;">
-        <div id="chatBox" style="height:120px;overflow-y:auto;background:#f0f4ff;border-radius:12px;padding:8px;margin-bottom:8px;"></div>
-        <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;margin-bottom:8px;">
-        <button class="btn" onclick="sendMsg()">إرسال</button>
-      </div>
-      <h2>سيرة المنصة وسياسات الاستخدام</h2>
-      <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px #eee;max-width:600px;margin:0 auto;">
-        <p>منصة KOKO ProLab تقدم خدمات احترافية في مجالات متعددة مثل تصميم المواقع، تطبيقات الأندرويد، برامج ويندوز، زيادة المتابعين والإعجابات، شحن الألعاب، الدفع الإلكتروني، وغيرها. هدفنا تقديم حلول رقمية متكاملة للمستخدمين والشركات مع دعم فني مباشر وسياسات استخدام وخصوصية واضحة.</p>
-        <p><a href="#" onclick="showTerms()">سياسة الاستخدام</a> | <a href="#" onclick="showPrivacy()">سياسة الخصوصية</a></p>
-        <p style="text-align:center;margin-top:16px;color:#888;font-size:0.95em;">حقوق الموقع © KOKO ProLab 2025</p>
-      </div>
-    </div>
-  </div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
-    const firebaseConfig = {
-      apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow",
-      authDomain: "koko-prolab.firebaseapp.com",
-      projectId: "koko-prolab",
-      storageBucket: "koko-prolab.firebasestorage.app",
-      messagingSenderId: "61256824707",
-      appId: "1:61256824707:web:a853065ec0a19f8d57e8b6",
-      measurementId: "G-0JQ80XFM9E"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    // الوضع الداكن والفاتح
-    const modeBtn = document.getElementById('modeBtn');
-    modeBtn.onclick = () => {
-      document.body.classList.toggle('dark');
-      modeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-    };
-    // اللغة حسب الجهاز
-    document.documentElement.lang = navigator.language || 'ar';
-    // تسجيل الدخول بمعرف فريد
-    document.getElementById('loginBtn').onclick = async () => {
-      const username = document.getElementById('username').value.trim();
-      if (!username) {
-        document.getElementById('loginMsg').textContent = 'يرجى إدخال اسم مستخدم.';
-        return;
-      }
-      const q = query(collection(db, 'users'), where('username', '==', username));
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        document.getElementById('loginMsg').textContent = 'اسم المستخدم مستخدم بالفعل.';
-        return;
-      }
-      const userId = 'user_' + Date.now();
-      await setDoc(doc(db, 'users', userId), { username, created: new Date().toISOString(), balance: 0 });
-      localStorage.setItem('userId', userId);
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('mainSection').style.display = 'block';
-      showNotif('تم تسجيل الدخول بنجاح!');
-    };
-    // تسجيل دخول Google
-    document.getElementById('googleBtn').onclick = async () => {
-      const provider = new GoogleAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-          await setDoc(userRef, { username: user.displayName, email: user.email, created: new Date().toISOString(), balance: 0 });
-        }
-        localStorage.setItem('userId', user.uid);
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('mainSection').style.display = 'block';
-        showNotif('تم تسجيل الدخول بنجاح!');
-      } catch (e) {
-        document.getElementById('loginMsg').textContent = 'فشل تسجيل الدخول عبر Google.';
-      }
-    };
-    // إشعار الدخول
-    function showNotif(msg) {
-      const notif = document.getElementById('notifBox');
-      notif.textContent = msg;
-      notif.style.display = 'block';
-      setTimeout(()=>{notif.style.display='none';},3000);
-    }
-    // تحقق من حالة تسجيل الدخول عند التحميل
-    window.onload = () => {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('mainSection').style.display = 'block';
-      }
-    };
-    // نموذج الطلب
-    window.showRequest = function(service) {
-      const box = document.getElementById('requestFormBox');
-      box.style.display = 'block';
-      box.innerHTML = `<form id='reqForm'><h3>طلب خدمة: ${service}</h3><input class='input' type='text' id='link' placeholder='رابط المنشور أو الحساب أو ID اللعبة' required><input class='input' type='number' id='quantity' placeholder='الكمية المطلوبة' min='1' required><button class='btn' type='submit'>إرسال الطلب</button><div id='reqMsg'></div></form>`;
-      document.getElementById('reqForm').onsubmit = async function(e) {
-        e.preventDefault();
-        const userId = localStorage.getItem('userId');
-        if (!userId) { box.innerHTML = '<div style="color:red">يجب تسجيل الدخول أولاً</div>'; return; }
-        const link = document.getElementById('link').value;
-        const quantity = document.getElementById('quantity').value;
-        await addDoc(collection(db, 'orders'), { userId, service, link, quantity, status: 'جاري التنفيذ', created: new Date().toISOString() });
-        document.getElementById('reqMsg').textContent = 'تم إرسال الطلب! سيتم مراجعته من الإدارة.';
-        setTimeout(()=>{box.style.display='none';},2000);
-      };
-    }
-    // زر إيداع الرصيد
-    window.showDeposit = function() {
-      const box = document.getElementById('depositBox');
-      box.style.display = 'block';
-      box.innerHTML = `<form id='depForm'><h3>طلب إيداع رصيد</h3><input class='input' type='number' id='amount' placeholder='المبلغ المطلوب إيداعه' min='1' required><button class='btn' type='submit'>إرسال طلب الإيداع</button><div id='depMsg'></div></form>`;
-      document.getElementById('depForm').onsubmit = async function(e) {
-        e.preventDefault();
-        const userId = localStorage.getItem('userId');
-        if (!userId) { box.innerHTML = '<div style="color:red">يجب تسجيل الدخول أولاً</div>'; return; }
-        const amount = document.getElementById('amount').value;
-        await addDoc(collection(db, 'deposits'), { userId, amount, status: 'بانتظار الإيداع', created: new Date().toISOString() });
-        document.getElementById('depMsg').textContent = 'تم إرسال طلب الإيداع! سيتم مراجعة الطلب من الإدارة.';
-        setTimeout(()=>{box.style.display='none';},2000);
-      };
-    }
-    // عرض المزيد من التقييمات
-    window.showMoreReviews = function() {
-      const box = document.getElementById('reviewsBox');
-      for(let i=14;i<=20;i++) {
-        const div = document.createElement('div');
-        div.className = 'btn';
-        div.style.background = '#fff';
-        div.style.color = '#ffb400';
-        div.textContent = `تقييم إضافي ${i} ★★★★★`;
-        box.appendChild(div);
-      }
-      document.querySelector('#reviewsBox button').style.display = 'none';
-    }
-    // لايف شات
-    window.sendMsg = function() {
-      const chatBox = document.getElementById('chatBox');
-      const input = document.getElementById('chatInput');
-      const msg = input.value.trim();
-      if (!msg) return;
-      const userDiv = document.createElement('div');
-      userDiv.className = 'msg user';
-      userDiv.textContent = msg;
-      chatBox.appendChild(userDiv);
-      input.value = '';
-      setTimeout(() => {
-        const supportDiv = document.createElement('div');
-        supportDiv.className = 'msg support';
-        supportDiv.textContent = 'دعم KOKO ProLab: شكراً لتواصلك معنا! سيتم الرد عليك قريباً.';
-        chatBox.appendChild(supportDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, 800);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-    // سياسة الاستخدام و الخصوصية
-    window.showTerms = function() {
-      alert('سياسة الاستخدام: يمنع استخدام الخدمات في أي نشاط غير قانوني. يحق للإدارة إغلاق الحسابات المشبوهة أو المخالفة. يجب تقديم بيانات صحيحة عند التسجيل وطلب الخدمات. يحق للإدارة تعديل الأسعار والخدمات في أي وقت.');
-    }
-    window.showPrivacy = function() {
-      alert('سياسة الخصوصية: جميع المعلومات الشخصية يتم حفظها بشكل آمن ولا يتم مشاركتها مع أي جهة خارجية إلا في حالات قانونية أو لتحسين الخدمة. يحق للمستخدم طلب حذف بياناته في أي وقت. يتم استخدام تقنيات حديثة لحماية البيانات من الاختراق.');
-    }
-  </script>
-</body>
-</html>
