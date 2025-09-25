@@ -1,273 +1,0 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KOKO ProLab - User</title>
-  <style>
-    /* CSS سيتم تطويره لاحقاً لدعم الوضع الداكن والفاتح والأنيميشن والتجاوب */
-    body {
-      font-family: 'Cairo', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f6fa;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: rgba(255,255,255,0.8);
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-      padding: 32px;
-      backdrop-filter: blur(8px);
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 2.2em;
-      letter-spacing: 1px;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg,#6a11cb,#2575fc);
-      color: #fff;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(106,17,203,0.12);
-    }
-    .btn:hover {
-      background: linear-gradient(90deg,#2575fc,#6a11cb);
-      box-shadow: 0 4px 16px rgba(106,17,203,0.18);
-    }
-    .input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-    }
-    .switch-mode {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: #eee;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    @media (max-width: 600px) {
-      .container {
-        max-width: 98vw;
-        padding: 16px;
-      }
-      h1 {
-        font-size: 1.4em;
-      }
-    }
-  </style>
-</head>
-<body>
-  <nav style="background:#fff;box-shadow:0 2px 8px #eee;padding:8px 0;border-radius:0 0 16px 16px;text-align:center;margin-bottom:16px;">
-    <a href="user.html">الرئيسية</a> |
-    <a href="categories.html">الفئات</a> |
-    <a href="deposit.html">إيداع</a> |
-    <a href="request.html">طلب خدمة</a> |
-    <a href="reviews.html">تقييمات</a> |
-    <a href="fake-stats.html">إحصائيات</a> |
-    <a href="ranks.html">الرتب</a> |
-    <a href="top10.html">أفضل 10</a> |
-    <a href="verified.html">موثقون</a> |
-    <a href="report.html">بلاغات</a> |
-    <a href="chat.html">لايف شات</a> |
-    <a href="about.html">عن المنصة</a> |
-    <a href="privacy.html">الخصوصية</a> |
-    <a href="terms.html">الاستخدام</a> |
-    <a href="contact.html">تواصل</a> |
-    <a href="admin.html">الإدارة</a>
-  </nav>
-  <div class="switch-mode" id="modeBtn" title="تغيير الوضع">🌙</div>
-  <div class="container">
-    <h1>KOKO ProLab</h1>
-    <div id="loginSection">
-      <input class="input" type="text" id="username" placeholder="اسم المستخدم الفريد" autocomplete="off">
-      <button class="btn" id="loginBtn">تسجيل الدخول</button>
-      <button class="btn" id="googleBtn">تسجيل دخول Google</button>
-      <div id="loginMsg"></div>
-    </div>
-    <div id="mainSection" style="display:none">
-      <button class="btn" id="logoutBtn">تسجيل الخروج</button>
-      <div style="margin:24px 0 0 0">
-        <h2 style="text-align:center">الفئات والخدمات</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0;">
-          <div class="btn" onclick="showRequest('تصميم مواقع')">تصميم مواقع</div>
-          <div class="btn" onclick="showRequest('تصميم تطبيقات أندرويد')">تطبيقات أندرويد</div>
-          <div class="btn" onclick="showRequest('تصميم برامج ويندوز')">برامج ويندوز</div>
-          <div class="btn" onclick="showRequest('زيادة متابعين')">زيادة متابعين</div>
-          <div class="btn" onclick="showRequest('زيادة إعجابات')">زيادة إعجابات</div>
-          <div class="btn" onclick="showRequest('بلاغات لإغلاق حسابات مشبوهة')">بلاغات</div>
-          <div class="btn" onclick="showRequest('تحقيق أرباح')">تحقيق أرباح</div>
-          <div class="btn" onclick="showRequest('ظهور في الاكسبلور')">ظهور في الاكسبلور</div>
-          <div class="btn" onclick="showRequest('شحن تطبيقات وألعاب')">شحن ألعاب</div>
-          <div class="btn" onclick="showRequest('فيزا دفع أونلاين')">فيزا دفع أونلاين</div>
-        </div>
-        <div id="requestFormBox" style="display:none;margin:24px 0;"></div>
-        <button class="btn" style="position:fixed;bottom:32px;right:32px;z-index:99;width:auto;padding:16px 32px;font-size:1.2em;box-shadow:0 4px 16px #6a11cb80;" onclick="showDeposit()">💰 إيداع رصيد</button>
-        <div id="depositBox" style="display:none;margin:24px 0;"></div>
-        <h2 style="text-align:center;margin-top:40px">إحصائيات المنصة</h2>
-        <div style="display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:18px 0;">
-          <div class="btn" style="background:#fff;color:#2575fc;font-weight:bold;">60,000+ مستخدم</div>
-          <div class="btn" style="background:#fff;color:#6a11cb;font-weight:bold;">1,200+ طلب اليوم</div>
-          <div class="btn" style="background:#fff;color:#ff512f;font-weight:bold;">350+ حساب موثق</div>
-          <div class="btn" style="background:#fff;color:#2196f3;font-weight:bold;">99% رضا العملاء</div>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">رتب المستخدمين</h2>
-        <div style="display:flex;gap:12px;justify-content:center;margin:18px 0;">
-          <div class="btn" style="background:#eee;color:#222;">مبتدئ</div>
-          <div class="btn" style="background:#d1e7ff;color:#2575fc;">متوسط</div>
-          <div class="btn" style="background:#ffe0e0;color:#ff512f;">متميز</div>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">الحسابات الموثقة</h2>
-        <div style="display:flex;gap:12px;justify-content:center;margin:18px 0;">
-          <div class="btn" style="background:#2196f3;color:#fff;">userA ✔️</div>
-          <div class="btn" style="background:#2196f3;color:#fff;">userB ✔️</div>
-          <div class="btn" style="background:#2196f3;color:#fff;">userC ✔️</div>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">أفضل 10 مستخدمين اليوم</h2>
-        <div style="overflow-x:auto;margin:18px 0;">
-          <table style="width:100%;border-collapse:collapse;">
-            <thead><tr style="background:#f0f4ff;"><th>الترتيب</th><th>اسم المستخدم</th><th>الرتبة</th><th>التصنيف</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>user1</td><td>متميز</td><td>تجارة</td></tr>
-              <tr><td>2</td><td>user2</td><td>متوسط</td><td>شحن</td></tr>
-              <tr><td>3</td><td>user3</td><td>مبتدئ</td><td>تجارة</td></tr>
-              <tr><td>4</td><td>user4</td><td>متميز</td><td>شحن</td></tr>
-              <tr><td>5</td><td>user5</td><td>متوسط</td><td>تجارة</td></tr>
-              <tr><td>6</td><td>user6</td><td>مبتدئ</td><td>شحن</td></tr>
-              <tr><td>7</td><td>user7</td><td>متميز</td><td>تجارة</td></tr>
-              <tr><td>8</td><td>user8</td><td>متوسط</td><td>شحن</td></tr>
-              <tr><td>9</td><td>user9</td><td>مبتدئ</td><td>تجارة</td></tr>
-              <tr><td>10</td><td>user10</td><td>متميز</td><td>شحن</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">تقييمات المستخدمين</h2>
-        <div id="reviewsBox" style="display:flex;flex-direction:column;gap:10px;margin:18px 0;align-items:center;">
-          <div class="btn" style="background:#fff;color:#ffb400;">مستخدم 1 ★★★★★</div>
-          <div class="btn" style="background:#fff;color:#ffb400;">مستخدم 2 ★★★★★</div>
-          <div class="btn" style="background:#fff;color:#ffb400;">مستخدم 3 ★★★★★</div>
-          <div class="btn" style="background:#fff;color:#ffb400;">مستخدم 4 ★★★★★</div>
-          <div class="btn" style="background:#fff;color:#ffb400;">مستخدم 5 ★★★★★</div>
-          <button class="btn" onclick="showMoreReviews()">عرض المزيد</button>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">لايف شات الدعم</h2>
-        <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px #eee;max-width:400px;margin:0 auto;">
-          <div id="chatBox" style="height:120px;overflow-y:auto;background:#f0f4ff;border-radius:12px;padding:8px;margin-bottom:8px;"></div>
-          <input type="text" id="chatInput" placeholder="اكتب رسالتك هنا..." style="width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;margin-bottom:8px;">
-          <button class="btn" onclick="sendMsg()">إرسال</button>
-        </div>
-        <h2 style="text-align:center;margin-top:40px">سيرة المنصة وسياسات الاستخدام</h2>
-        <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px #eee;max-width:600px;margin:0 auto;">
-          <p>منصة KOKO ProLab تقدم خدمات احترافية في مجالات متعددة مثل تصميم المواقع، تطبيقات الأندرويد، برامج ويندوز، زيادة المتابعين والإعجابات، شحن الألعاب، الدفع الإلكتروني، وغيرها. هدفنا تقديم حلول رقمية متكاملة للمستخدمين والشركات مع دعم فني مباشر وسياسات استخدام وخصوصية واضحة.</p>
-          <p><a href="terms.html">سياسة الاستخدام</a> | <a href="privacy.html">سياسة الخصوصية</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-    // Firebase إعداد
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
-    const firebaseConfig = {
-      apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow",
-      authDomain: "koko-prolab.firebaseapp.com",
-      projectId: "koko-prolab",
-      storageBucket: "koko-prolab.firebasestorage.app",
-      messagingSenderId: "61256824707",
-      appId: "1:61256824707:web:a853065ec0a19f8d57e8b6",
-      measurementId: "G-0JQ80XFM9E"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    // الوضع الداكن والفاتح
-    const modeBtn = document.getElementById('modeBtn');
-    let darkMode = false;
-    modeBtn.onclick = () => {
-      darkMode = !darkMode;
-      document.body.style.background = darkMode ? '#222' : '#f5f6fa';
-      document.body.style.color = darkMode ? '#f5f6fa' : '#222';
-      modeBtn.textContent = darkMode ? '☀️' : '🌙';
-    };
-    // تسجيل الدخول بمعرف فريد
-    document.getElementById('loginBtn').onclick = async () => {
-      const username = document.getElementById('username').value.trim();
-      if (!username) {
-        document.getElementById('loginMsg').textContent = 'يرجى إدخال اسم مستخدم.';
-        return;
-      }
-      // تحقق من فريدة المعرف
-      const q = query(collection(db, 'users'), where('username', '==', username));
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        document.getElementById('loginMsg').textContent = 'اسم المستخدم مستخدم بالفعل.';
-        return;
-      }
-      // إنشاء مستخدم وهمي (بدون كلمة مرور)
-      const userId = 'user_' + Date.now();
-      await setDoc(doc(db, 'users', userId), { username, created: new Date().toISOString(), rank: 'مبتدئ', verified: false, balance: 0 });
-      localStorage.setItem('userId', userId);
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('mainSection').style.display = 'block';
-    };
-    // تسجيل دخول Google
-    document.getElementById('googleBtn').onclick = async () => {
-      const provider = new GoogleAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        // تحقق من وجود المستخدم في Firestore
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-          await setDoc(userRef, { username: user.displayName, email: user.email, created: new Date().toISOString(), rank: 'مبتدئ', verified: false, balance: 0 });
-        }
-        localStorage.setItem('userId', user.uid);
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('mainSection').style.display = 'block';
-      } catch (e) {
-        document.getElementById('loginMsg').textContent = 'فشل تسجيل الدخول عبر Google.';
-      }
-    };
-    // تسجيل الخروج
-    document.getElementById('logoutBtn').onclick = async () => {
-      await signOut(auth);
-      localStorage.removeItem('userId');
-      document.getElementById('mainSection').style.display = 'none';
-      document.getElementById('loginSection').style.display = 'block';
-    };
-    // تحقق من حالة تسجيل الدخول عند التحميل
-    window.onload = () => {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('mainSection').style.display = 'block';
-      }
-    };
-  </script>
-</body>
-</html>
