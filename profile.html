@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - KOKO ProLab</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">KOKO ProLab</a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="home.html" class="nav-link">لوحة المستخدم</a>
+                <a href="profile.html" class="nav-link active">الملف الشخصي</a>
+                <a href="orders.html" class="nav-link">متابعة الطلبات</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <div class="nav-user" id="navUser">
+                    <span id="userName"></span>
+                    <button class="btn-logout" id="logoutBtn">تسجيل الخروج</button>
+                </div>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى الصفحة -->
+    <main class="main-content">
+        <div class="container">
+            <header class="page-header">
+                <h1>الملف الشخصي</h1>
+                <p>إدارة معلومات حسابك الشخصي</p>
+            </header>
+
+            <div class="profile-content">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="profile-badge" id="profileBadge">مبتدئ</div>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileDisplayName">اسم المستخدم</h2>
+                            <p id="profileUsername">@username</p>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <span class="stat-value" id="profileBalance">0.00</span>
+                                    <span class="stat-label">رصيد الحساب</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value" id="profileOrders">0</span>
+                                    <span class="stat-label">الطلبات النشطة</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="profileForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="displayName">الاسم الظاهر</label>
+                            <input type="text" id="displayName" placeholder="أدخل اسمك الظاهر">
+                            <small>هذا الاسم الذي سيراه الآخرون</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">رقم الهاتف</label>
+                            <input type="tel" id="phone" placeholder="أدخل رقم هاتفك">
+                        </div>
+
+                        <div class="form-group">
+                            <label>اسم المستخدم</label>
+                            <input type="text" id="username" disabled>
+                            <small>لا يمكن تغيير اسم المستخدم بعد التسجيل</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>البريد الإلكتروني</label>
+                            <input type="email" id="email" disabled>
+                            <small>لا يمكن تغيير البريد الإلكتروني بعد التسجيل</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>تاريخ التسجيل</label>
+                            <input type="text" id="joinDate" disabled>
+                        </div>
+
+                        <button type="submit" class="btn-primary">حفظ التغييرات</button>
+                    </form>
+                </div>
+
+                <div class="profile-sidebar">
+                    <div class="sidebar-card">
+                        <h3>معلومات الحساب</h3>
+                        <div class="account-info">
+                            <div class="info-item">
+                                <span class="info-label">الرتبة:</span>
+                                <span class="info-value" id="accountRank">مبتدئ</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">الحالة:</span>
+                                <span class="info-value" id="accountStatus">نشط</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">التوثيق:</span>
+                                <span class="info-value" id="accountVerified">غير موثق</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>الإجراءات السريعة</h3>
+                        <div class="quick-actions">
+                            <a href="home.html#deposit" class="btn-action">
+                                <i class="fas fa-wallet"></i>
+                                شحن الرصيد
+                            </a>
+                            <a href="orders.html" class="btn-action">
+                                <i class="fas fa-shopping-cart"></i>
+                                متابعة الطلبات
+                            </a>
+                            <button class="btn-action" id="changePasswordBtn">
+                                <i class="fas fa-key"></i>
+                                تغيير كلمة المرور
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- نموذج تغيير كلمة المرور -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>تغيير كلمة المرور</h2>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">كلمة المرور الحالية</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">كلمة المرور الجديدة</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">تأكيد كلمة المرور الجديدة</label>
+                    <input type="password" id="confirmNewPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">تغيير كلمة المرور</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>
