@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المستخدم - KOKO ProLab</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">KOKO ProLab</a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="home.html" class="nav-link active">لوحة المستخدم</a>
+                <a href="profile.html" class="nav-link">الملف الشخصي</a>
+                <a href="orders.html" class="nav-link">متابعة الطلبات</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <div class="nav-user" id="navUser">
+                    <span id="userName"></span>
+                    <span class="user-balance" id="userBalance">0.00 جنيه</span>
+                    <button class="btn-notification" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </button>
+                    <button class="btn-logout" id="logoutBtn">تسجيل الخروج</button>
+                </div>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى الصفحة -->
+    <main class="main-content">
+        <div class="container">
+            <!-- رأس الصفحة -->
+            <header class="page-header">
+                <h1>لوحة المستخدم</h1>
+                <div class="header-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <span class="stat-value" id="balanceValue">0.00</span>
+                            <span class="stat-label">رصيدك الحالي</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div>
+                            <span class="stat-value" id="ordersValue">0</span>
+                            <span class="stat-label">طلباتك النشطة</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="depositBtn">شحن الرصيد</button>
+                </div>
+            </header>
+
+            <!-- قسم الخدمات -->
+            <section class="services-section">
+                <h2>خدماتنا</h2>
+                <div class="services-grid" id="servicesGrid">
+                    <!-- سيتم تعبئة الخدمات ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- قسم الإشعارات -->
+            <section class="notifications-section">
+                <h2>الإشعارات الحديثة</h2>
+                <div class="notifications-list" id="notificationsList">
+                    <!-- سيتم تعبئة الإشعارات ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- قسم التواصل -->
+            <section class="contact-section">
+                <h2>تواصل معنا</h2>
+                <div class="contact-buttons">
+                    <a href="https://t.me/kokoprolab" class="btn-telegram" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                        تواصل معنا عبر تيليجرام
+                    </a>
+                    <a href="https://wa.me/20123456789" class="btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        تواصل مع المطور عبر واتساب
+                    </a>
+                    <button class="btn-ticket" id="ticketBtn">
+                        <i class="fas fa-ticket-alt"></i>
+                        فتح تذكرة دعم
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- نموذج شحن الرصيد -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>شحن الرصيد</h2>
+            <form id="depositForm">
+                <div class="form-group">
+                    <label for="depositAmount">المبلغ المطلوب</label>
+                    <input type="number" id="depositAmount" min="10" required>
+                </div>
+                <div class="form-group">
+                    <label for="depositMethod">طريقة الدفع</label>
+                    <select id="depositMethod" required>
+                        <option value="">اختر طريقة الدفع</option>
+                        <option value="vodafone">فودافون كاش</option>
+                        <option value="bitcoin">Bitcoin</option>
+                        <option value="ethereum">Ethereum</option>
+                    </select>
+                </div>
+                <div class="payment-details" id="paymentDetails">
+                    <!-- سيتم عرض تفاصيل الدفع هنا -->
+                </div>
+                <div class="form-group">
+                    <label for="transactionNumber">رقم العملية</label>
+                    <input type="text" id="transactionNumber" required>
+                    <small>أدخل رقم التحويل أو ID العملية</small>
+                </div>
+                <button type="submit" class="btn-primary">إرسال طلب الشحن</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج إنشاء طلب خدمة -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="orderModalTitle">إنشاء طلب جديد</h2>
+            <form id="orderForm">
+                <input type="hidden" id="serviceType">
+                <div class="form-group">
+                    <label for="orderLink">الرابط أو المعرف</label>
+                    <input type="text" id="orderLink" required>
+                    <small id="linkExample">أدخل رابط الحساب أو المنشور</small>
+                </div>
+                <div class="form-group">
+                    <label for="orderQuantity">الكمية المطلوبة</label>
+                    <input type="number" id="orderQuantity" min="1" required>
+                </div>
+                <div class="order-summary">
+                    <h4>ملخص الطلب</h4>
+                    <div class="summary-item">
+                        <span>الخدمة:</span>
+                        <span id="summaryService">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>السعر للوحدة:</span>
+                        <span id="summaryPrice">0.00 جنيه</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>الكمية:</span>
+                        <span id="summaryQuantity">0</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>المبلغ الإجمالي:</span>
+                        <span id="summaryTotal">0.00 جنيه</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">إنشاء الطلب</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- نموذج التذكرة -->
+    <div class="modal" id="ticketModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>فتح تذكرة دعم</h2>
+            <form id="ticketForm">
+                <div class="form-group">
+                    <label for="ticketCategory">نوع التذكرة</label>
+                    <select id="ticketCategory" required>
+                        <option value="">اختر نوع التذكرة</option>
+                        <option value="support">دعم فني</option>
+                        <option value="problem">إبلاغ عن مشكلة</option>
+                        <option value="order">متابعة طلب</option>
+                        <option value="merchant">التقديم على رتبة تاجر</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ticketMessage">وصف المشكلة</label>
+                    <textarea id="ticketMessage" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">إرسال التذكرة</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
