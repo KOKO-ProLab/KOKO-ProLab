@@ -12,12 +12,9 @@ const firebaseConfig = {
 
 // تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
 const db = firebase.firestore();
 
 // حالة التطبيق
-let currentAdmin = null;
-let adminData = null;
 let allOrders = [];
 let allDeposits = [];
 let allUsers = [];
@@ -26,41 +23,20 @@ let allServices = [];
 // تهيئة لوحة الإدارة
 document.addEventListener('DOMContentLoaded', function() {
     console.log('بدء تحميل لوحة الإدارة...');
-    
-    // تحقق فوري من المصادقة
-    const user = auth.currentUser;
-    if (!user) {
-        console.log('لم يتم تسجيل الدخول، إعادة التوجيه...');
-        window.location.href = 'index.html';
-        return;
-    }
-    
     initAdminApp();
     setupAdminEventListeners();
 });
 
 // تهيئة تطبيق الإدارة
 function initAdminApp() {
-    // مراقبة حالة المصادقة
-    auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            currentAdmin = user;
-            console.log('تم تسجيل الدخول كـ:', user.email);
-            await loadAdminData(user.uid);
-        } else {
-            console.log('لم يتم تسجيل الدخول، إعادة التوجيه...');
-            window.location.href = 'index.html';
-        }
-    });
+    console.log('جاري تحميل لوحة الإدارة بدون تسجيل دخول...');
+    loadAdminDashboard();
 }
 
 // إعداد مستمعي الأحداث للإدارة
 function setupAdminEventListeners() {
     // تبديل الوضع الليلي/الفاتح
     document.getElementById('admin-theme-toggle').addEventListener('click', toggleAdminTheme);
-    
-    // تسجيل الخروج
-    document.getElementById('admin-logout-btn').addEventListener('click', adminLogout);
     
     // علامات التبويب
     document.querySelectorAll('.tab-link').forEach(tab => {
@@ -109,43 +85,6 @@ function setupAdminEventListeners() {
     });
 }
 
-// تحميل بيانات المسؤول
-async function loadAdminData(uid) {
-    try {
-        console.log('جاري تحميل بيانات المسؤول لـ:', uid);
-        const userDoc = await db.collection('users').doc(uid).get();
-        
-        if (userDoc.exists) {
-            adminData = userDoc.data();
-            console.log('بيانات المسؤول المحملة:', adminData);
-            
-            // التحقق من صلاحية الإدارة
-            if (adminData.role === 'admin') {
-                console.log('صلاحية الإدارة مؤكدة، تحميل لوحة التحكم...');
-                loadAdminDashboard();
-            } else {
-                console.log('المستخدم ليس أدمن، إعادة التوجيه...');
-                showMessage('ليس لديك صلاحية الوصول إلى لوحة الإدارة', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
-            }
-        } else {
-            console.log('لم يتم العثور على بيانات المستخدم');
-            showMessage('خطأ في تحميل بيانات المستخدم', 'error');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 3000);
-        }
-    } catch (error) {
-        console.error('Error loading admin data:', error);
-        showMessage('خطأ في تحميل البيانات', 'error');
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 3000);
-    }
-}
-
 // تحميل لوحة التحكم
 async function loadAdminDashboard() {
     try {
@@ -155,11 +94,6 @@ async function loadAdminDashboard() {
         await loadAllUsers();
         await loadAllServices();
         await loadTopUsers();
-        
-        // إظهار المحتوى بعد التحميل
-        document.querySelectorAll('.admin-section').forEach(section => {
-            section.style.display = 'block';
-        });
         
         console.log('تم تحميل لوحة الإدارة بنجاح');
     } catch (error) {
@@ -187,8 +121,19 @@ async function loadAdminStatistics() {
             .get();
         document.getElementById('admin-pending-deposits').textContent = pendingDepositsSnapshot.size;
         
-        // الإيرادات اليوم (سيتم تنفيذها لاحقاً)
-        document.getElementById('admin-today-revenue').textContent = '0';
+        // الإيرادات اليوم
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const completedOrdersToday = await db.collection('orders')
+            .where('status', '==', 'completed')
+            .where('created_at', '>=', today)
+            .get();
+        
+        let todayRevenue = 0;
+        completedOrdersToday.forEach(doc => {
+            todayRevenue += doc.data().price || 0;
+        });
+        document.getElementById('admin-today-revenue').textContent = todayRevenue;
         
     } catch (error) {
         console.error('Error loading admin statistics:', error);
@@ -350,9 +295,6 @@ function displayAdminUsers(filteredUsers = allUsers) {
     }
     
     filteredUsers.forEach(user => {
-        // تخطي حسابات الإدارة في القائمة إذا لزم الأمر
-        if (user.role === 'admin') return;
-        
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${user.username} ${user.verified ? '✓' : ''}</td>
@@ -434,11 +376,10 @@ function displayAdminServices() {
 // تحميل أفضل المستخدمين
 async function loadTopUsers() {
     try {
-        // هذا مثال بسيط، يمكن تحسينه بحساب عدد الطلبات المكتملة لكل مستخدم
         const topUsersList = document.getElementById('top-users-list');
         topUsersList.innerHTML = '';
         
-        // الحصول على أفضل 10 مستخدمين حسب الرصيد (مثال)
+        // الحصول على أفضل 10 مستخدمين حسب الرصيد
         const topUsers = allUsers
             .filter(user => user.role !== 'admin')
             .sort((a, b) => (b.balance || 0) - (a.balance || 0))
@@ -646,8 +587,18 @@ async function savePaymentSettings(e) {
     const cryptoAddress = document.getElementById('crypto-address').value;
     const vodafoneNumber = document.getElementById('vodafone-number').value;
     
-    // هنا سيتم حفظ الإعدادات في Firestore أو قاعدة بيانات أخرى
-    showMessage('تم حفظ إعدادات الدفع بنجاح', 'success');
+    try {
+        // حفظ الإعدادات في Firestore
+        await db.collection('settings').doc('payment').set({
+            cryptoAddress: cryptoAddress,
+            vodafoneNumber: vodafoneNumber,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showMessage('تم حفظ إعدادات الدفع بنجاح', 'success');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
 }
 
 // حفظ الإعدادات العامة
@@ -657,8 +608,17 @@ async function saveGeneralSettings(e) {
     const googleLoginEnabled = document.getElementById('google-login-toggle').checked;
     const minDeposit = parseFloat(document.getElementById('min-deposit').value);
     
-    // هنا سيتم حفظ الإعدادات في Firestore أو قاعدة بيانات أخرى
-    showMessage('تم حفظ الإعدادات العامة بنجاح', 'success');
+    try {
+        await db.collection('settings').doc('general').set({
+            googleLoginEnabled: googleLoginEnabled,
+            minDeposit: minDeposit,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showMessage('تم حفظ الإعدادات العامة بنجاح', 'success');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
 }
 
 // حفظ المحتوى
@@ -669,8 +629,18 @@ async function saveContentSettings(e) {
     const termsOfService = document.getElementById('terms-of-service').value;
     const aboutUs = document.getElementById('about-us').value;
     
-    // هنا سيتم حفظ المحتوى في Firestore أو قاعدة بيانات أخرى
-    showMessage('تم حفظ المحتوى بنجاح', 'success');
+    try {
+        await db.collection('settings').doc('content').set({
+            privacyPolicy: privacyPolicy,
+            termsOfService: termsOfService,
+            aboutUs: aboutUs,
+            updated_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showMessage('تم حفظ المحتوى بنجاح', 'success');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
 }
 
 // الموافقة على طلب الإيداع
@@ -863,7 +833,6 @@ function filterOrders() {
     }
     
     if (searchFilter) {
-        // هذا مثال بسيط، يمكن تحسينه بالبحث في بيانات المستخدم
         filteredOrders = filteredOrders.filter(order => 
             order.service_name.toLowerCase().includes(searchFilter) ||
             order.target_link.toLowerCase().includes(searchFilter)
@@ -889,7 +858,7 @@ function filterUsers() {
     const searchFilter = document.getElementById('user-search').value.toLowerCase();
     const rankFilter = document.getElementById('user-rank-filter').value;
     
-    let filteredUsers = allUsers.filter(user => user.role !== 'admin');
+    let filteredUsers = allUsers;
     
     if (searchFilter) {
         filteredUsers = filteredUsers.filter(user => 
@@ -923,15 +892,6 @@ function toggleAdminTheme() {
     // تحديث زر التبديل
     const themeToggle = document.getElementById('admin-theme-toggle');
     themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-}
-
-async function adminLogout() {
-    try {
-        await auth.signOut();
-        window.location.href = 'index.html';
-    } catch (error) {
-        showMessage(error.message, 'error');
-    }
 }
 
 function getPaymentMethodName(method) {
@@ -1017,3 +977,40 @@ if (savedTheme) {
     const themeToggle = document.getElementById('admin-theme-toggle');
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 }
+
+// تحميل الإعدادات عند بدء التشغيل
+async function loadSettings() {
+    try {
+        // إعدادات الدفع
+        const paymentSettings = await db.collection('settings').doc('payment').get();
+        if (paymentSettings.exists) {
+            const data = paymentSettings.data();
+            document.getElementById('crypto-address').value = data.cryptoAddress || '';
+            document.getElementById('vodafone-number').value = data.vodafoneNumber || '';
+        }
+        
+        // الإعدادات العامة
+        const generalSettings = await db.collection('settings').doc('general').get();
+        if (generalSettings.exists) {
+            const data = generalSettings.data();
+            document.getElementById('google-login-toggle').checked = data.googleLoginEnabled || false;
+            document.getElementById('min-deposit').value = data.minDeposit || '';
+        }
+        
+        // المحتوى
+        const contentSettings = await db.collection('settings').doc('content').get();
+        if (contentSettings.exists) {
+            const data = contentSettings.data();
+            document.getElementById('privacy-policy').value = data.privacyPolicy || '';
+            document.getElementById('terms-of-service').value = data.termsOfService || '';
+            document.getElementById('about-us').value = data.aboutUs || '';
+        }
+    } catch (error) {
+        console.error('Error loading settings:', error);
+    }
+}
+
+// تحميل الإعدادات عند بدء التشغيل
+document.addEventListener('DOMContentLoaded', function() {
+    loadSettings();
+});
