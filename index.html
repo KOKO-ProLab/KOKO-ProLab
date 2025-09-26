@@ -81,6 +81,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
 
         .logo i {
@@ -602,6 +603,17 @@
             font-size: 0.9rem;
         }
 
+        /* Admin Button */
+        .admin-btn {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav {
@@ -683,7 +695,7 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav container">
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
                 <i class="fas fa-rocket"></i>
                 KOKO ProLab
             </a>
@@ -700,7 +712,10 @@
                 
                 <div class="user-menu">
                     <span id="user-name">مرحباً، المستخدم</span>
-                    <button onclick="logout()" style="background: none; border: none; color: #fff; margin-right: 10px;">
+                    <button onclick="goToAdmin()" class="btn btn-secondary admin-btn" style="padding: 5px 10px; margin: 0 10px; font-size: 0.8rem;">
+                        <i class="fas fa-crown"></i> Admin
+                    </button>
+                    <button onclick="logout()" style="background: none; border: none; color: #fff; margin-right: 10px; cursor: pointer;">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
                 </div>
@@ -870,7 +885,7 @@
         // Firebase Configuration
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+        import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy, limit, writeBatch } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
         const firebaseConfig = {
             "projectId": "studio-9537618434-79056",
@@ -886,15 +901,35 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // Global variables
+        // Make Firebase available globally
+        window.firebaseApp = app;
         window.auth = auth;
         window.db = db;
         window.provider = provider;
+        window.GoogleAuthProvider = GoogleAuthProvider;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.signInWithPopup = signInWithPopup;
+        window.signOut = signOut;
+        window.doc = doc;
+        window.getDoc = getDoc;
+        window.setDoc = setDoc;
+        window.collection = collection;
+        window.getDocs = getDocs;
+        window.query = query;
+        window.orderBy = orderBy;
+        window.limit = limit;
+        window.writeBatch = writeBatch;
 
         // Authentication check
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.querySelector('.modal')?.remove(); // Close any open login modals
+                const loginModals = document.querySelectorAll('.modal');
+                loginModals.forEach(modal => {
+                    if (modal.querySelector('#login-email')) {
+                        modal.remove();
+                    }
+                });
                 loadUserData(user);
                 loadAllData();
             } else {
@@ -911,11 +946,10 @@
                     document.getElementById('user-name').textContent = `مرحباً، ${userData.displayName || user.displayName}`;
                     document.getElementById('user-balance').textContent = (userData.balance || 0).toFixed(2);
                 } else {
-                    // Create new user document if it doesn't exist
                     const newUserData = {
                         displayName: user.displayName || 'مستخدم جديد',
                         email: user.email,
-                        balance: 0, // As requested, new users start with 0 balance
+                        balance: 0,
                         rank: 'مبتدئ',
                         orders: 0,
                         verified: false,
@@ -938,15 +972,16 @@
         }
 
         window.loadUserData = loadUserData;
+        window.loadAllData = loadAllData;
     </script>
 
     <script>
         // Load categories from Firestore
         async function loadCategories() {
             const container = document.getElementById('categories-container');
-            container.innerHTML = '<div class="loading"></div>'; // Show loading animation
+            container.innerHTML = '<div class="loading"></div>';
             try {
-                const querySnapshot = await getDocs(collection(db, "categories"));
+                const querySnapshot = await window.getDocs(window.collection(window.db, "categories"));
                 container.innerHTML = '';
                 querySnapshot.forEach(doc => {
                     const category = doc.data();
@@ -969,12 +1004,11 @@
             }
         }
 
-        // Load top users from Firestore
         async function loadTopUsers() {
             const container = document.getElementById('top-users-list');
             container.innerHTML = '<div class="loading"></div>';
             try {
-                const querySnapshot = await getDocs(query(collection(db, "topUsers"), orderBy("orders", "desc")));
+                const querySnapshot = await window.getDocs(window.query(window.collection(window.db, "topUsers"), window.orderBy("orders", "desc")));
                 container.innerHTML = '';
                 let rank = 1;
                 querySnapshot.forEach(doc => {
@@ -999,13 +1033,12 @@
             }
         }
 
-        // Load reviews from Firestore
         let reviewsDisplayed = 6;
         async function loadReviews() {
             const container = document.getElementById('reviews-container');
             container.innerHTML = '<div class="loading"></div>';
             try {
-                const querySnapshot = await getDocs(query(collection(db, "reviews"), limit(reviewsDisplayed)));
+                const querySnapshot = await window.getDocs(window.query(window.collection(window.db, "reviews"), window.limit(reviewsDisplayed)));
                 container.innerHTML = '';
                 querySnapshot.forEach(doc => {
                     const review = doc.data();
@@ -1033,7 +1066,6 @@
             loadReviews();
         }
 
-        // Theme toggle
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
@@ -1049,7 +1081,6 @@
             }
         }
 
-        // Modal functions
         function showModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -1066,7 +1097,6 @@
             showModal('chat-modal');
         }
 
-        // Deposit functions
         function selectDepositMethod(method) {
             const form = document.getElementById('deposit-form');
             const details = document.getElementById('deposit-details');
@@ -1107,7 +1137,6 @@
             closeModal('deposit-modal');
         }
 
-        // Chat functions
         function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const message = input.value.trim();
@@ -1127,7 +1156,6 @@
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Auto reply after 2 seconds
             setTimeout(() => {
                 const replyEl = document.createElement('div');
                 replyEl.className = 'chat-message';
@@ -1141,7 +1169,6 @@
             }, 2000);
         }
 
-        // Notification function
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -1159,7 +1186,6 @@
             }, 3000);
         }
 
-        // Other functions
         function showNotifications() {
             showNotification('لديك 3 إشعارات جديدة', 'success');
         }
@@ -1173,54 +1199,24 @@
         }
 
         function showPrivacyPolicy() {
-            alert(`سياسة الخصوصية - KOKO ProLab
-
-نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. 
-
-جمع البيانات:
-- نجمع البيانات الضرورية لتقديم خدماتنا فقط
-- لا نشارك بياناتك مع أطراف ثالثة
-
-استخدام البيانات:
-- تحسين جودة خدماتنا
-- التواصل معك حول طلباتك
-- إرسال التحديثات المهمة
-
-الأمان:
-- نستخدم أحدث تقنيات الحماية
-- بياناتك محمية بتشفير عالي المستوى
-
-للاستفسارات: support@kokoprolab.com`);
+            alert('سياسة الخصوصية - KOKO ProLab\n\nنحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية.');
         }
 
         function showTermsOfService() {
-            alert(`شروط الاستخدام - KOKO ProLab
-
-شروط الخدمة:
-1. يجب أن تكون أكبر من 18 عاماً لاستخدام خدماتنا
-2. يُمنع استخدام خدماتنا لأغراض غير قانونية
-3. نحتفظ بالحق في إيقاف أي حساب ينتهك شروطنا
-
-الدفع والاسترداد:
-- جميع المدفوعات نهائية
-- لا يمكن استرداد الأموال إلا في حالات خاصة
-- يتم معالجة الطلبات خلال 24-48 ساعة
-
-المسؤولية:
-- نسعى لتقديم أفضل خدمة ممكنة
-- غير مسؤولين عن أي أضرار غير مباشرة
-- جميع خدماتنا تتوافق مع القوانين المحلية
-
-للاستفسارات: support@kokoprolab.com`);
+            alert('شروط الاستخدام - KOKO ProLab\n\nشروط الخدمة:\n1. يجب أن تكون أكبر من 18 عاماً لاستخدام خدماتنا');
         }
 
         async function logout() {
             try {
-                await window.auth.signOut();
+                await window.signOut(window.auth);
                 showNotification('تم تسجيل الخروج بنجاح', 'success');
             } catch (error) {
                 showNotification('حدث خطأ أثناء تسجيل الخروج', 'error');
             }
+        }
+
+        function goToAdmin() {
+            window.location.href = 'admin.html';
         }
 
         function showLoginModal() {
@@ -1271,7 +1267,7 @@
                 }
                 
                 try {
-                    await signInWithEmailAndPassword(window.auth, email, password);
+                    await window.signInWithEmailAndPassword(window.auth, email, password);
                     showNotification('تم تسجيل الدخول بنجاح', 'success');
                     modal.remove();
                 } catch (error) {
@@ -1281,7 +1277,7 @@
             
             window.loginWithGoogle = async function() {
                 try {
-                    await signInWithPopup(window.auth, window.provider);
+                    await window.signInWithPopup(window.auth, window.provider);
                     showNotification('تم تسجيل الدخول بنجاح', 'success');
                     modal.remove();
                 } catch (error) {
@@ -1313,7 +1309,7 @@
                     </button>
                     
                     <div style="text-align: center; margin-top: 20px;">
-                        <a href="#" onclick="showLoginModal()" style="color: #667eea; text-decoration: none;">
+                        <a href="#" onclick="showLoginModal(); this.closest('.modal').remove();" style="color: #667eea; text-decoration: none;">
                             لديك حساب بالفعل؟ سجل الدخول
                         </a>
                     </div>
@@ -1335,10 +1331,9 @@
                     }
                     
                     try {
-                        const userCredential = await createUserWithEmailAndPassword(window.auth, email, password);
-                        // Now create the user document in Firestore
-                        const userDocRef = doc(db, 'users', userCredential.user.uid);
-                        await setDoc(userDocRef, {
+                        const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+                        const userDocRef = window.doc(window.db, 'users', userCredential.user.uid);
+                        await window.setDoc(userDocRef, {
                             displayName: username,
                             email: email,
                             balance: 0,
@@ -1356,20 +1351,18 @@
             };
         }
 
-        // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-            // Add enter key support for chat
-            document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendChatMessage();
                 }
             });
         });
 
-        // Global functions
         window.toggleTheme = toggleTheme;
         window.showNotifications = showNotifications;
         window.logout = logout;
+        window.goToAdmin = goToAdmin;
         window.showDepositModal = showDepositModal;
         window.showOrderHistory = showOrderHistory;
         window.selectCategory = selectCategory;
