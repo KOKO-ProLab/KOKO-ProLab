@@ -21,14 +21,16 @@ let userData = null;
 let services = [];
 let categories = [];
 let userOrders = [];
+let siteStats = {};
 
 // تهيئة التطبيق عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     initApp();
     setupEventListeners();
     loadServices();
-    loadStatistics();
+    loadSiteStatistics();
     checkLanguage();
+    updateBalanceDisplay();
 });
 
 // تهيئة التطبيق
@@ -40,10 +42,12 @@ function initApp() {
             await loadUserData(user.uid);
             showUserMenu();
             loadUserOrders(user.uid);
+            updateBalanceDisplay();
         } else {
             currentUser = null;
             userData = null;
             showAuthButtons();
+            updateBalanceDisplay();
         }
     });
 }
@@ -58,6 +62,27 @@ function setupEventListeners() {
     document.getElementById('register-btn').addEventListener('click', () => openModal('register-modal'));
     document.getElementById('deposit-btn').addEventListener('click', () => openModal('deposit-modal'));
     document.getElementById('logout-btn').addEventListener('click', logout);
+    
+    // التنقل بين الصفحات
+    document.getElementById('nav-profile').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('profile-page');
+    });
+    
+    document.getElementById('nav-orders').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('orders-page');
+    });
+    
+    document.getElementById('nav-tickets').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('tickets-page');
+    });
+    
+    document.getElementById('nav-home').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('home-page');
+    });
     
     // التنقل بين النماذج
     document.getElementById('show-register').addEventListener('click', (e) => {
@@ -88,6 +113,7 @@ function setupEventListeners() {
     document.getElementById('deposit-form').addEventListener('submit', submitDeposit);
     document.getElementById('service-form').addEventListener('submit', submitOrder);
     document.getElementById('profile-form').addEventListener('submit', updateProfile);
+    document.getElementById('ticket-form').addEventListener('submit', submitTicket);
     
     // تغيير كمية الطلب لحساب السعر
     document.getElementById('service-quantity').addEventListener('input', calculateOrderTotal);
@@ -116,17 +142,35 @@ function setupEventListeners() {
     // الروابط في التذييل
     document.getElementById('privacy-link').addEventListener('click', (e) => {
         e.preventDefault();
-        showContentModal('سياسة الخصوصية', 'سياسة الخصوصية ستظهر هنا...');
+        showPage('privacy-page');
     });
     
     document.getElementById('terms-link').addEventListener('click', (e) => {
         e.preventDefault();
-        showContentModal('شروط الاستخدام', 'شروط الاستخدام ستظهر هنا...');
+        showPage('terms-page');
     });
     
     document.getElementById('about-link').addEventListener('click', (e) => {
         e.preventDefault();
-        showContentModal('عن KOKO ProLab', 'معلومات عن KOKO ProLab ستظهر هنا...');
+        showPage('about-page');
+    });
+    
+    // التواصل الاجتماعي
+    document.getElementById('telegram-btn').addEventListener('click', () => {
+        window.open('https://t.me/kokoprolab', '_blank');
+    });
+    
+    document.getElementById('whatsapp-btn').addEventListener('click', () => {
+        window.open('https://wa.me/201000000000', '_blank');
+    });
+    
+    // طلب رتبة تاجر
+    document.getElementById('request-merchant').addEventListener('click', () => {
+        if (!currentUser) {
+            openModal('login-modal');
+            return;
+        }
+        openMerchantRequestModal();
     });
 }
 
@@ -138,11 +182,14 @@ async function login(e) {
     const password = document.getElementById('login-password').value;
     
     try {
+        showLoading(true);
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         closeModal('login-modal');
         showMessage('تم تسجيل الدخول بنجاح', 'success');
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -162,6 +209,7 @@ async function register(e) {
     }
     
     try {
+        showLoading(true);
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
         
@@ -182,6 +230,8 @@ async function register(e) {
         showMessage('تم إنشاء الحساب بنجاح', 'success');
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -190,6 +240,7 @@ async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     
     try {
+        showLoading(true);
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
         
@@ -215,6 +266,8 @@ async function signInWithGoogle() {
         showMessage('تم تسجيل الدخول بنجاح', 'success');
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -225,11 +278,14 @@ async function resetPassword(e) {
     const email = document.getElementById('forgot-email').value;
     
     try {
+        showLoading(true);
         await auth.sendPasswordResetEmail(email);
         closeModal('forgot-modal');
         showMessage('تم إرسال رابط استعادة كلمة المرور إلى بريدك الإلكتروني', 'success');
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -238,6 +294,7 @@ async function logout() {
     try {
         await auth.signOut();
         showMessage('تم تسجيل الخروج بنجاح', 'success');
+        showPage('home-page');
     } catch (error) {
         showMessage(error.message, 'error');
     }
@@ -251,6 +308,7 @@ async function loadUserData(uid) {
         if (userDoc.exists) {
             userData = userDoc.data();
             updateProfileDisplay();
+            updateBalanceDisplay();
         }
     } catch (error) {
         console.error('Error loading user data:', error);
@@ -266,6 +324,15 @@ function updateProfileDisplay() {
     
     const profileCard = document.getElementById('profile-card');
     profileCard.innerHTML = `
+        <div class="profile-header">
+            <div class="profile-avatar">
+                ${(userData.displayName || userData.username).charAt(0).toUpperCase()}
+            </div>
+            <div>
+                <h2>${userData.displayName || userData.username}</h2>
+                <p class="rank-badge rank-${userData.rank}">${getRankName(userData.rank)}</p>
+            </div>
+        </div>
         <div class="profile-info">
             <div class="info-item">
                 <span>اسم المستخدم:</span>
@@ -277,26 +344,48 @@ function updateProfileDisplay() {
             </div>
             <div class="info-item">
                 <span>الاسم المعروض:</span>
-                <span>${userData.displayName || 'غير محدد'} <button onclick="openEditProfile()" class="btn btn-outline" style="padding: 2px 8px; margin-right: 10px;">تعديل</button></span>
+                <span>${userData.displayName || 'غير محدد'} 
+                    <button onclick="openEditProfile()" class="btn btn-outline" style="padding: 5px 10px;">
+                        <i class="fas fa-edit"></i> تعديل
+                    </button>
+                </span>
             </div>
             <div class="info-item">
                 <span>رقم الهاتف:</span>
-                <span>${userData.phoneNumber || 'غير محدد'} <button onclick="openEditProfile()" class="btn btn-outline" style="padding: 2px 8px; margin-right: 10px;">تعديل</button></span>
+                <span>${userData.phoneNumber || 'غير محدد'} 
+                    <button onclick="openEditProfile()" class="btn btn-outline" style="padding: 5px 10px;">
+                        <i class="fas fa-edit"></i> تعديل
+                    </button>
+                </span>
             </div>
             <div class="info-item">
                 <span>الرصيد:</span>
-                <span>${userData.balance || 0} جنيه</span>
+                <span class="balance-amount">${userData.balance || 0} جنيه</span>
             </div>
             <div class="info-item">
                 <span>الرتبة:</span>
-                <span class="rank-${userData.rank}">${getRankName(userData.rank)}</span>
+                <span class="rank-badge rank-${userData.rank}">${getRankName(userData.rank)}</span>
             </div>
             <div class="info-item">
                 <span>الحالة:</span>
-                <span>${userData.verified ? '<span class="verified-badge">✓ موثق</span>' : 'غير موثق'}</span>
+                <span>${userData.verified ? '<span class="verified-badge"><i class="fas fa-check-circle"></i> موثق</span>' : 'غير موثق'}</span>
             </div>
         </div>
     `;
+}
+
+// تحديث عرض الرصيد في الشريط العلوي
+function updateBalanceDisplay() {
+    const balanceElement = document.getElementById('header-balance');
+    if (currentUser && userData) {
+        balanceElement.innerHTML = `
+            <i class="fas fa-wallet"></i>
+            <span class="balance-amount">${userData.balance || 0} جنيه</span>
+        `;
+        balanceElement.style.display = 'flex';
+    } else {
+        balanceElement.style.display = 'none';
+    }
 }
 
 // فتح نموذج تعديل الملف الشخصي
@@ -314,6 +403,7 @@ async function updateProfile(e) {
     const phoneNumber = document.getElementById('edit-phone').value;
     
     try {
+        showLoading(true);
         await db.collection('users').doc(currentUser.uid).update({
             displayName: displayName,
             phoneNumber: phoneNumber
@@ -327,6 +417,8 @@ async function updateProfile(e) {
         showMessage('تم تحديث الملف الشخصي بنجاح', 'success');
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -360,14 +452,14 @@ function displayCategories() {
     
     const allBtn = document.createElement('button');
     allBtn.className = 'category-btn active';
-    allBtn.textContent = 'الكل';
+    allBtn.innerHTML = '<i class="fas fa-th-large"></i> الكل';
     allBtn.addEventListener('click', () => filterServices('all'));
     categoriesContainer.appendChild(allBtn);
     
     categories.forEach(category => {
         const categoryBtn = document.createElement('button');
         categoryBtn.className = 'category-btn';
-        categoryBtn.textContent = category;
+        categoryBtn.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
         categoryBtn.addEventListener('click', () => filterServices(category));
         categoriesContainer.appendChild(categoryBtn);
     });
@@ -386,10 +478,17 @@ function displayServices(filter = 'all') {
         const serviceCard = document.createElement('div');
         serviceCard.className = 'service-card';
         serviceCard.innerHTML = `
-            <h3>${service.name}</h3>
+            <h3><i class="fas fa-cube"></i> ${service.name}</h3>
             <p>${service.description || 'لا يوجد وصف'}</p>
+            <ul class="service-features">
+                <li>جودة عالية</li>
+                <li>تشغيل فوري</li>
+                <li>دعم فني 24/7</li>
+            </ul>
             <div class="price">${service.price} جنيه</div>
-            <button class="btn btn-primary order-btn" data-id="${service.id}">طلب الخدمة</button>
+            <button class="btn btn-primary order-btn" data-id="${service.id}">
+                <i class="fas fa-shopping-cart"></i> طلب الخدمة
+            </button>
         `;
         servicesGrid.appendChild(serviceCard);
     });
@@ -466,6 +565,7 @@ async function submitOrder(e) {
     }
     
     try {
+        showLoading(true);
         await db.collection('orders').add({
             user_uid: currentUser.uid,
             service_id: serviceId,
@@ -477,13 +577,25 @@ async function submitOrder(e) {
             created_at: firebase.firestore.FieldValue.serverTimestamp()
         });
         
+        // خصم المبلغ من رصيد المستخدم
+        await db.collection('users').doc(currentUser.uid).update({
+            balance: firebase.firestore.FieldValue.increment(-totalPrice)
+        });
+        
+        // تحديث رصيد المستخدم محلياً
+        userData.balance -= totalPrice;
+        updateBalanceDisplay();
+        
         closeModal('service-modal');
         showMessage('تم إرسال طلبك بنجاح', 'success');
         
         // تحديث نموذج الطلب
         document.getElementById('service-form').reset();
+        loadUserOrders(currentUser.uid);
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -494,21 +606,31 @@ function showPaymentDetails() {
     
     if (method === 'crypto') {
         paymentDetails.innerHTML = `
-            <p>يرجى التحويل إلى العنوان التالي:</p>
-            <div class="crypto-address">
-                <strong>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</strong>
-                <button class="btn btn-outline copy-btn" data-text="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">نسخ</button>
+            <div class="payment-info">
+                <h4><i class="fas fa-coins"></i> التحويل بالعملات الرقمية</h4>
+                <p>يرجى التحويل إلى العنوان التالي:</p>
+                <div class="crypto-address">
+                    <strong>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</strong>
+                    <button class="btn btn-outline copy-btn" data-text="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                </div>
+                <p class="note">بعد التحويل، أرسل صورة للإثبات مع رقم المعاملة.</p>
             </div>
-            <p>بعد التحويل، أرسل صورة للإثبات مع رقم المعاملة.</p>
         `;
     } else if (method === 'vodafone') {
         paymentDetails.innerHTML = `
-            <p>يرجى التحويل إلى الرقم التالي:</p>
-            <div class="vodafone-number">
-                <strong>0100 000 0000</strong>
-                <button class="btn btn-outline copy-btn" data-text="01000000000">نسخ</button>
+            <div class="payment-info">
+                <h4><i class="fas fa-mobile-alt"></i> التحويل بفودافون كاش</h4>
+                <p>يرجى التحويل إلى الرقم التالي:</p>
+                <div class="vodafone-number">
+                    <strong>0100 000 0000</strong>
+                    <button class="btn btn-outline copy-btn" data-text="01000000000">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                </div>
+                <p class="note">بعد التحويل، أرسل صورة للإثبات مع رقم المعاملة.</p>
             </div>
-            <p>بعد التحويل، أرسل صورة للإثبات مع رقم المعاملة.</p>
         `;
     } else {
         paymentDetails.innerHTML = '';
@@ -543,6 +665,7 @@ async function submitDeposit(e) {
     }
     
     try {
+        showLoading(true);
         await db.collection('deposits').add({
             user_uid: currentUser.uid,
             amount: amount,
@@ -559,6 +682,8 @@ async function submitDeposit(e) {
         document.getElementById('payment-details').innerHTML = '';
     } catch (error) {
         showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -587,7 +712,7 @@ function displayUserOrders() {
     ordersBody.innerHTML = '';
     
     if (userOrders.length === 0) {
-        ordersBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">لا توجد طلبات</td></tr>';
+        ordersBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">لا توجد طلبات</td></tr>';
         return;
     }
     
@@ -598,30 +723,100 @@ function displayUserOrders() {
             <td>${order.target_link}</td>
             <td>${order.quantity}</td>
             <td>${order.price} جنيه</td>
-            <td class="status-${order.status}">${getStatusName(order.status)}</td>
+            <td><span class="status-${order.status}">${getStatusName(order.status)}</span></td>
             <td>${formatDate(order.created_at)}</td>
+            <td>
+                <button class="btn btn-outline view-order-btn" data-id="${order.id}">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </td>
         `;
         ordersBody.appendChild(row);
     });
 }
 
-// تحميل الإحصائيات
-async function loadStatistics() {
+// تحميل إحصائيات الموقع
+async function loadSiteStatistics() {
     try {
-        // إجمالي المستخدمين
-        const usersSnapshot = await db.collection('users').get();
-        document.getElementById('total-users').textContent = usersSnapshot.size;
-        
-        // الطلبات المكتملة
-        const completedOrdersSnapshot = await db.collection('orders')
-            .where('status', '==', 'completed')
-            .get();
-        document.getElementById('completed-orders').textContent = completedOrdersSnapshot.size;
-        
-        // أفضل 10 مستخدمين (سيتم تنفيذها لاحقاً)
-        document.getElementById('top-users').textContent = '10';
+        const statsDoc = await db.collection('statistics').doc('site_stats').get();
+        if (statsDoc.exists) {
+            siteStats = statsDoc.data();
+            updateSiteStatistics();
+        }
     } catch (error) {
-        console.error('Error loading statistics:', error);
+        console.error('Error loading site statistics:', error);
+    }
+}
+
+// تحديث إحصائيات الموقع
+function updateSiteStatistics() {
+    document.getElementById('total-users').textContent = siteStats.totalUsers || '0';
+    document.getElementById('completed-orders').textContent = siteStats.completedOrders || '0';
+    document.getElementById('top-users').textContent = siteStats.topUsers || '0';
+}
+
+// إرسال تذكرة دعم
+async function submitTicket(e) {
+    e.preventDefault();
+    
+    if (!currentUser) {
+        showMessage('يجب تسجيل الدخول أولاً', 'error');
+        return;
+    }
+    
+    const type = document.getElementById('ticket-type').value;
+    const subject = document.getElementById('ticket-subject').value;
+    const message = document.getElementById('ticket-message').value;
+    
+    try {
+        showLoading(true);
+        await db.collection('tickets').add({
+            user_uid: currentUser.uid,
+            type: type,
+            subject: subject,
+            message: message,
+            status: 'open',
+            created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        closeModal('ticket-modal');
+        showMessage('تم إرسال التذكرة بنجاح', 'success');
+        document.getElementById('ticket-form').reset();
+    } catch (error) {
+        showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// طلب رتبة تاجر
+async function submitMerchantRequest(e) {
+    e.preventDefault();
+    
+    if (!currentUser) {
+        showMessage('يجب تسجيل الدخول أولاً', 'error');
+        return;
+    }
+    
+    const experience = document.getElementById('merchant-experience').value;
+    const portfolio = document.getElementById('merchant-portfolio').value;
+    
+    try {
+        showLoading(true);
+        await db.collection('merchant_requests').add({
+            user_uid: currentUser.uid,
+            experience: experience,
+            portfolio: portfolio,
+            status: 'pending',
+            created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        closeModal('merchant-modal');
+        showMessage('تم إرسال طلب رتبة التاجر بنجاح', 'success');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    } finally {
+        showLoading(false);
     }
 }
 
@@ -634,8 +829,23 @@ function showUserMenu() {
 function showAuthButtons() {
     document.getElementById('auth-buttons').style.display = 'flex';
     document.getElementById('user-menu').style.display = 'none';
-    document.getElementById('profile-card').innerHTML = '<p>يجب تسجيل الدخول لعرض الملف الشخصي</p>';
-    document.getElementById('orders-body').innerHTML = '<tr><td colspan="6" style="text-align: center;">يجب تسجيل الدخول لعرض الطلبات</td></tr>';
+}
+
+function showPage(pageId) {
+    // إخفاء جميع الصفحات
+    document.querySelectorAll('.page').forEach(page => {
+        page.style.display = 'none';
+    });
+    
+    // إظهار الصفحة المطلوبة
+    document.getElementById(pageId).style.display = 'block';
+    
+    // تحديث التنقل النشط
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // إضافة المزيد من وظائف إدارة الصفحات حسب الحاجة
 }
 
 function openModal(modalId) {
@@ -670,16 +880,22 @@ function showMessage(message, type) {
     // إنشاء عنصر الرسالة
     const messageEl = document.createElement('div');
     messageEl.className = `message message-${type}`;
-    messageEl.textContent = message;
+    messageEl.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        ${message}
+    `;
     messageEl.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
         padding: 15px 20px;
-        border-radius: 5px;
+        border-radius: var(--border-radius);
         color: white;
         z-index: 10000;
         animation: slideIn 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     `;
     
     if (type === 'success') {
@@ -699,11 +915,20 @@ function showMessage(message, type) {
     }, 3000);
 }
 
+function showLoading(show) {
+    if (show) {
+        document.body.classList.add('loading');
+    } else {
+        document.body.classList.remove('loading');
+    }
+}
+
 function getRankName(rank) {
     const ranks = {
         'beginner': 'مبتدئ',
         'intermediate': 'متوسط',
-        'pro': 'متميز'
+        'pro': 'متميز',
+        'vip': 'VIP'
     };
     return ranks[rank] || rank;
 }
@@ -733,11 +958,6 @@ function checkLanguage() {
     document.documentElement.lang = isRTL ? 'ar' : 'en';
 }
 
-function showContentModal(title, content) {
-    // سيتم تنفيذ هذا لاحقاً لعرض المحتوى في نافذة منبثقة
-    alert(`${title}: ${content}`);
-}
-
 // تحميل السمة المحفوظة
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
@@ -745,3 +965,6 @@ if (savedTheme) {
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 }
+
+// إظهار الصفحة الرئيسية افتراضياً
+showPage('home-page');
