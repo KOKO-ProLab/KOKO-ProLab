@@ -1,4 +1,4 @@
-// تهيئة Firebase (نفس التهيئة)
+// تهيئة Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow",
     authDomain: "koko-prolab.firebaseapp.com",
@@ -25,9 +25,18 @@ let allServices = [];
 
 // تهيئة لوحة الإدارة
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('بدء تحميل لوحة الإدارة...');
+    
+    // تحقق فوري من المصادقة
+    const user = auth.currentUser;
+    if (!user) {
+        console.log('لم يتم تسجيل الدخول، إعادة التوجيه...');
+        window.location.href = 'index.html';
+        return;
+    }
+    
     initAdminApp();
     setupAdminEventListeners();
-    checkAdminAccess();
 });
 
 // تهيئة تطبيق الإدارة
@@ -36,19 +45,10 @@ function initAdminApp() {
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             currentAdmin = user;
+            console.log('تم تسجيل الدخول كـ:', user.email);
             await loadAdminData(user.uid);
-            
-            // التحقق من صلاحية الإدارة
-            if (adminData && adminData.role === 'admin') {
-                loadAdminDashboard();
-            } else {
-                showMessage('ليس لديك صلاحية الوصول إلى لوحة الإدارة', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-            }
         } else {
-            // إعادة التوجيه إلى صفحة تسجيل الدخول
+            console.log('لم يتم تسجيل الدخول، إعادة التوجيه...');
             window.location.href = 'index.html';
         }
     });
@@ -109,51 +109,63 @@ function setupAdminEventListeners() {
     });
 }
 
-// التحقق من صلاحية الإدارة
-async function checkAdminAccess() {
-    const user = auth.currentUser;
-    if (!user) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    try {
-        const userDoc = await db.collection('users').doc(user.uid).get();
-        if (userDoc.exists) {
-            const userData = userDoc.data();
-            if (userData.role !== 'admin') {
-                showMessage('ليس لديك صلاحية الوصول إلى لوحة الإدارة', 'error');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-            }
-        }
-    } catch (error) {
-        console.error('Error checking admin access:', error);
-        window.location.href = 'index.html';
-    }
-}
-
 // تحميل بيانات المسؤول
 async function loadAdminData(uid) {
     try {
+        console.log('جاري تحميل بيانات المسؤول لـ:', uid);
         const userDoc = await db.collection('users').doc(uid).get();
+        
         if (userDoc.exists) {
             adminData = userDoc.data();
+            console.log('بيانات المسؤول المحملة:', adminData);
+            
+            // التحقق من صلاحية الإدارة
+            if (adminData.role === 'admin') {
+                console.log('صلاحية الإدارة مؤكدة، تحميل لوحة التحكم...');
+                loadAdminDashboard();
+            } else {
+                console.log('المستخدم ليس أدمن، إعادة التوجيه...');
+                showMessage('ليس لديك صلاحية الوصول إلى لوحة الإدارة', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+            }
+        } else {
+            console.log('لم يتم العثور على بيانات المستخدم');
+            showMessage('خطأ في تحميل بيانات المستخدم', 'error');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
         }
     } catch (error) {
         console.error('Error loading admin data:', error);
+        showMessage('خطأ في تحميل البيانات', 'error');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 3000);
     }
 }
 
 // تحميل لوحة التحكم
 async function loadAdminDashboard() {
-    await loadAdminStatistics();
-    await loadAllOrders();
-    await loadAllDeposits();
-    await loadAllUsers();
-    await loadAllServices();
-    await loadTopUsers();
+    try {
+        await loadAdminStatistics();
+        await loadAllOrders();
+        await loadAllDeposits();
+        await loadAllUsers();
+        await loadAllServices();
+        await loadTopUsers();
+        
+        // إظهار المحتوى بعد التحميل
+        document.querySelectorAll('.admin-section').forEach(section => {
+            section.style.display = 'block';
+        });
+        
+        console.log('تم تحميل لوحة الإدارة بنجاح');
+    } catch (error) {
+        console.error('Error loading admin dashboard:', error);
+        showMessage('خطأ في تحميل لوحة التحكم', 'error');
+    }
 }
 
 // تحميل الإحصائيات
@@ -939,7 +951,6 @@ function getDepositStatusName(status) {
     return statuses[status] || status;
 }
 
-// وظائف مساعدة مشتركة (يجب أن تكون متطابقة مع app.js)
 function showMessage(message, type) {
     // إنشاء عنصر الرسالة
     const messageEl = document.createElement('div');
