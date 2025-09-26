@@ -1,0 +1,401 @@
+/* General Styles */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --card-background: #fff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+[data-theme="dark"] {
+    --primary-color: #0d6efd;
+    --secondary-color: #adb5bd;
+    --background-color: #121212;
+    --text-color: #f8f9fa;
+    --card-background: #1e1e1e;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+h2, h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Header */
+header {
+    background-color: var(--card-background);
+    box-shadow: var(--shadow);
+    padding: 1rem 2rem;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.auth-buttons button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+/* Main Content */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: var(--secondary-color);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content input, .modal-content button {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.modal-content input {
+     border: 1px solid var(--secondary-color);
+     background-color: var(--background-color);
+     color: var(--text-color);
+}
+
+.modal-content button {
+    border: none;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.modal-content hr {
+    margin: 1.5rem 0;
+    border-color: var(--secondary-color);
+}
+
+/* Services */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Stats */
+#stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin: 4rem 0;
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.stat-item p {
+    margin: 0.25rem 0 0 0;
+    font-size: 1rem;
+    color: var(--secondary-color);
+}
+
+/* Order Status */
+#order-status {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.order-item {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.status-pending { color: #ffc107; font-weight: bold; }
+.status-completed { color: #28a745; font-weight: bold; }
+.status-cancelled { color: #dc3545; font-weight: bold; }
+
+/* Reviews */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.review-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    text-align: left;
+}
+
+.review-card h4 {
+    margin: 0 0 0.5rem 0;
+}
+
+.review-card .rating {
+    color: #ffc107; /* Gold color for stars */
+    margin-top: 1rem;
+}
+
+#show-more-reviews {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--primary-color);
+    background-color: transparent;
+    color: var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#show-more-reviews:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* About/Policies */
+#about p, #about h4 {
+    text-align: left;
+}
+
+
+/* Chat Widget */
+#chat-widget {
+    position: fixed;
+    bottom: 90px; /* Adjusted to not overlap FAB */
+    right: 2rem;
+    width: 320px;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 102;
+    display: none; /* Initially hidden */
+    flex-direction: column;
+}
+
+#chat-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+#chat-body {
+    display: flex; /* Hidden by default */
+    flex-direction: column;
+    height: 350px;
+    padding: 1rem;
+    display: none;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+#chat-input, #send-chat-message {
+     width: 100%;
+     padding: 0.5rem;
+     border: 1px solid var(--secondary-color);
+     border-radius: 8px;
+     box-sizing: border-box;
+}
+
+#send-chat-message {
+    margin-top: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+
+/* Floating Action Button */
+#deposit-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 103;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    background-color: var(--card-background);
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+}
+
+/* Admin Panel */
+#admin-login {
+    max-width: 400px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+#admin-login input, #admin-login button {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#admin-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+#service-management, #order-management, #user-management, #chat-management {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+#service-management input {
+    width: calc(100% - 110px);
+    padding: 0.5rem;
+    margin-right: 10px;
+}
+
+#services-list div, #users-list div p {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+#orders-list .order-item {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+#chat-management #chat-messages {
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 1rem;
+}

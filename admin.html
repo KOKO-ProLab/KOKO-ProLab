@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">KOKO ProLab - Admin</div>
+            <div class="auth-buttons">
+                <button id="logout-btn">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="admin-login">
+            <h2>Admin Login</h2>
+            <input type="password" id="admin-password" placeholder="Password">
+            <button id="admin-login-btn">Login</button>
+        </section>
+
+        <section id="admin-panel" style="display: none;">
+            <!-- Service Management -->
+            <div id="service-management">
+                <h3>Manage Services</h3>
+                <input type="text" id="service-name" placeholder="Service Name">
+                <button id="add-service-btn">Add Service</button>
+                <div id="services-list"></div>
+            </div>
+
+            <!-- Order Management -->
+            <div id="order-management">
+                <h3>All Orders</h3>
+                <div id="orders-list"></div>
+            </div>
+
+            <!-- User Management -->
+            <div id="user-management">
+                <h3>All Users</h3>
+                <div id="users-list"></div>
+            </div>
+
+             <!-- Chat Management -->
+            <div id="chat-management">
+                <h3>Live Chat</h3>
+                <div id="chat-messages"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script src="admin.js"></script>
+</body>
+</html>

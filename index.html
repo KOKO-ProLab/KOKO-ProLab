@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOKO ProLab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">KOKO ProLab</div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button id="login-btn">Login</button>
+                <button id="logout-btn" style="display: none;">Logout</button>
+                <button id="theme-switcher">Toggle Theme</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Login Modal -->
+        <div id="login-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3>Login</h3>
+                <input type="text" id="username" placeholder="Username" required>
+                <button id="login-username">Login with Username</button>
+                <hr>
+                <button id="login-google">Sign in with Google</button>
+            </div>
+        </div>
+
+        <!-- Order Modal -->
+        <div id="order-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h3 id="order-modal-title">Place Order</h3>
+                <form id="order-form">
+                    <input type="text" id="order-link" placeholder="Link (post, account, etc.)" required>
+                    <input type="number" id="order-quantity" placeholder="Quantity" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- Service Categories -->
+        <section id="services">
+            <h2>Our Services</h2>
+            <div id="category-grid" class="category-grid">
+                <!-- Service categories will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- User Stats -->
+        <section id="stats">
+            <div class="stat-item">
+                <h3 id="user-count">60,000+</h3>
+                <p>Users</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="user-rank">Beginner</h3>
+                <p>Your Rank</p>
+            </div>
+        </section>
+
+        <!-- Order Status -->
+        <section id="order-status">
+            <h3>Your Orders</h3>
+            <div id="orders-container">
+                <!-- User's orders will be displayed here -->
+            </div>
+        </section>
+
+        <!-- Reviews -->
+        <section id="reviews">
+            <h3>Reviews</h3>
+            <div id="reviews-container" class="reviews-grid">
+                <!-- Reviews will be dynamically loaded here -->
+            </div>
+            <button id="show-more-reviews">Show More</button>
+        </section>
+
+        <!-- About/Policies -->
+        <section id="about">
+            <h3>About Us</h3>
+            <p>Your bio here.</p>
+            <h4>Terms of Service</h4>
+            <p>Your terms of service here.</p>
+            <h4>Privacy Policy</h4>
+            <p>Your privacy policy here.</p>
+        </section>
+
+        <!-- Live Chat -->
+        <div id="chat-widget">
+            <div id="chat-header">Live Chat</div>
+            <div id="chat-body">
+                <div id="chat-messages"></div>
+                <input type="text" id="chat-input" placeholder="Type a message...">
+                <button id="send-chat-message">Send</button>
+            </div>
+        </div>
+
+
+        <!-- Floating Action Button for Deposit -->
+        <button id="deposit-fab">+</button>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 KOKO ProLab</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script src="main.js"></script>
+</body>
+</html>
