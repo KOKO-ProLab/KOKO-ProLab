@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - KOKO ProLab</title>
+    <style>
+        :root { --primary-color: #3d5afe; --primary-light: #e3e8ff; --secondary-color: #ff4081; --danger-color: #dc3545; --success-color: #28a745; --background-light: #f5f7fa; --surface-light: #ffffff; --text-light: #212121; --border-color: #e0e0e0; --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; --border-radius: 8px; }
+        body { font-family: var(--font-family); background-color: var(--background-light); color: var(--text-light); margin: 0; display: flex; height: 100vh; }
+        #admin-container { display: flex; width: 100%; height: 100%; }
+        #admin-sidebar { width: 250px; background-color: var(--surface-light); border-right: 1px solid var(--border-color); padding: 1.5rem; display: flex; flex-direction: column; box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
+        #admin-sidebar h1 { color: var(--primary-color); margin: 0 0 2rem 0; font-size: 1.8rem; }
+        #admin-sidebar nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1rem; text-decoration: none; color: var(--text-light); font-weight: 600; border-radius: var(--border-radius); margin-bottom: 0.5rem; transition: background-color 0.2s; }
+        #admin-sidebar nav a:hover, #admin-sidebar nav a.active { background-color: var(--primary-color); color: white; }
+        #admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
+        .page { display: none; } .page.active { display: block; }
+        #loading, #unauthorized { display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; flex-direction: column; text-align: center; }
+        .loader { border: 8px solid #f3f3f3; border-top: 8px solid var(--primary-color); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+        .btn { padding: 0.5rem 1rem; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-primary { background-color: var(--primary-color); color: white; } .btn-danger { background-color: var(--danger-color); color: white; } .btn-success { background-color: var(--success-color); color: white; }
+        .metric-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card { background: var(--surface-light); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card .value { font-size: 2rem; font-weight: bold; color: var(--primary-color); }
+        table { width: 100%; border-collapse: collapse; background: var(--surface-light); box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-radius: var(--border-radius); overflow: hidden; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: var(--primary-light); }
+        .form-section { background: var(--surface-light); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal.active { display: flex; }
+        .modal-backdrop { position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); }
+        .modal-content { position: relative; background: var(--surface-light); padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 600px; }
+    </style>
+</head>
+<body>
+    <div id="loading"><div class="loader"></div><p>Verifying Access...</p></div>
+    <div id="unauthorized" style="display: none;"><h2>Access Denied</h2><p>Redirecting...</p></div>
+    <div id="admin-container" style="display: none;">
+        <aside id="admin-sidebar">
+            <h1>KOKO ProLab</h1>
+            <nav>
+                <a href="#" class="nav-link active" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="products">Products</a>
+                <a href="#" class="nav-link" data-page="orders">Orders</a>
+                <a href="#" class="nav-link" data-page="users">Users</a>
+                <a href="#" class="nav-link" data-page="deposits">Deposits</a>
+                <a href="#" class="nav-link" data-page="settings">Settings</a>
+            </nav>
+            <div id="admin-user-info" class="user-info"></div>
+        </aside>
+        <main id="admin-main">
+            <section id="dashboard" class="page active"><h2>Dashboard</h2><div class="metric-cards"><div class="card"><h3>Total Users</h3><div id="metric-total-users" class="value">0</div></div><div class="card"><h3>Total Orders</h3><div id="metric-total-orders" class="value">0</div></div><div class="card"><h3>Pending Deposits</h3><div id="metric-pending-deposits" class="value">0</div></div></div></section>
+            <section id="products" class="page"><div class="form-section"><form id="product-form">...</form></div><table id="products-table">...</table></section>
+            <section id="orders" class="page"><h2>Order Management</h2><table id="orders-table">...</table></section>
+            <section id="users" class="page"><h2>User Management</h2><table id="users-table">...</table></section>
+            <section id="deposits" class="page"><h2>Deposit Requests</h2><table id="deposits-table">...</table></section>
+            <section id="settings" class="page"><h2>Site Settings</h2><div class="form-section"><form id="settings-form">...</form></div></section>
+        </main>
+    </div>
+    <div id="user-edit-modal" class="modal">...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        // --- Firebase Initialization ---
+        const firebaseConfig = { apiKey: "AIzaSyDUaSnYinH910wp3zDHOCNuqWp9QjwIRow", authDomain: "koko-prolab.firebaseapp.com", projectId: "koko-prolab" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // --- Auth Guard ---
+        document.addEventListener('DOMContentLoaded', () => {
+            auth.onAuthStateChanged(user => {
+                if (!user) return showUnauthorized();
+                db.collection('users').doc(user.uid).get().then(doc => {
+                    if (doc.exists && doc.data().role === 'admin') {
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('admin-container').style.display = 'flex';
+                        runAdminPanel(user, doc.data());
+                    } else { showUnauthorized(); }
+                }).catch(showUnauthorized);
+            });
+        });
+
+        function showUnauthorized() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('unauthorized').style.display = 'flex';
+            setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        }
+
+        // --- Main Panel Logic ---
+        function runAdminPanel(adminUser, adminData) {
+            // Logout & User Info
+            document.getElementById('admin-user-info').innerHTML = `<p><strong>${adminData.username}</strong></p><a href="#" id="admin-logout">Logout</a>`;
+            document.getElementById('admin-logout').addEventListener('click', e => { e.preventDefault(); auth.signOut(); });
+
+            // --- REAL-TIME METRICS ---
+            db.collection('users').onSnapshot(snap => document.getElementById('metric-total-users').textContent = snap.size);
+            db.collection('orders').onSnapshot(snap => document.getElementById('metric-total-orders').textContent = snap.size);
+            db.collection('deposits').where('status', '==', 'pending').onSnapshot(snap => document.getElementById('metric-pending-deposits').textContent = snap.size);
+
+            // --- DEPOSIT MANAGEMENT ---
+            const depositsTableBody = document.querySelector('#deposits-table');
+            db.collection('deposits').orderBy('created_at', 'desc').onSnapshot(async snap => {
+                let userCache = {};
+                depositsTableBody.innerHTML = '<thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody></tbody>';
+                for (const doc of snap.docs) {
+                    const deposit = doc.data();
+                    if (!userCache[deposit.user_uid]) {
+                        const userDoc = await db.collection('users').doc(deposit.user_uid).get();
+                        userCache[deposit.user_uid] = userDoc.data();
+                    }
+                    const user = userCache[deposit.user_uid];
+                    const row = depositsTableBody.querySelector('tbody').insertRow();
+                    row.innerHTML = `<td>${user.username}</td><td>$${deposit.amount}</td><td>${deposit.method}</td><td>${new Date(deposit.created_at.seconds * 1000).toLocaleString()}</td><td>${deposit.status}</td>
+                    <td>${deposit.status === 'pending' ? `<button class="btn btn-success approve-deposit" data-id="${doc.id}" data-uid="${deposit.user_uid}" data-amount="${deposit.amount}">Approve</button>` : ''}</td>`;
+                }
+            });
+
+            depositsTableBody.addEventListener('click', async e => {
+                if (e.target.classList.contains('approve-deposit')) {
+                    const { id, uid, amount } = e.target.dataset;
+                    const userRef = db.collection('users').doc(uid);
+                    const depositRef = db.collection('deposits').doc(id);
+
+                    await db.runTransaction(async (transaction) => {
+                        transaction.update(userRef, { balance: firebase.firestore.FieldValue.increment(parseFloat(amount)) });
+                        transaction.update(depositRef, { status: 'approved' });
+                    });
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
