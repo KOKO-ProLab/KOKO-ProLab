@@ -369,6 +369,294 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
+        // Database utility functions
+        async function getDocument(collection, id) {
+            try {
+                const docRef = doc(db, collection, id);
+                const docSnap = await getDoc(docRef);
+                return docSnap.exists() ? docSnap.data() : null;
+            } catch (error) {
+                console.error('Error getting document:', error);
+                throw error;
+            }
+        }
+
+        async function setDocument(collection, id, data) {
+            try {
+                const docRef = doc(db, collection, id);
+                await setDoc(docRef, data);
+                return true;
+            } catch (error) {
+                console.error('Error setting document:', error);
+                throw error;
+            }
+        }
+
+        async function updateDocument(collection, id, data) {
+            try {
+                const docRef = doc(db, collection, id);
+                await updateDoc(docRef, data);
+                return true;
+            } catch (error) {
+                console.error('Error updating document:', error);
+                throw error;
+            }
+        }
+
+        async function deleteDocument(collection, id) {
+            try {
+                const docRef = doc(db, collection, id);
+                await deleteDoc(docRef);
+                return true;
+            } catch (error) {
+                console.error('Error deleting document:', error);
+                throw error;
+            }
+        }
+
+        async function getCollection(collectionName, orderByField = null, orderDirection = 'desc', limitCount = null) {
+            try {
+                let collectionRef = collection(db, collectionName);
+                let queryRef = collectionRef;
+
+                if (orderByField) {
+                    queryRef = query(collectionRef, orderBy(orderByField, orderDirection));
+                }
+
+                if (limitCount) {
+                    queryRef = query(queryRef, limit(limitCount));
+                }
+
+                const querySnapshot = await getDocs(queryRef);
+                return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error('Error getting collection:', error);
+                throw error;
+            }
+        }
+
+        // Error handling and notifications
+        class AppError extends Error {
+            constructor(message, type = 'error', code = '') {
+                super(message);
+                this.type = type;
+                this.code = code;
+                this.name = 'AppError';
+            }
+        }
+
+        function handleError(error) {
+            console.error('Error:', error);
+            
+            let message = error.message;
+            let type = 'error';
+
+            // Handle Firebase Auth errors
+            if (error.code) {
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        message = 'لم يتم العثور على المستخدم';
+                        break;
+                    case 'auth/wrong-password':
+                        message = 'كلمة المرور غير صحيحة';
+                        break;
+                    case 'auth/email-already-in-use':
+                        message = 'البريد الإلكتروني مستخدم بالفعل';
+                        break;
+                    case 'auth/weak-password':
+                        message = 'كلمة المرور ضعيفة جداً';
+                        break;
+                    case 'auth/invalid-email':
+                        message = 'البريد الإلكتروني غير صالح';
+                        break;
+                    default:
+                        message = 'حدث خطأ. يرجى المحاولة مرة أخرى';
+                }
+            }
+
+            // Show notification
+            showNotification(message, type);
+            throw error; // Re-throw for proper error handling in async functions
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                color: #fff;
+                padding: 15px 20px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                z-index: 3000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' : 
+                        type === 'error' ? 'exclamation-circle' : 
+                        type === 'warning' ? 'exclamation-triangle' : 
+                        'info-circle';
+            
+            const color = type === 'success' ? '#10b981' : 
+                         type === 'error' ? '#ef4444' : 
+                         type === 'warning' ? '#f59e0b' : 
+                         '#3b82f6';
+            
+            notification.style.borderLeftColor = color;
+            notification.innerHTML = `
+                <i class="fas fa-${icon}" style="color: ${color}; margin-left: 10px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Authentication utility functions
+        async function signUpWithEmail(email, password) {
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                return userCredential.user;
+            } catch (error) {
+                console.error('Error signing up:', error);
+                throw error;
+            }
+        }
+
+        async function signInWithEmail(email, password) {
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                return userCredential.user;
+            } catch (error) {
+                console.error('Error signing in:', error);
+                throw error;
+            }
+        }
+
+        async function signInWithGoogle() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                return result.user;
+            } catch (error) {
+                console.error('Error signing in with Google:', error);
+                throw error;
+            }
+        }
+
+        async function signOutUser() {
+            try {
+                await signOut(auth);
+                return true;
+            } catch (error) {
+                console.error('Error signing out:', error);
+                throw error;
+            }
+        }
+
+        // Data Models
+        const DataModels = {
+            User: {
+                create: (data) => ({
+                    email: data.email || '',
+                    displayName: data.displayName || '',
+                    photoURL: data.photoURL || '',
+                    balance: data.balance || 0,
+                    isVerified: data.isVerified || false,
+                    isAdmin: data.isAdmin || false,
+                    createdAt: data.createdAt || new Date().toISOString(),
+                    orders: data.orders || [],
+                    notifications: data.notifications || []
+                }),
+                validate: (data) => {
+                    if (!data.email) throw new Error('Email is required');
+                    return true;
+                }
+            },
+            Service: {
+                create: (data) => ({
+                    name: data.name || '',
+                    description: data.description || '',
+                    price: data.price || 0,
+                    category: data.category || '',
+                    status: data.status || 'active',
+                    createdAt: data.createdAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }),
+                validate: (data) => {
+                    if (!data.name) throw new Error('Service name is required');
+                    if (!data.price) throw new Error('Service price is required');
+                    return true;
+                }
+            },
+            Order: {
+                create: (data) => ({
+                    userId: data.userId || '',
+                    serviceId: data.serviceId || '',
+                    status: data.status || 'pending',
+                    amount: data.amount || 0,
+                    createdAt: data.createdAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }),
+                validate: (data) => {
+                    if (!data.userId) throw new Error('User ID is required');
+                    if (!data.serviceId) throw new Error('Service ID is required');
+                    if (!data.amount) throw new Error('Order amount is required');
+                    return true;
+                }
+            },
+            Transaction: {
+                create: (data) => ({
+                    userId: data.userId || '',
+                    type: data.type || 'deposit',
+                    amount: data.amount || 0,
+                    status: data.status || 'pending',
+                    createdAt: data.createdAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }),
+                validate: (data) => {
+                    if (!data.userId) throw new Error('User ID is required');
+                    if (!data.amount) throw new Error('Transaction amount is required');
+                    if (!['deposit', 'withdrawal', 'payment'].includes(data.type)) {
+                        throw new Error('Invalid transaction type');
+                    }
+                    return true;
+                }
+            }
+        };
+
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                console.log('User is signed in:', user);
+                document.body.classList.add('user-signed-in');
+                // Additional user-specific UI updates
+                document.getElementById('userAccountBtn').style.display = 'block';
+                document.getElementById('signInBtn').style.display = 'none';
+            } else {
+                // User is signed out
+                console.log('User is signed out');
+                document.body.classList.remove('user-signed-in');
+                // Additional UI updates
+                document.getElementById('userAccountBtn').style.display = 'none';
+                document.getElementById('signInBtn').style.display = 'block';
+            }
+        });
+
         window.auth = auth;
         window.db = db;
         window.provider = provider;
