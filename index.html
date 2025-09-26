@@ -4,299 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KOKO ProLab - الصفحة الرئيسية</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- شريط التنقل -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <h2>KOKO ProLab</h2>
-                <button id="theme-toggle" class="theme-toggle">🌙</button>
+                <a href="index.html">KOKO ProLab</a>
             </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="#home" class="nav-link">الرئيسية</a>
-                <a href="#services" class="nav-link">الخدمات</a>
-                <a href="#orders" class="nav-link">طلباتي</a>
-                <a href="#stats" class="nav-link">الإحصائيات</a>
-                <a href="#profile" class="nav-link">الملف الشخصي</a>
-                <div class="auth-buttons" id="auth-buttons">
-                    <button id="login-btn" class="btn btn-primary">تسجيل الدخول</button>
-                    <button id="register-btn" class="btn btn-secondary">إنشاء حساب</button>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active">الرئيسية</a>
+                <a href="home.html" class="nav-link">لوحة المستخدم</a>
+                <a href="profile.html" class="nav-link">الملف الشخصي</a>
+                <a href="orders.html" class="nav-link">متابعة الطلبات</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <div class="nav-auth" id="navAuth">
+                    <button class="btn-login" id="loginBtn">تسجيل الدخول</button>
+                    <button class="btn-register" id="registerBtn">إنشاء حساب</button>
                 </div>
-                <div class="user-menu" id="user-menu" style="display: none;">
-                    <span id="user-name"></span>
-                    <button id="logout-btn" class="btn btn-outline">تسجيل الخروج</button>
+                <div class="nav-user" id="navUser" style="display: none;">
+                    <span id="userName"></span>
+                    <button class="btn-logout" id="logoutBtn">تسجيل الخروج</button>
                 </div>
             </div>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </nav>
 
-    <!-- محتوى الصفحة -->
-    <main>
-        <!-- قسم الترحيب -->
-        <section id="home" class="section welcome-section">
-            <div class="container">
+    <!-- محتوى الصفحة الرئيسية -->
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
                 <h1>مرحباً بك في KOKO ProLab</h1>
-                <p>منصة متكاملة لجميع خدمات السوشيال ميديا والتسويق الرقمي</p>
-                
-                <!-- إحصائيات سريعة -->
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <h3 id="total-users">0</h3>
-                        <p>إجمالي المستخدمين</p>
+                <p>منصة متكاملة لجميع خدمات التسويق الإلكتروني والبرمجة</p>
+                <div class="hero-buttons">
+                    <a href="home.html" class="btn-primary">ابدأ الآن</a>
+                    <a href="about.html" class="btn-secondary">تعرف علينا</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2>خدماتنا المميزة</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>تصميم مواقع</h3>
+                        <p>تصميم مواقع احترافية متجاوبة مع جميع الأجهزة</p>
                     </div>
-                    <div class="stat-card">
-                        <h3 id="completed-orders">0</h3>
-                        <p>طلبات مكتملة</p>
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>تطبيقات أندرويد</h3>
+                        <p>تطوير تطبيقات أندرويد مبتكرة وسهلة الاستخدام</p>
                     </div>
-                    <div class="stat-card">
-                        <h3 id="top-users">0</h3>
-                        <p>أفضل المستخدمين</p>
+                    <div class="feature-card">
+                        <i class="fas fa-desktop"></i>
+                        <h3>برامج ويندوز</h3>
+                        <p>برمجة برامج ويندوز متقدمة تلبي احتياجاتك</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h3>زيادة متابعين</h3>
+                        <p>زيادة متابعين حقيقين لجميع منصات التواصل</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الخدمات -->
-        <section id="services" class="section services-section">
+        <section class="stats-section">
             <div class="container">
-                <h2>خدماتنا</h2>
-                <div class="categories" id="categories">
-                    <!-- سيتم تعبئة الفئات ديناميكياً -->
-                </div>
-                <div class="services-grid" id="services-grid">
-                    <!-- سيتم تعبئة الخدمات ديناميكياً -->
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم الطلبات -->
-        <section id="orders" class="section orders-section">
-            <div class="container">
-                <h2>طلباتي</h2>
-                <div class="orders-table-container">
-                    <table class="orders-table" id="orders-table">
-                        <thead>
-                            <tr>
-                                <th>الخدمة</th>
-                                <th>الرابط</th>
-                                <th>الكمية</th>
-                                <th>السعر</th>
-                                <th>الحالة</th>
-                                <th>التاريخ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-body">
-                            <!-- سيتم تعبئة الطلبات ديناميكياً -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم الملف الشخصي -->
-        <section id="profile" class="section profile-section">
-            <div class="container">
-                <h2>الملف الشخصي</h2>
-                <div class="profile-card" id="profile-card">
-                    <!-- سيتم تعبئة بيانات الملف الشخصي ديناميكياً -->
-                </div>
-                <div class="balance-section">
-                    <h3>رصيدك الحالي: <span id="current-balance">0</span> جنيه</h3>
-                    <button id="deposit-btn" class="btn btn-primary">إيداع رصيد</button>
+                <h2>إحصائيات المنصة</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number" id="usersCount">0</span>
+                        <span class="stat-label">مستخدم نشط</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="ordersCount">0</span>
+                        <span class="stat-label">طلب مكتمل</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="servicesCount">12</span>
+                        <span class="stat-label">خدمة متاحة</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="satisfactionCount">98%</span>
+                        <span class="stat-label">رضا العملاء</span>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- التذييل -->
+    <!-- تذييل الصفحة -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>KOKO ProLab</h3>
-                    <p>منصة متكاملة لخدمات السوشيال ميديا والتسويق الرقمي</p>
+                    <p>منصة متكاملة لخدمات التسويق الإلكتروني والبرمجة</p>
                 </div>
                 <div class="footer-section">
                     <h4>روابط سريعة</h4>
-                    <a href="#home">الرئيسية</a>
-                    <a href="#services">الخدمات</a>
-                    <a href="#profile">الملف الشخصي</a>
+                    <ul>
+                        <li><a href="home.html">لوحة المستخدم</a></li>
+                        <li><a href="profile.html">الملف الشخصي</a></li>
+                        <li><a href="orders.html">متابعة الطلبات</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>معلومات</h4>
-                    <a href="#" id="privacy-link">سياسة الخصوصية</a>
-                    <a href="#" id="terms-link">شروط الاستخدام</a>
-                    <a href="#" id="about-link">عن KOKO ProLab</a>
+                    <h4>المساعدة</h4>
+                    <ul>
+                        <li><a href="about.html">من نحن</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>تواصل معنا</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>جميع الحقوق محفوظة &copy; 2023 KOKO ProLab</p>
+                <p>&copy; 2023 KOKO ProLab. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
 
-    <!-- نماذج (موديلات) -->
-    
-    <!-- نموذج تسجيل الدخول -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>تسجيل الدخول</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-email">البريد الإلكتروني</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">كلمة المرور</label>
-                    <input type="password" id="login-password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
-                <div class="form-footer">
-                    <a href="#" id="forgot-password">نسيت كلمة المرور؟</a>
-                    <p>ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
-                </div>
-                <div class="social-login">
-                    <button type="button" id="google-login" class="btn btn-google">
-                        تسجيل الدخول بحساب Google
+    <!-- نماذج تسجيل الدخول والتسجيل -->
+    <div id="authModals">
+        <!-- نموذج تسجيل الدخول -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>تسجيل الدخول</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginUsername">اسم المستخدم</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">كلمة المرور</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">تسجيل الدخول</button>
+                    <div class="auth-divider">
+                        <span>أو</span>
+                    </div>
+                    <button type="button" class="btn-google" id="googleLogin">
+                        <i class="fab fa-google"></i> تسجيل الدخول بحساب Google
                     </button>
-                </div>
-            </form>
+                    <div class="auth-links">
+                        <a href="#" id="forgotPassword">نسيت كلمة المرور؟</a>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- نموذج التسجيل -->
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>إنشاء حساب جديد</h2>
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="register-username">اسم المستخدم</label>
-                    <input type="text" id="register-username" required>
-                    <small id="username-error" class="error-message"></small>
-                </div>
-                <div class="form-group">
-                    <label for="register-email">البريد الإلكتروني</label>
-                    <input type="email" id="register-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="register-password">كلمة المرور</label>
-                    <input type="password" id="register-password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
-                <div class="form-footer">
-                    <p>لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- نموذج إيداع الرصيد -->
-    <div id="deposit-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>إيداع رصيد</h2>
-            <form id="deposit-form">
-                <div class="form-group">
-                    <label for="deposit-amount">المبلغ (جنيه)</label>
-                    <input type="number" id="deposit-amount" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="deposit-method">طريقة الدفع</label>
-                    <select id="deposit-method" required>
-                        <option value="">اختر طريقة الدفع</option>
-                        <option value="crypto">عملة رقمية</option>
-                        <option value="vodafone">فودافون كاش</option>
-                    </select>
-                </div>
-                <div id="payment-details" class="payment-details">
-                    <!-- سيتم عرض تفاصيل الدفع هنا -->
-                </div>
-                <button type="submit" class="btn btn-primary">إرسال طلب الإيداع</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- نموذج طلب خدمة -->
-    <div id="service-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="service-modal-title">طلب خدمة</h2>
-            <form id="service-form">
-                <input type="hidden" id="service-id">
-                <div class="form-group">
-                    <label for="service-link">الرابط/المعرف</label>
-                    <input type="text" id="service-link" required>
-                </div>
-                <div class="form-group">
-                    <label for="service-quantity">الكمية المطلوبة</label>
-                    <input type="number" id="service-quantity" min="1" required>
-                </div>
-                <div class="order-summary">
-                    <p>السعر للوحدة: <span id="unit-price">0</span> جنيه</p>
-                    <p>المبلغ الإجمالي: <span id="total-price">0</span> جنيه</p>
-                </div>
-                <button type="submit" class="btn btn-primary">تأكيد الطلب</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- نموذج تعديل الملف الشخصي -->
-    <div id="profile-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>تعديل الملف الشخصي</h2>
-            <form id="profile-form">
-                <div class="form-group">
-                    <label for="edit-displayname">الاسم المعروض</label>
-                    <input type="text" id="edit-displayname">
-                </div>
-                <div class="form-group">
-                    <label for="edit-phone">رقم الهاتف</label>
-                    <input type="tel" id="edit-phone">
-                </div>
-                <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- نموذج استعادة كلمة المرور -->
-    <div id="forgot-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>استعادة كلمة المرور</h2>
-            <form id="forgot-form">
-                <div class="form-group">
-                    <label for="forgot-email">البريد الإلكتروني</label>
-                    <input type="email" id="forgot-email" required>
-                </div>
-                <button type="submit" class="btn btn-primary">إرسال رابط الاستعادة</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- نموذج عرض المزيد من التقييمات -->
-    <div id="reviews-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>تقييمات العملاء</h2>
-            <div id="reviews-container">
-                <!-- سيتم تعبئة التقييمات هنا -->
+        <!-- نموذج التسجيل -->
+        <div class="modal" id="registerModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>إنشاء حساب جديد</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUsername">اسم المستخدم</label>
+                        <input type="text" id="registerUsername" required>
+                        <small>سيتم استخدام هذا الاسم لتسجيل الدخول ولا يمكن تغييره لاحقاً</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">البريد الإلكتروني</label>
+                        <input type="email" id="registerEmail" required>
+                        <small>لن تتمكن من تغيير البريد الإلكتروني بعد التسجيل</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">كلمة المرور</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">تأكيد كلمة المرور</label>
+                        <input type="password" id="registerConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">إنشاء حساب</button>
+                    <div class="auth-divider">
+                        <span>أو</span>
+                    </div>
+                    <button type="button" class="btn-google" id="googleRegister">
+                        <i class="fab fa-google"></i> التسجيل بحساب Google
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- نموذج استعادة كلمة المرور -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>استعادة كلمة المرور</h2>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">البريد الإلكتروني</label>
+                    <input type="email" id="resetEmail" required>
+                    <small>سنرسل رابط استعادة كلمة المرور إلى بريدك الإلكتروني</small>
+                </div>
+                <button type="submit" class="btn-primary">إرسال رابط الاستعادة</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
