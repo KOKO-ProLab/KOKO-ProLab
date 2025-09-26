@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متابعة الطلبات - KOKO ProLab</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">KOKO ProLab</a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="home.html" class="nav-link">لوحة المستخدم</a>
+                <a href="profile.html" class="nav-link">الملف الشخصي</a>
+                <a href="orders.html" class="nav-link active">متابعة الطلبات</a>
+                <a href="about.html" class="nav-link">من نحن</a>
+                <div class="nav-user" id="navUser">
+                    <span id="userName"></span>
+                    <button class="btn-logout" id="logoutBtn">تسجيل الخروج</button>
+                </div>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- محتوى الصفحة -->
+    <main class="main-content">
+        <div class="container">
+            <header class="page-header">
+                <h1>متابعة الطلبات</h1>
+                <p>تابع حالة طلباتك وخدماتك</p>
+            </header>
+
+            <!-- فلاتر الطلبات -->
+            <div class="orders-filters">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="pending">قيد المراجعة</button>
+                <button class="filter-btn" data-filter="in-progress">قيد التنفيذ</button>
+                <button class="filter-btn" data-filter="completed">مكتمل</button>
+                <button class="filter-btn" data-filter="rejected">مرفوض</button>
+            </div>
+
+            <!-- إحصائيات الطلبات -->
+            <div class="orders-stats">
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <span class="stat-value" id="pendingCount">0</span>
+                        <span class="stat-label">قيد المراجعة</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-cog"></i>
+                    <div>
+                        <span class="stat-value" id="progressCount">0</span>
+                        <span class="stat-label">قيد التنفيذ</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <span class="stat-value" id="completedCount">0</span>
+                        <span class="stat-label">مكتمل</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-times-circle"></i>
+                    <div>
+                        <span class="stat-value" id="rejectedCount">0</span>
+                        <span class="stat-label">مرفوض</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الطلبات -->
+            <div class="orders-list" id="ordersList">
+                <!-- سيتم تعبئة الطلبات ديناميكياً -->
+            </div>
+
+            <!-- رسالة عدم وجود طلبات -->
+            <div class="no-orders" id="noOrders" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>لا توجد طلبات</h3>
+                <p>لم تقم بإنشاء أي طلبات حتى الآن</p>
+                <a href="home.html" class="btn-primary">إنشاء طلب جديد</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- نموذج تفاصيل الطلب -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>تفاصيل الطلب</h2>
+            <div class="order-details" id="orderDetails">
+                <!-- سيتم تعبئة التفاصيل ديناميكياً -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>
