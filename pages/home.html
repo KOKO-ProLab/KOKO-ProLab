@@ -1,0 +1,144 @@
+<!-- Statistics Section -->
+<section class="statistics-section card">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <span class="stat-value" id="usersCount">0</span>
+            <span class="stat-label">المستخدمين</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="stat-value" id="ordersCount">0</span>
+            <span class="stat-label">الطلبات</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-check-circle"></i>
+            <span class="stat-value" id="completedCount">0</span>
+            <span class="stat-label">الطلبات المكتملة</span>
+        </div>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="services-grid">
+    <!-- Web Design -->
+    <div class="service-card card">
+        <i class="fas fa-laptop-code"></i>
+        <h3>تصميم مواقع</h3>
+        <p>تصميم مواقع احترافية مع أحدث التقنيات</p>
+        <button class="gradient-button" onclick="openServiceForm('web-design')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Android Apps -->
+    <div class="service-card card">
+        <i class="fab fa-android"></i>
+        <h3>تطبيقات أندرويد</h3>
+        <p>تطوير تطبيقات أندرويد عصرية ومتطورة</p>
+        <button class="gradient-button" onclick="openServiceForm('android-app')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Windows Apps -->
+    <div class="service-card card">
+        <i class="fab fa-windows"></i>
+        <h3>برامج ويندوز</h3>
+        <p>تطوير برامج ويندوز احترافية</p>
+        <button class="gradient-button" onclick="openServiceForm('windows-app')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Social Media Services -->
+    <div class="service-card card">
+        <i class="fas fa-users"></i>
+        <h3>زيادة متابعين</h3>
+        <p>زيادة متابعين حقيقيين ومتفاعلين</p>
+        <button class="gradient-button" onclick="openServiceForm('followers')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Likes Boost -->
+    <div class="service-card card">
+        <i class="fas fa-heart"></i>
+        <h3>زيادة إعجابات</h3>
+        <p>زيادة تفاعل على المنشورات</p>
+        <button class="gradient-button" onclick="openServiceForm('likes')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Account Reports -->
+    <div class="service-card card">
+        <i class="fas fa-flag"></i>
+        <h3>بلاغات حسابات</h3>
+        <p>خدمة إغلاق الحسابات المخالفة</p>
+        <button class="gradient-button" onclick="openServiceForm('reports')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Profit Generation -->
+    <div class="service-card card">
+        <i class="fas fa-money-bill-wave"></i>
+        <h3>تحقيق أرباح</h3>
+        <p>استراتيجيات لتحقيق الأرباح</p>
+        <button class="gradient-button" onclick="openServiceForm('profit')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Explorer Visibility -->
+    <div class="service-card card">
+        <i class="fas fa-compass"></i>
+        <h3>ظهور في الاكسبلور</h3>
+        <p>زيادة ظهور المحتوى في الاكسبلور</p>
+        <button class="gradient-button" onclick="openServiceForm('explorer')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Apps and Games -->
+    <div class="service-card card">
+        <i class="fas fa-gamepad"></i>
+        <h3>شحن تطبيقات وألعاب</h3>
+        <p>شحن رصيد للتطبيقات والألعاب</p>
+        <button class="gradient-button" onclick="openServiceForm('apps-games')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <!-- Online Payment -->
+    <div class="service-card card">
+        <i class="fas fa-credit-card"></i>
+        <h3>فيزا دفع أونلاين</h3>
+        <p>خدمات الدفع الإلكتروني</p>
+        <button class="gradient-button" onclick="openServiceForm('payment')">
+            إنشاء طلب <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+</section>
+
+<!-- Service Request Modal -->
+<div id="serviceModal" class="modal">
+    <div class="modal-content card">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">إنشاء طلب جديد</h2>
+        <form id="serviceForm">
+            <div class="form-group">
+                <label for="serviceLink">الرابط:</label>
+                <input type="text" id="serviceLink" required>
+            </div>
+            <div class="form-group">
+                <label for="serviceQuantity">الكمية:</label>
+                <input type="number" id="serviceQuantity" required min="1">
+            </div>
+            <button type="submit" class="gradient-button">
+                تأكيد الطلب <i class="fas fa-check"></i>
+            </button>
+        </form>
+    </div>
+</div>
