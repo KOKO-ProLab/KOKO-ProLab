@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - KOKO ProLab</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <!-- Auth CSS -->
+    <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>KOKO ProLab</h1>
+                <p>مرحباً بك في منصتنا</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+            </form>
+
+            <!-- Register Form (initially hidden) -->
+            <form id="registerForm" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="regUsername">اسم المستخدم</label>
+                    <input type="text" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">البريد الإلكتروني</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">كلمة المرور</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+            </form>
+
+            <!-- Google Sign In Button -->
+            <button id="googleSignIn" class="btn btn-google">
+                <i class="fab fa-google"></i>
+                تسجيل الدخول باستخدام Google
+            </button>
+
+            <!-- Form Toggle Links -->
+            <div class="auth-links">
+                <a href="#" id="showRegister" class="toggle-form">إنشاء حساب جديد</a>
+                <a href="#" id="showLogin" class="toggle-form hidden">تسجيل الدخول</a>
+                <a href="#" id="forgotPassword">نسيت كلمة المرور؟</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script src="assets/js/firebase-config.js"></script>
+    <!-- Auth JavaScript -->
+    <script src="assets/js/auth.js"></script>
+</body>
+</html>

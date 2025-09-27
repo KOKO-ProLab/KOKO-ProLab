@@ -1,0 +1,95 @@
+<!-- Orders Header -->
+<section class="orders-header card">
+    <h2>متابعة الطلبات</h2>
+    <div class="filters">
+        <div class="filter-group">
+            <label>تصفية حسب الحالة:</label>
+            <select id="statusFilter">
+                <option value="all">الكل</option>
+                <option value="pending">قيد المراجعة</option>
+                <option value="in-progress">قيد التنفيذ</option>
+                <option value="completed">مكتمل</option>
+                <option value="rejected">مرفوض</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>تصفية حسب الخدمة:</label>
+            <select id="serviceFilter">
+                <option value="all">الكل</option>
+                <option value="web-design">تصميم مواقع</option>
+                <option value="android-app">تطبيقات أندرويد</option>
+                <option value="windows-app">برامج ويندوز</option>
+                <option value="followers">زيادة متابعين</option>
+                <option value="likes">زيادة إعجابات</option>
+                <option value="reports">بلاغات</option>
+                <option value="profit">تحقيق أرباح</option>
+                <option value="explorer">ظهور في الاكسبلور</option>
+                <option value="apps-games">شحن تطبيقات</option>
+                <option value="payment">فيزا دفع</option>
+            </select>
+        </div>
+        <div class="search-group">
+            <input type="text" id="searchInput" placeholder="بحث عن طلب...">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Orders List -->
+<section class="orders-list">
+    <!-- Orders will be dynamically inserted here -->
+</section>
+
+<!-- Order Details Modal -->
+<div id="orderModal" class="modal">
+    <div class="modal-content card">
+        <span class="close">&times;</span>
+        <h3>تفاصيل الطلب</h3>
+        <div class="order-details">
+            <div class="detail-group">
+                <label>رقم الطلب:</label>
+                <span id="orderIdDetail">-</span>
+            </div>
+            <div class="detail-group">
+                <label>الخدمة:</label>
+                <span id="serviceTypeDetail">-</span>
+            </div>
+            <div class="detail-group">
+                <label>الرابط:</label>
+                <span id="linkDetail">-</span>
+            </div>
+            <div class="detail-group">
+                <label>الكمية:</label>
+                <span id="quantityDetail">-</span>
+            </div>
+            <div class="detail-group">
+                <label>الحالة:</label>
+                <span id="statusDetail" class="status-badge">-</span>
+            </div>
+            <div class="detail-group">
+                <label>تاريخ الإنشاء:</label>
+                <span id="createdAtDetail">-</span>
+            </div>
+            <div class="detail-group" id="noteGroup" style="display: none;">
+                <label>ملاحظات:</label>
+                <span id="noteDetail">-</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Empty State -->
+<div id="emptyState" class="empty-state" style="display: none;">
+    <i class="fas fa-clipboard-list"></i>
+    <h3>لا توجد طلبات</h3>
+    <p>لم تقم بإنشاء أي طلبات حتى الآن</p>
+    <button class="gradient-button" onclick="window.location.href='/'">
+        إنشاء طلب جديد <i class="fas fa-plus"></i>
+    </button>
+</div>
+
+<!-- Loading State -->
+<div id="loadingState" class="loading-state">
+    <div class="spinner"></div>
+    <p>جاري تحميل الطلبات...</p>
+</div>

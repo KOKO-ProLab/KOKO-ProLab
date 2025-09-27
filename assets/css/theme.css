@@ -1,0 +1,73 @@
+/* Theme-specific styles */
+.light-theme {
+    --primary-gradient: linear-gradient(135deg, #4a90e2, #67b3ff);
+    --secondary-gradient: linear-gradient(135deg, #f39c12, #ffb142);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --text-shadow: none;
+}
+
+.dark-theme {
+    --primary-gradient: linear-gradient(135deg, #2d5a8e, #4a90e2);
+    --secondary-gradient: linear-gradient(135deg, #945a00, #f39c12);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Gradient Button Styles */
+.gradient-button {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform var(--transition-speed);
+    box-shadow: var(--card-shadow);
+}
+
+.gradient-button:hover {
+    transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-speed);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
