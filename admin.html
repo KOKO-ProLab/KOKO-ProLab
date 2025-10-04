@@ -1245,7 +1245,7 @@
             authDomain: "koko-caffe.firebaseapp.com",
             databaseURL: "https://koko-caffe-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "koko-caffe",
-            storageBucket: "koko-caffe.firebasestorage.app",
+            storageBucket: "koko-caffe.firestorage.app",
             messagingSenderId: "382318796715",
             appId: "1:382318796715:web:ee9f3aca9a107f86da7cee",
             measurementId: "G-B83G77QPWW"
@@ -1303,9 +1303,13 @@
                 listenToNotifications(user.uid);
                 loadProducts();
                 
+                loadUserTickets();
+                loadUserOrders();
+                
                 // Check if admin
                 if (window.currentUserData?.role === 'admin') {
                     document.getElementById('navLinks').innerHTML += '<li><a href="#" onclick="showSection(\'admin\')">الإدارة</a></li>';
+                    loadAdminData();
                 }
             } else {
                 window.currentUser = null;
@@ -1944,6 +1948,533 @@
             // Verify payment and update deposit status
             console.log('Vodafone Cash webhook received:', data);
         };
+        
+        function loadUserTickets() {
+            if (!window.currentUser) return;
+            
+            const ticketsRef = collection(db, 'tickets');
+            const q = query(ticketsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ticketsList = document.getElementById('ticketsList');
+                if (!ticketsList) return;
+                
+                if (snapshot.empty) {
+                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر حالياً</p></div>';
+                    return;
+                }
+                
+                ticketsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const statusColors = {
+                        'open': 'var(--success)',
+                        'closed': 'var(--text-light)',
+                        'pending': 'var(--warning)'
+                    };
+                    
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = 'card';
+                    ticketCard.style.marginBottom = '1rem';
+                    ticketCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${ticket.subject}</h3>
+                            <span class="badge" style="background: ${statusColors[ticket.status] || 'var(--text-light)'}; color: white;">${ticket.status}</span>
+                        </div>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
+                        <small style="color: var(--text-light);">رقم التذكرة: ${doc.id}</small>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+            });
+        }
+
+        function loadUserOrders() {
+            if (!window.currentUser) return;
+            
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ordersList = document.getElementById('userOrders');
+                if (!ordersList) return;
+                
+                if (snapshot.empty) {
+                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات حالياً</p></div>';
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const statusColors = {
+                        'pending': 'var(--warning)',
+                        'processing': 'var(--primary)',
+                        'completed': 'var(--success)',
+                        'cancelled': 'var(--danger)'
+                    };
+                    
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'card';
+                    orderCard.style.marginBottom = '1rem';
+                    orderCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${order.productTitle}</h3>
+                            <span class="badge" style="background: ${statusColors[order.status] || 'var(--text-light)'}; color: white;">${order.status}</span>
+                        </div>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">السعر: ${order.price} ${order.currency}</p>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">طريقة الدفع: ${order.paymentMethod}</p>
+                        <small style="color: var(--text-light);">رقم الطلب: ${doc.id}</small>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            });
+        }
+
+        function loadAdminData() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+            
+            loadAdminOrders();
+            loadAdminDeposits();
+            loadAdminUsers();
+            loadAdminTickets();
+            loadAdminCoupons();
+            loadAdminLogs();
+            loadAdminProducts();
+        }
+
+        function loadAdminOrders() {
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ordersList = document.getElementById('adminOrdersList');
+                if (!ordersList) return;
+                
+                if (snapshot.empty) {
+                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات</p></div>';
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'card';
+                    orderCard.style.marginBottom = '1rem';
+                    orderCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${order.productTitle}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${order.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">السعر: ${order.price} ${order.currency}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">طريقة الدفع: ${order.paymentMethod}</p>
+                                ${order.orderDetails ? `<p style="color: var(--text-light); margin: 0.25rem 0;">التفاصيل: ${order.orderDetails}</p>` : ''}
+                            </div>
+                            <span class="badge">${order.status}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick="updateOrderStatus('${doc.id}', 'processing')">قيد المعالجة</button>
+                            <button class="btn btn-sm btn-success" onclick="updateOrderStatus('${doc.id}', 'completed')">مكتمل</button>
+                            <button class="btn btn-sm btn-danger" onclick="updateOrderStatus('${doc.id}', 'cancelled')">ملغي</button>
+                        </div>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            });
+        }
+
+        function loadAdminDeposits() {
+            const depositsRef = collection(db, 'deposits');
+            const q = query(depositsRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const depositsList = document.getElementById('adminDepositsList');
+                if (!depositsList) return;
+                
+                if (snapshot.empty) {
+                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات إيداع</p></div>';
+                    return;
+                }
+                
+                depositsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const deposit = doc.data();
+                    const depositCard = document.createElement('div');
+                    depositCard.className = 'card';
+                    depositCard.style.marginBottom = '1rem';
+                    depositCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">طلب إيداع</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${deposit.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المبلغ: ${deposit.amount}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الطريقة: ${deposit.method}</p>
+                            </div>
+                            <span class="badge">${deposit.status}</span>
+                        </div>
+                        ${deposit.status === 'pending' ? `
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-success" onclick="approveDeposit('${doc.id}', '${deposit.userId}', ${deposit.amount})">قبول</button>
+                            <button class="btn btn-sm btn-danger" onclick="rejectDeposit('${doc.id}', '${deposit.userId}')">رفض</button>
+                        </div>
+                        ` : ''}
+                    `;
+                    depositsList.appendChild(depositCard);
+                });
+            });
+        }
+
+        window.approveDeposit = async function(depositId, userId, amount) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                // Update deposit status
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'approved',
+                    approvedAt: serverTimestamp()
+                });
+
+                // Add balance to user
+                await adminAdjustBalance(userId, amount);
+
+                alert('تم قبول الإيداع وإضافة الرصيد');
+            } catch (error) {
+                console.error('Approve deposit error:', error);
+                alert('حدث خطأ أثناء قبول الإيداع');
+            }
+        };
+
+        window.rejectDeposit = async function(depositId, userId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'rejected',
+                    rejectedAt: serverTimestamp()
+                });
+
+                await sendNotification(userId, 'تم رفض طلب الإيداع الخاص بك');
+
+                alert('تم رفض الإيداع');
+            } catch (error) {
+                console.error('Reject deposit error:', error);
+                alert('حدث خطأ أثناء رفض الإيداع');
+            }
+        };
+
+        function loadAdminUsers() {
+            const usersRef = collection(db, 'users');
+            
+            onSnapshot(usersRef, (snapshot) => {
+                const usersList = document.getElementById('adminUsersList');
+                if (!usersList) return;
+                
+                if (snapshot.empty) {
+                    usersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا يوجد مستخدمين</p></div>';
+                    return;
+                }
+                
+                usersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const userCard = document.createElement('div');
+                    userCard.className = 'card';
+                    userCard.style.marginBottom = '1rem';
+                    userCard.innerHTML = `
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${user.displayName || 'مستخدم'}</h3>
+                            <p style="color: var(--text-light); margin: 0.25rem 0;">البريد: ${user.email}</p>
+                            <p style="color: var(--text-light); margin: 0.25rem 0;">الدور: ${user.role || 'user'}</p>
+                            <p style="color: var(--text-light); margin: 0.25rem 0;">موثق: ${user.verified ? 'نعم' : 'لا'}</p>
+                            <p style="color: var(--text-light); margin: 0.25rem 0;">محظور: ${user.banned ? 'نعم' : 'لا'}</p>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick="toggleUserVerification('${doc.id}', ${!user.verified})">
+                                ${user.verified ? 'إلغاء التوثيق' : 'توثيق'}
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="toggleUserBan('${doc.id}', ${!user.banned})">
+                                ${user.banned ? 'إلغاء الحظر' : 'حظر'}
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="promptAdjustBalance('${doc.id}')">تعديل الرصيد</button>
+                        </div>
+                    `;
+                    usersList.appendChild(userCard);
+                });
+            });
+        }
+
+        window.toggleUserVerification = async function(userId, verified) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    verified: verified
+                });
+
+                await sendNotification(userId, verified ? 'تم توثيق حسابك' : 'تم إلغاء توثيق حسابك');
+
+                alert('تم تحديث حالة التوثيق');
+            } catch (error) {
+                console.error('Toggle verification error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.toggleUserBan = async function(userId, banned) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    banned: banned
+                });
+
+                await sendNotification(userId, banned ? 'تم حظر حسابك' : 'تم إلغاء حظر حسابك');
+
+                alert('تم تحديث حالة الحظر');
+            } catch (error) {
+                console.error('Toggle ban error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.promptAdjustBalance = function(userId) {
+            const amount = parseFloat(prompt('أدخل المبلغ (استخدم - للخصم):'));
+            if (isNaN(amount)) {
+                alert('المبلغ غير صحيح');
+                return;
+            }
+            adminAdjustBalance(userId, amount);
+        };
+
+        function loadAdminTickets() {
+            const ticketsRef = collection(db, 'tickets');
+            const q = query(ticketsRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ticketsList = document.getElementById('adminTicketsList');
+                if (!ticketsList) return;
+                
+                if (snapshot.empty) {
+                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر</p></div>';
+                    return;
+                }
+                
+                ticketsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = 'card';
+                    ticketCard.style.marginBottom = '1rem';
+                    ticketCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${ticket.subject}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${ticket.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
+                            </div>
+                            <span class="badge">${ticket.status}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-success" onclick="updateTicketStatus('${doc.id}', 'closed')">إغلاق</button>
+                            <button class="btn btn-sm btn-primary" onclick="updateTicketStatus('${doc.id}', 'open')">فتح</button>
+                        </div>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+            });
+        }
+
+        window.updateTicketStatus = async function(ticketId, status) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'tickets', ticketId), {
+                    status: status
+                });
+
+                const ticketDoc = await getDoc(doc(db, 'tickets', ticketId));
+                if (ticketDoc.exists()) {
+                    const ticket = ticketDoc.data();
+                    await sendNotification(ticket.userId, `تم تحديث حالة تذكرتك إلى: ${status}`);
+                }
+
+                alert('تم تحديث حالة التذكرة');
+            } catch (error) {
+                console.error('Update ticket status error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        function loadAdminCoupons() {
+            const couponsRef = collection(db, 'coupons');
+            
+            onSnapshot(couponsRef, (snapshot) => {
+                const couponsList = document.getElementById('adminCouponsList');
+                if (!couponsList) return;
+                
+                if (snapshot.empty) {
+                    couponsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد كوبونات</p></div>';
+                    return;
+                }
+                
+                couponsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const coupon = doc.data();
+                    const couponCard = document.createElement('div');
+                    couponCard.className = 'card';
+                    couponCard.style.marginBottom = '1rem';
+                    couponCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${coupon.code}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الخصم: ${coupon.discount}%</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الاستخدامات: ${coupon.currentUses || 0} / ${coupon.maxUses}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">تاريخ الانتهاء: ${coupon.expiryDate}</p>
+                            </div>
+                            <span class="badge">${coupon.active ? 'نشط' : 'غير نشط'}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-primary" onclick="toggleCouponStatus('${doc.id}', ${!coupon.active})">
+                                ${coupon.active ? 'تعطيل' : 'تفعيل'}
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCoupon('${doc.id}')">حذف</button>
+                        </div>
+                    `;
+                    couponsList.appendChild(couponCard);
+                });
+            });
+        }
+
+        window.toggleCouponStatus = async function(couponId, active) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'coupons', couponId), {
+                    active: active
+                });
+
+                alert('تم تحديث حالة الكوبون');
+            } catch (error) {
+                console.error('Toggle coupon error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.deleteCoupon = async function(couponId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            if (!confirm('هل أنت متأكد من حذف هذا الكوبون؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'coupons', couponId));
+                alert('تم حذف الكوبون');
+            } catch (error) {
+                console.error('Delete coupon error:', error);
+                alert('حدث خطأ أثناء الحذف');
+            }
+        };
+
+        function loadAdminLogs() {
+            const logsRef = collection(db, 'adminLogs');
+            const q = query(logsRef, orderBy('timestamp', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const logsList = document.getElementById('adminLogsList');
+                if (!logsList) return;
+                
+                if (snapshot.empty) {
+                    logsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد سجلات</p></div>';
+                    return;
+                }
+                
+                logsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const log = doc.data();
+                    const logCard = document.createElement('div');
+                    logCard.className = 'card';
+                    logCard.style.marginBottom = '0.5rem';
+                    logCard.style.padding = '0.75rem';
+                    logCard.innerHTML = `
+                        <p style="margin: 0; color: var(--text-dark);"><strong>${log.action}</strong></p>
+                        <p style="margin: 0.25rem 0 0 0; color: var(--text-light); font-size: 0.875rem;">
+                            ${log.userId ? `المستخدم: ${log.userId}` : ''} 
+                            ${log.adminId ? `| المشرف: ${log.adminId}` : ''}
+                        </p>
+                    `;
+                    logsList.appendChild(logCard);
+                });
+            });
+        }
+
+        function loadAdminProducts() {
+            const productsRef = collection(db, 'products');
+            
+            onSnapshot(productsRef, (snapshot) => {
+                const productsList = document.getElementById('adminProductsList');
+                if (!productsList) return;
+                
+                if (snapshot.empty) {
+                    productsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات</p></div>';
+                    return;
+                }
+                
+                productsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const product = doc.data();
+                    const productCard = document.createElement('div');
+                    productCard.className = 'card';
+                    productCard.style.marginBottom = '1rem';
+                    productCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${product.title}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">النوع: ${product.type}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">السعر: ${product.price} ${product.currency}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المخزون: ${product.stock}</p>
+                            </div>
+                            <span class="badge">${product.visible ? 'ظاهر' : 'مخفي'}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-primary" onclick="toggleProductVisibility('${doc.id}', ${!product.visible})">
+                                ${product.visible ? 'إخفاء' : 'إظهار'}
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">حذف</button>
+                        </div>
+                    `;
+                    productsList.appendChild(productCard);
+                });
+            });
+        }
+
+        window.toggleProductVisibility = async function(productId, visible) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'products', productId), {
+                    visible: visible
+                });
+
+                alert('تم تحديث حالة المنتج');
+            } catch (error) {
+                console.error('Toggle product visibility error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.deleteProduct = async function(productId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'products', productId));
+                alert('تم حذف المنتج');
+            } catch (error) {
+                console.error('Delete product error:', error);
+                alert('حدث خطأ أثناء الحذف');
+            }
+        };
     </script>
 
     <script>
@@ -2047,6 +2578,30 @@
 
             event.target.classList.add('active');
             document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1) + 'Tab').classList.add('active');
+            
+            switch(tabName) {
+                case 'orders':
+                    loadAdminOrders();
+                    break;
+                case 'deposits':
+                    loadAdminDeposits();
+                    break;
+                case 'users':
+                    loadAdminUsers();
+                    break;
+                case 'tickets':
+                    loadAdminTickets();
+                    break;
+                case 'coupons':
+                    loadAdminCoupons();
+                    break;
+                case 'logs':
+                    loadAdminLogs();
+                    break;
+                case 'products':
+                    loadAdminProducts();
+                    break;
+            }
         }
 
         function submitWebsiteDesign(event) {
