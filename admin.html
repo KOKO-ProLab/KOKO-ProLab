@@ -1385,17 +1385,25 @@
             if (user) {
                 window.currentUser = user;
                 
+                const isSpecialAdmin = user.email === 'oop@oop.oop';
+                
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 if (userDoc.exists()) {
                     window.currentUserData = userDoc.data();
+                    if (isSpecialAdmin) {
+                        window.currentUserData.role = 'admin';
+                        // Update the database to ensure consistency
+                        await updateDoc(doc(db, 'users', user.uid), { role: 'admin' });
+                    }
                 } else {
+                    const userRole = isSpecialAdmin ? 'admin' : 'user';
                     await setDoc(doc(db, 'users', user.uid), {
                         email: user.email,
-                        role: 'user',
-                        verified: false,
+                        role: userRole,
+                        verified: isSpecialAdmin ? true : false,
                         createdAt: serverTimestamp()
                     });
-                    window.currentUserData = { email: user.email, role: 'user', verified: false };
+                    window.currentUserData = { email: user.email, role: userRole, verified: isSpecialAdmin };
                 }
 
                 console.log('[v0] User logged in:', user.email);
@@ -2540,7 +2548,7 @@
                             </div>
                         </div>
                     `;
-                    productsList.appendChild(productCard);
+                    productsList.appendChild(card);
                 });
             });
         }
