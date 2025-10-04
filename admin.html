@@ -609,6 +609,12 @@
                     <li><a href="#" onclick="showSection('website-design')">طلب تصميم موقع</a></li>
                     <li><a href="#" onclick="showSection('offers')">العروض</a></li>
                     <li><a href="#" onclick="showSection('support')">الدعم الفني</a></li>
+                    <!-- Added admin link that will be shown/hidden based on user role -->
+                    <li id="adminNavLink" style="display: none;">
+                        <a href="#" onclick="showSection('admin')" style="color: var(--primary); font-weight: 600;">
+                            <i class="fas fa-shield-alt"></i> لوحة الإدارة
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="nav-actions">
@@ -1355,7 +1361,7 @@
             authDomain: "koko-caffe.firebaseapp.com",
             databaseURL: "https://koko-caffe-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "koko-caffe",
-            storageBucket: "koko-caffe.firebasestorage.app",
+            storageBucket: "koko-caffe.firebasedatabase.app",
             messagingSenderId: "382318796715",
             appId: "1:382318796715:web:ee9f3aca9a107f86da7cee",
             measurementId: "G-B83G77QPWW"
@@ -1392,6 +1398,10 @@
                     window.currentUserData = { email: user.email, role: 'user', verified: false };
                 }
 
+                console.log('[v0] User logged in:', user.email);
+                console.log('[v0] User role:', window.currentUserData.role);
+                console.log('[v0] Is admin?', window.currentUserData.role === 'admin');
+
                 // Updated UI elements for logged-in state
                 document.getElementById('authButtons').style.display = 'none';
                 document.getElementById('userSection').style.display = 'flex';
@@ -1402,15 +1412,13 @@
                 loadUserTickets();
                 loadUserOrders();
                 loadUserDeposits();
-                loadProfileData(); // Load profile data on login
+                loadProfileData();
 
                 if (window.currentUserData.role === 'admin') {
-                    // Dynamically add admin link if user is admin
-                    const navLinks = document.querySelector('.nav-links');
-                    if (!navLinks.querySelector('a[href="#admin"]')) { // Prevent duplicates
-                        const adminLink = document.createElement('li');
-                        adminLink.innerHTML = '<a href="#" onclick="showSection(\'admin\')">لوحة الإدارة</a>';
-                        navLinks.appendChild(adminLink);
+                    const adminNavLink = document.getElementById('adminNavLink');
+                    if (adminNavLink) {
+                        adminNavLink.style.display = 'block';
+                        console.log('[v0] Admin link displayed');
                     }
                 }
             } else {
@@ -1418,6 +1426,16 @@
                 window.currentUserData = null;
                 document.getElementById('authButtons').style.display = 'flex';
                 document.getElementById('userSection').style.display = 'none';
+                
+                const adminNavLink = document.getElementById('adminNavLink');
+                if (adminNavLink) {
+                    adminNavLink.style.display = 'none';
+                }
+
+                // If the user navigates away from admin section while logged out, hide it.
+                if (document.getElementById('adminSection').classList.contains('active') || document.getElementById('adminSection').classList.contains('hidden')) {
+                    showSection('home');
+                }
             }
         });
 
@@ -2679,6 +2697,12 @@
                 ticketsList.innerHTML = '';
                 snapshot.forEach((doc) => {
                     const ticket = doc.data();
+                    const statusColors = {
+                        'open': 'var(--success)',
+                        'closed': 'var(--text-light)',
+                        'pending': 'var(--warning)'
+                    };
+                    
                     const ticketCard = document.createElement('div');
                     ticketCard.className = 'card';
                     ticketCard.style.marginBottom = '1rem';
