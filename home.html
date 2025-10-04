@@ -1,144 +1,3351 @@
-<!-- Statistics Section -->
-<section class="statistics-section card">
-    <div class="stats-grid">
-        <div class="stat-item">
-            <i class="fas fa-users"></i>
-            <span class="stat-value" id="usersCount">0</span>
-            <span class="stat-label">المستخدمين</span>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fule Online - منصة الخدمات الرقمية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #1a1a2e;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --card-bg: var(--bg-white); /* Default card background */
+        }
+
+        [data-theme="dark"] {
+            --bg-dark: #0f0f1e;
+            --bg-light: #1a1a2e;
+            --bg-white: #16213e;
+            --text-dark: #f8f9fa;
+            --text-light: #9ca3af;
+            --border: #374151;
+            --card-bg: var(--bg-white); /* Dark theme card background */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--bg-white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .balance-display {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary { /* Added for consistency */
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card-bg); /* Use card-bg variable */
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* PRODUCT GRID */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--card-bg); /* Use card-bg variable */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ADMIN PANEL */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .admin-sidebar {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .admin-menu {
+            list-style: none;
+        }
+
+        .admin-menu-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .admin-menu-item:hover,
+        .admin-menu-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        /* FLOATING CHAT */
+        .floating-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1500;
+            transition: transform 0.3s;
+        }
+
+        .floating-chat:hover {
+            transform: scale(1.1);
+        }
+
+        /* CONTACT BUTTONS */
+        .contact-buttons {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1500;
+        }
+
+        .contact-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .telegram-btn {
+            background: #0088cc;
+        }
+
+        /* MODALS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* FORMS */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* NOTIFICATIONS DROPDOWN */
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            margin-top: 0.5rem;
+            z-index: 1000;
+        }
+
+        .notifications-dropdown.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: var(--bg-light);
+        }
+
+        .notification-item.unread {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        #notificationList {
+             /* styles for notification items will be applied dynamically */
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CUSTOM FIELDS BUILDER */
+        .custom-fields-list {
+            margin-top: 1rem;
+        }
+
+        .custom-field-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .field-info {
+            flex: 1;
+        }
+
+        .field-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+     HEADER 
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" id="siteLogo">Fule Online</div>
+                
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showSection('home')">الرئيسية</a></li>
+                    <li><a href="#" onclick="showSection('smm-services')">خدمات SMM</a></li>
+                    <li><a href="#" onclick="showSection('real-products')">منتجات حقيقية</a></li>
+                    <li><a href="#" onclick="showSection('digital-products')">منتجات رقمية</a></li>
+                    <li><a href="#" onclick="showSection('website-design')">طلب تصميم موقع</a></li>
+                    <li><a href="#" onclick="showSection('offers')">العروض</a></li>
+                    <li><a href="#" onclick="showSection('support')">الدعم الفني</a></li>
+                     Admin link with better visibility 
+                    <li id="adminNavLink" style="display: none;">
+                        <a href="#" onclick="showSection('admin')" style="color: #ef4444; font-weight: 700; background: rgba(239, 68, 68, 0.1); padding: 0.5rem 1rem; border-radius: 0.5rem;">
+                            <i class="fas fa-shield-alt"></i> لوحة الإدارة
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button id="themeToggle" onclick="toggleTheme()" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-dark);">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <div id="notificationBell" style="position: relative; display: none;">
+                        <button onclick="toggleNotifications()" style="position: relative; background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-dark);">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
+                        </button>
+                        <div id="notificationDropdown" class="notification-dropdown" style="display: none;">
+                            <div class="notification-header">
+                                <h3>الإشعارات</h3>
+                                <button onclick="markAllNotificationsRead()" style="font-size: 0.875rem; padding: 0.25rem 0.5rem; background: var(--primary); color: white; border-radius: 5px;">تحديد الكل كمقروء</button>
+                            </div>
+                            <div id="notificationList"></div>
+                        </div>
+                    </div>
+
+                    <div id="authButtons">
+                        <button class="btn-secondary" onclick="openModal('loginModal')">تسجيل الدخول</button>
+                        <button class="btn-primary" onclick="openModal('signupModal')">إنشاء حساب</button>
+                    </div>
+
+                    <div id="userSection" style="display: none; align-items: center; gap: 1rem;">
+                        <span id="userBalance" style="font-weight: 600; color: var(--primary);">0.00 USD</span>
+                        <div style="position: relative;">
+                            <button onclick="toggleUserMenu()" style="display: flex; align-items: center; gap: 0.5rem; background: none; border: none; cursor: pointer; font-size: 1rem;">
+                                <i class="fas fa-user-circle" style="font-size: 1.5rem; color: var(--primary);"></i>
+                                <span id="userEmail"></span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
+                            </button>
+                            <div id="userMenu" style="display: none; position: absolute; left: 0; top: 100%; margin-top: 0.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; min-width: 200px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;">
+                                <a href="#" onclick="showSection('profile'); toggleUserMenu();" style="display: block; padding: 0.75rem 1rem; text-decoration: none; color: var(--text-dark); border-bottom: 1px solid var(--border);">
+                                    <i class="fas fa-user"></i>الملف الشخصي
+                                </a>
+                                 Added admin link to user menu for better accessibility 
+                                <a href="#" id="adminMenuLink" onclick="showSection('admin'); toggleUserMenu();" style="display: none; padding: 0.75rem 1rem; text-decoration: none; color: #ef4444; font-weight: 600; border-bottom: 1px solid var(--border);">
+                                    <i class="fas fa-shield-alt"></i> لوحة الإدارة
+                                </a>
+                                <a href="#" onclick="logout(); toggleUserMenu();" style="display: block; padding: 0.75rem 1rem; text-decoration: none; color: var(--danger);">
+                                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
-        <div class="stat-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="stat-value" id="ordersCount">0</span>
-            <span class="stat-label">الطلبات</span>
-        </div>
-        <div class="stat-item">
-            <i class="fas fa-check-circle"></i>
-            <span class="stat-value" id="completedCount">0</span>
-            <span class="stat-label">الطلبات المكتملة</span>
-        </div>
-    </div>
-</section>
+    </header>
 
-<!-- Services Grid -->
-<section class="services-grid">
-    <!-- Web Design -->
-    <div class="service-card card">
-        <i class="fas fa-laptop-code"></i>
-        <h3>تصميم مواقع</h3>
-        <p>تصميم مواقع احترافية مع أحدث التقنيات</p>
-        <button class="gradient-button" onclick="openServiceForm('web-design')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Android Apps -->
-    <div class="service-card card">
-        <i class="fab fa-android"></i>
-        <h3>تطبيقات أندرويد</h3>
-        <p>تطوير تطبيقات أندرويد عصرية ومتطورة</p>
-        <button class="gradient-button" onclick="openServiceForm('android-app')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Windows Apps -->
-    <div class="service-card card">
-        <i class="fab fa-windows"></i>
-        <h3>برامج ويندوز</h3>
-        <p>تطوير برامج ويندوز احترافية</p>
-        <button class="gradient-button" onclick="openServiceForm('windows-app')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Social Media Services -->
-    <div class="service-card card">
-        <i class="fas fa-users"></i>
-        <h3>زيادة متابعين</h3>
-        <p>زيادة متابعين حقيقيين ومتفاعلين</p>
-        <button class="gradient-button" onclick="openServiceForm('followers')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Likes Boost -->
-    <div class="service-card card">
-        <i class="fas fa-heart"></i>
-        <h3>زيادة إعجابات</h3>
-        <p>زيادة تفاعل على المنشورات</p>
-        <button class="gradient-button" onclick="openServiceForm('likes')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Account Reports -->
-    <div class="service-card card">
-        <i class="fas fa-flag"></i>
-        <h3>بلاغات حسابات</h3>
-        <p>خدمة إغلاق الحسابات المخالفة</p>
-        <button class="gradient-button" onclick="openServiceForm('reports')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Profit Generation -->
-    <div class="service-card card">
-        <i class="fas fa-money-bill-wave"></i>
-        <h3>تحقيق أرباح</h3>
-        <p>استراتيجيات لتحقيق الأرباح</p>
-        <button class="gradient-button" onclick="openServiceForm('profit')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Explorer Visibility -->
-    <div class="service-card card">
-        <i class="fas fa-compass"></i>
-        <h3>ظهور في الاكسبلور</h3>
-        <p>زيادة ظهور المحتوى في الاكسبلور</p>
-        <button class="gradient-button" onclick="openServiceForm('explorer')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Apps and Games -->
-    <div class="service-card card">
-        <i class="fas fa-gamepad"></i>
-        <h3>شحن تطبيقات وألعاب</h3>
-        <p>شحن رصيد للتطبيقات والألعاب</p>
-        <button class="gradient-button" onclick="openServiceForm('apps-games')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-
-    <!-- Online Payment -->
-    <div class="service-card card">
-        <i class="fas fa-credit-card"></i>
-        <h3>فيزا دفع أونلاين</h3>
-        <p>خدمات الدفع الإلكتروني</p>
-        <button class="gradient-button" onclick="openServiceForm('payment')">
-            إنشاء طلب <i class="fas fa-arrow-left"></i>
-        </button>
-    </div>
-</section>
-
-<!-- Service Request Modal -->
-<div id="serviceModal" class="modal">
-    <div class="modal-content card">
-        <span class="close">&times;</span>
-        <h2 id="modalTitle">إنشاء طلب جديد</h2>
-        <form id="serviceForm">
-            <div class="form-group">
-                <label for="serviceLink">الرابط:</label>
-                <input type="text" id="serviceLink" required>
+     HOME SECTION 
+    <section id="homeSection" class="section">
+        <div class="hero">
+            <div class="container">
+                <h1>مرحباً بك في Fule Online</h1>
+                <p>منصتك الشاملة للخدمات الرقمية والمنتجات</p>
+                <button class="btn btn-accent" onclick="showSection('smm-services')">استكشف الخدمات</button>
             </div>
-            <div class="form-group">
-                <label for="serviceQuantity">الكمية:</label>
-                <input type="number" id="serviceQuantity" required min="1">
+        </div>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="activeUsers">33,000</div>
+                    <div class="stat-label">مستخدم نشط</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completedOrders">15,420</div>
+                    <div class="stat-label">طلب مكتمل</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="satisfiedCustomers">98%</div>
+                    <div class="stat-label">رضا العملاء</div>
+                </div>
             </div>
-            <button type="submit" class="gradient-button">
-                تأكيد الطلب <i class="fas fa-check"></i>
-            </button>
-        </form>
+
+            <h2 class="section-title">المنتجات المميزة</h2>
+            <div class="product-grid" id="featuredProducts"></div>
+        </div>
+    </section>
+
+     SMM SERVICES SECTION 
+    <section id="smmServicesSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">خدمات SMM</h2>
+            <div class="product-grid" id="smmProducts"></div>
+        </div>
+    </section>
+
+     REAL PRODUCTS SECTION 
+    <section id="realProductsSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">منتجات حقيقية</h2>
+            <div class="product-grid" id="realProducts"></div>
+        </div>
+    </section>
+
+     DIGITAL PRODUCTS SECTION 
+    <section id="digitalProductsSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">منتجات رقمية</h2>
+            <div class="product-grid" id="digitalProducts"></div>
+        </div>
+    </section>
+
+     WEBSITE DESIGN SECTION 
+    <section id="websiteDesignSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">طلب تصميم موقع</h2>
+            <div class="card">
+                <p>قريباً...</p>
+            </div>
+        </div>
+    </section>
+
+     OFFERS SECTION 
+    <section id="offersSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">العروض الخاصة</h2>
+            <div class="product-grid" id="offersProducts"></div>
+        </div>
+    </section>
+
+     SUPPORT SECTION 
+    <section id="supportSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">الدعم الفني</h2>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('myTickets')">تذاكري</div>
+                <div class="tab" onclick="switchTab('newTicket')">تذكرة جديدة</div>
+            </div>
+
+            <div class="tab-content active" id="myTicketsTab">
+                <div id="ticketsList"></div>
+            </div>
+
+            <div class="tab-content" id="newTicketTab">
+                <div class="card">
+                    <form id="newTicketForm" onsubmit="createTicket(event)">
+                        <div class="form-group">
+                            <label class="form-label">الموضوع</label>
+                            <input type="text" class="form-input" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الرسالة</label>
+                            <textarea class="form-input" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">إرسال التذكرة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     PROFILE SECTION 
+    <section id="profileSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">الملف الشخصي</h2>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('myOrders')">طلباتي</div>
+                <div class="tab" onclick="switchTab('myDeposits')">إيداعاتي</div>
+                <div class="tab" onclick="switchTab('accountSettings')">إعدادات الحساب</div>
+            </div>
+
+            <div class="tab-content active" id="myOrdersTab">
+                <div id="userOrdersList"></div>
+            </div>
+
+            <div class="tab-content" id="myDepositsTab">
+                <button class="btn btn-primary" onclick="showModal('depositModal')" style="margin-bottom: 1rem;">
+                    <i class="fas fa-plus"></i> طلب إيداع جديد
+                </button>
+                <div id="userDepositsList"></div>
+            </div>
+
+             Added profile editing form 
+            <div class="tab-content" id="accountSettingsTab">
+                <div class="card">
+                    <h3>معلومات الحساب</h3>
+                    <form id="editProfileForm" onsubmit="updateProfile(event)" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">الاسم</label>
+                            <input type="text" class="form-input" id="profileName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-input" id="profileEmail" readonly style="background: var(--bg-light);">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" class="form-input" id="profilePhone" name="phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </form>
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+                    <button class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     ADMIN SECTION 
+    <section id="adminSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">لوحة الإدارة</h2>
+            
+            <div class="admin-layout">
+                <aside class="admin-sidebar">
+                    <ul class="admin-menu">
+                        <li class="admin-menu-item active" onclick="switchAdminTab('products')">
+                            <i class="fas fa-box"></i> المنتجات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('categories')">
+                            <i class="fas fa-folder"></i> الفئات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('orders')">
+                            <i class="fas fa-shopping-cart"></i> الطلبات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('deposits')">
+                            <i class="fas fa-money-bill"></i> الإيداعات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('users')">
+                            <i class="fas fa-users"></i> المستخدمين
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('tickets')">
+                            <i class="fas fa-ticket-alt"></i> التذاكر
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('coupons')">
+                            <i class="fas fa-tag"></i> الكوبونات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('settings')">
+                            <i class="fas fa-cog"></i> الإعدادات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('logs')">
+                            <i class="fas fa-file-alt"></i> السجلات
+                        </li>
+                         Added Live Chat menu item 
+                        <li class="admin-menu-item" onclick="switchAdminTab('chat')">
+                            <i class="fas fa-comments"></i> المحادثات المباشرة
+                        </li>
+                    </ul>
+                </aside>
+
+                <div class="admin-content">
+                     PRODUCTS TAB 
+                    <div id="adminProductsTab" class="tab-content active">
+                        <button class="btn btn-primary" onclick="showModal('addProductModal')" style="margin-bottom: 1rem;">
+                            <i class="fas fa-plus"></i> إضافة منتج
+                        </button>
+                        <div id="adminProductsList"></div>
+                    </div>
+
+                     Added Categories Management Tab 
+                     CATEGORIES TAB 
+                    <div id="adminCategoriesTab" class="tab-content">
+                        <button class="btn btn-primary" onclick="showModal('addCategoryModal')" style="margin-bottom: 1rem;">
+                            <i class="fas fa-plus"></i> إضافة فئة جديدة
+                        </button>
+                        <div id="adminCategoriesList"></div>
+                    </div>
+
+                     ORDERS TAB 
+                    <div id="adminOrdersTab" class="tab-content">
+                        <div id="adminOrdersList"></div>
+                    </div>
+
+                     DEPOSITS TAB 
+                    <div id="adminDepositsTab" class="tab-content">
+                        <div id="adminDepositsList"></div>
+                    </div>
+
+                     USERS TAB 
+                    <div id="adminUsersTab" class="tab-content">
+                        <div id="adminUsersList"></div>
+                    </div>
+
+                     TICKETS TAB 
+                     Enhanced tickets tab with reply functionality 
+                    <div id="adminTicketsTab" class="tab-content">
+                        <div id="adminTicketsList"></div>
+                    </div>
+
+                     COUPONS TAB 
+                    <div id="adminCouponsTab" class="tab-content">
+                        <button class="btn btn-primary" onclick="showModal('addCouponModal')" style="margin-bottom: 1rem;">
+                            <i class="fas fa-plus"></i> إضافة كوبون
+                        </button>
+                        <div id="adminCouponsList"></div>
+                    </div>
+
+                     SETTINGS TAB 
+                    <div id="adminSettingsTab" class="tab-content">
+                        <div class="card">
+                            <h3>إعدادات الموقع</h3>
+                            <div class="form-group">
+                                <label class="form-label">عنوان الموقع</label>
+                                <input type="text" class="form-input" id="siteTitle" value="Fule Online">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">وصف الموقع</label>
+                                <textarea class="form-input" id="siteDescription" rows="3">منصتك الشاملة للخدمات الرقمية</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">رقم الواتساب</label>
+                                <input type="text" class="form-input" id="whatsappNumber" placeholder="+201234567890">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">معرف التيليجرام</label>
+                                <input type="text" class="form-input" id="telegramUsername" placeholder="@username">
+                            </div>
+                            <button class="btn btn-primary" onclick="updateSiteSettings()">حفظ الإعدادات</button>
+                        </div>
+
+                        <div class="card" style="margin-top: 1rem;">
+                            <h3>الإحصائيات الوهمية</h3>
+                            <div class="form-group">
+                                <label class="form-label">المستخدمين النشطين</label>
+                                <input type="number" class="form-input" id="fakeActiveUsers" value="33000">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">الطلبات المكتملة</label>
+                                <input type="number" class="form-input" id="fakeCompletedOrders" value="15420">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">نسبة رضا العملاء (%)</label>
+                                <input type="number" class="form-input" id="fakeSatisfaction" value="98" min="0" max="100">
+                            </div>
+                            <button class="btn btn-primary" onclick="updateFakeStats()">تحديث الإحصائيات</button>
+                        </div>
+                    </div>
+
+                     LOGS TAB 
+                    <div id="adminLogsTab" class="tab-content">
+                        <button class="btn btn-accent" onclick="exportLogs()" style="margin-bottom: 1rem;">
+                            <i class="fas fa-download"></i> تصدير السجلات
+                        </button>
+                        <div id="adminLogsList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     FLOATING CHAT 
+    <div class="floating-chat" onclick="openLiveChat()">
+        <i class="fas fa-comments"></i>
     </div>
-</div>
+
+     Added WhatsApp and Telegram contact buttons 
+     CONTACT BUTTONS 
+    <div class="contact-buttons">
+        <a href="#" id="whatsappBtn" class="contact-btn whatsapp-btn" target="_blank" title="تواصل عبر الواتساب">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" id="telegramBtn" class="contact-btn telegram-btn" target="_blank" title="تواصل عبر التيليجرام">
+            <i class="fab fa-telegram"></i>
+        </a>
+    </div>
+
+     MODALS 
+    
+     LOGIN MODAL 
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">تسجيل الدخول</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+                <p style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="showModal('resetPasswordModal'); closeModal('loginModal');">نسيت كلمة المرور؟</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+     SIGNUP MODAL 
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إنشاء حساب جديد</h2>
+                <button class="modal-close" onclick="closeModal('signupModal')">&times;</button>
+            </div>
+            <form id="signupForm" onsubmit="signup(event)">
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-input" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-input" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إنشاء حساب</button>
+            </form>
+        </div>
+    </div>
+
+     RESET PASSWORD MODAL 
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إعادة تعيين كلمة المرور</h2>
+                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            </div>
+            <form id="resetPasswordForm" onsubmit="resetPassword(event)">
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال رابط إعادة التعيين</button>
+            </form>
+        </div>
+    </div>
+
+     PRODUCT DETAILS MODAL 
+    <div id="productDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="productModalTitle"></h2>
+                <button class="modal-close" onclick="closeModal('productDetailsModal')">&times;</button>
+            </div>
+            <div id="productModalContent"></div>
+        </div>
+    </div>
+
+     CHECKOUT MODAL 
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إتمام الطلب</h2>
+                <button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button>
+            </div>
+            <form id="checkoutForm" onsubmit="completeOrder(event)">
+                <div id="checkoutCustomFields"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">تأكيد الطلب</button>
+            </form>
+        </div>
+    </div>
+
+     DEPOSIT MODAL 
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">طلب إيداع</h2>
+                <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
+            </div>
+            <form id="depositForm" onsubmit="requestDeposit(event)">
+                <div class="form-group">
+                    <label class="form-label">المبلغ</label>
+                    <input type="number" class="form-input" required min="1" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">طريقة الدفع</label>
+                    <select class="form-input" required>
+                        <option value="">اختر طريقة الدفع</option>
+                        <option value="bank">تحويل بنكي</option>
+                        <option value="vodafone">فودافون كاش</option>
+                        <option value="paypal">PayPal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">إثبات الدفع (رابط الصورة)</label>
+                    <input type="url" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال الطلب</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Add Product Modal with optional fields and custom fields builder 
+     ADD PRODUCT MODAL (ADMIN) 
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة منتج جديد</h2>
+                <button class="modal-close" onclick="closeModal('addProductModal')">&times;</button>
+            </div>
+            <form id="addProductForm" onsubmit="addProduct(event)">
+                <div class="form-group">
+                    <label class="form-label">العنوان</label>
+                    <input type="text" class="form-input" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الفئة</label>
+                    <select class="form-input" name="category" id="productCategorySelect" required>
+                        <option value="">اختر الفئة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" name="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">السعر</label>
+                    <input type="number" class="form-input" name="price" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">العملة</label>
+                    <select class="form-input" name="currency" required>
+                        <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
+                        <option value="SAR">SAR</option>
+                        <option value="AED">AED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المخزون</label>
+                    <input type="number" class="form-input" name="stock" required min="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رابط الصورة (اختياري)</label>
+                    <input type="url" class="form-input" name="imageUrl">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" name="isOffer"> عرض خاص
+                    </label>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">الحقول المطلوبة من المستخدم عند الشراء</h3>
+                <div id="customFieldsBuilder">
+                    <div class="custom-fields-list" id="customFieldsList"></div>
+                    <button type="button" class="btn btn-sm btn-accent" onclick="addCustomField()">
+                        <i class="fas fa-plus"></i> إضافة حقل
+                    </button>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">إضافة المنتج</button>
+            </form>
+        </div>
+    </div>
+
+     Added Category Management Modal 
+     ADD CATEGORY MODAL (ADMIN) 
+    <div id="addCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة فئة جديدة</h2>
+                <button class="modal-close" onclick="closeModal('addCategoryModal')">&times;</button>
+            </div>
+            <form id="addCategoryForm" onsubmit="addCategory(event)">
+                <div class="form-group">
+                    <label class="form-label">اسم الفئة</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المعرف (بالإنجليزية)</label>
+                    <input type="text" class="form-input" name="slug" required pattern="[a-z-]+" placeholder="smm-services">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الأيقونة (Font Awesome class)</label>
+                    <input type="text" class="form-input" name="icon" placeholder="fas fa-box">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" name="description" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إضافة الفئة</button>
+            </form>
+        </div>
+    </div>
+
+     ADD COUPON MODAL (ADMIN) 
+    <div id="addCouponModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة كوبون</h2>
+                <button class="modal-close" onclick="closeModal('addCouponModal')">&times;</button>
+            </div>
+            <form id="addCouponForm" onsubmit="addCoupon(event)">
+                <div class="form-group">
+                    <label class="form-label">كود الكوبون</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">نسبة الخصم (%)</label>
+                    <input type="number" class="form-input" required min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تاريخ الانتهاء</label>
+                    <input type="date" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إضافة الكوبون</button>
+            </form>
+        </div>
+    </div>
+
+     LIVE CHAT MODAL 
+    <div id="liveChatModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">الدعم المباشر</h2>
+                <button class="modal-close" onclick="closeModal('liveChatModal')">&times;</button>
+            </div>
+            <div id="chatMessages" style="height: 400px; overflow-y: auto; border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+            </div>
+            <form id="chatForm" onsubmit="sendChatMessage(event)">
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" class="form-input" id="chatInput" placeholder="اكتب رسالتك..." required>
+                    <button type="submit" class="btn btn-primary">إرسال</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Edit Category Modal 
+     EDIT CATEGORY MODAL (ADMIN) 
+    <div id="editCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">تعديل الفئة</h2>
+                <button class="modal-close" onclick="closeModal('editCategoryModal')">&times;</button>
+            </div>
+            <form id="editCategoryForm" onsubmit="updateCategory(event)">
+                <input type="hidden" id="editCategoryId">
+                <div class="form-group">
+                    <label class="form-label">اسم الفئة</label>
+                    <input type="text" class="form-input" id="editCategoryName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المعرف (slug)</label>
+                    <input type="text" class="form-input" id="editCategorySlug" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" id="editCategoryDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الأيقونة (Font Awesome class)</label>
+                    <input type="text" class="form-input" id="editCategoryIcon" placeholder="fas fa-box">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ التغييرات</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Edit Product Modal 
+     EDIT PRODUCT MODAL (ADMIN) 
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">تعديل المنتج</h2>
+                <button class="modal-close" onclick="closeModal('editProductModal')">&times;</button>
+            </div>
+            <form id="editProductForm" onsubmit="updateProduct(event)">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label class="form-label">عنوان المنتج</label>
+                    <input type="text" class="form-input" id="editProductTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" id="editProductDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">السعر</label>
+                    <input type="number" class="form-input" id="editProductPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الفئة</label>
+                    <select class="form-input" id="editProductCategory" required>
+                        <option value="smm">خدمات SMM</option>
+                        <option value="real">منتجات حقيقية</option>
+                        <option value="digital">منتجات رقمية</option>
+                        <option value="design">تصميم المواقع</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رابط الصورة (اختياري)</label>
+                    <input type="url" class="form-input" id="editProductImage">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ التغييرات</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Ticket Reply Modal 
+     TICKET REPLY MODAL (ADMIN) 
+    <div id="ticketReplyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">الرد على التذكرة</h2>
+                <button class="modal-close" onclick="closeModal('ticketReplyModal')">&times;</button>
+            </div>
+            <div id="ticketMessagesContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">
+            </div>
+            <form id="ticketReplyForm" onsubmit="replyToTicket(event)">
+                <input type="hidden" id="replyTicketId">
+                <div class="form-group">
+                    <label class="form-label">الرد</label>
+                    <textarea class="form-input" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال الرد</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Admin Live Chat Modal 
+     ADMIN LIVE CHAT MODAL 
+    <div id="adminLiveChatModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title">المحادثات المباشرة</h2>
+                <button class="modal-close" onclick="closeModal('adminLiveChatModal')">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: 250px 1fr; gap: 1rem; height: 500px;">
+                <div id="chatUsersList" style="overflow-y: auto; border-left: 1px solid var(--border); padding-left: 1rem;">
+                     Users list will be loaded here 
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <div id="adminChatMessages" style="flex: 1; overflow-y: auto; border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+                        <p style="text-align: center; color: var(--text-light);">اختر محادثة من القائمة</p>
+                    </div>
+                    <form id="adminChatForm" onsubmit="sendAdminChatMessage(event)" style="display: none;">
+                        <input type="hidden" id="selectedChatUserId">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" class="form-input" id="adminChatInput" placeholder="اكتب رسالتك..." required>
+                            <button type="submit" class="btn btn-primary">إرسال</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     FIREBASE SDK 
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, onSnapshot, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getDatabase, ref, set, get, onValue, push, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcxGOaiiy6Dy1MybOIOxn69xab4rsOOJ0",
+            authDomain: "koko-caffe.firebaseapp.com",
+            databaseURL: "https://koko-caffe-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "koko-caffe",
+            storageBucket: "koko-caffe.firebasedatabase.app",
+            messagingSenderId: "382318796715",
+            appId: "1:382318796715:web:ee9f3aca9a107f86da7cee",
+            measurementId: "G-B83G77QPWW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const rtdb = getDatabase(app);
+
+        window.auth = auth;
+        window.db = db;
+        window.rtdb = rtdb;
+        window.currentUser = null;
+        window.currentUserData = null;
+        window.currentCurrency = 'USD';
+        window.customFieldsData = [];
+
+        /* onAuthStateChanged */
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUser = user;
+                
+                const isSpecialAdmin = user.email === 'oop@oop.oop';
+                
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    window.currentUserData = userDoc.data();
+                    if (isSpecialAdmin) {
+                        window.currentUserData.role = 'admin';
+                        // Update the database to ensure consistency
+                        await updateDoc(doc(db, 'users', user.uid), { role: 'admin' });
+                    }
+                } else {
+                    const userRole = isSpecialAdmin ? 'admin' : 'user';
+                    await setDoc(doc(db, 'users', user.uid), {
+                        email: user.email,
+                        role: userRole,
+                        verified: isSpecialAdmin ? true : false,
+                        createdAt: serverTimestamp()
+                    });
+                    window.currentUserData = { email: user.email, role: userRole, verified: isSpecialAdmin };
+                }
+
+                console.log('[v0] User logged in:', user.email);
+                console.log('[v0] User role:', window.currentUserData.role);
+                console.log('[v0] Is admin?', window.currentUserData.role === 'admin');
+
+                // Updated UI elements for logged-in state
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userSection').style.display = 'flex';
+                document.getElementById('userEmail').textContent = user.email;
+
+                listenToBalance(user.uid);
+                listenToNotifications(user.uid);
+                loadUserTickets();
+                loadUserOrders();
+                loadUserDeposits();
+                loadProfileData();
+
+                if (window.currentUserData.role === 'admin') {
+                    const adminNavLink = document.getElementById('adminNavLink');
+                    const adminMenuLink = document.getElementById('adminMenuLink');
+                    
+                    if (adminNavLink) {
+                        adminNavLink.style.display = 'list-item';
+                        console.log('[v0] Admin nav link displayed');
+                    }
+                    
+                    if (adminMenuLink) {
+                        adminMenuLink.style.display = 'block';
+                        console.log('[v0] Admin menu link displayed');
+                    }
+                    
+                    // Show alert to confirm admin access
+                    console.log('[v0] ✅ ADMIN ACCESS GRANTED for:', user.email);
+                }
+            } else {
+                window.currentUser = null;
+                window.currentUserData = null;
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userSection').style.display = 'none';
+                
+                const adminNavLink = document.getElementById('adminNavLink');
+                if (adminNavLink) {
+                    adminNavLink.style.display = 'none';
+                }
+                
+                const adminMenuLink = document.getElementById('adminMenuLink');
+                if (adminMenuLink) {
+                    adminMenuLink.style.display = 'none';
+                }
+
+                // If the user navigates away from admin section while logged out, hide it.
+                if (document.getElementById('adminSection').classList.contains('active') || document.getElementById('adminSection').classList.contains('hidden')) {
+                    showSection('home');
+                }
+            }
+        });
+
+        /* onValue(balances/{uid}) */
+        function listenToBalance(uid) {
+            const balanceRef = ref(rtdb, `balances/${uid}`);
+            onValue(balanceRef, (snapshot) => {
+                const balance = snapshot.val() || 0;
+                const balanceDisplay = document.getElementById('userBalance'); /* Changed ID from balanceDisplay to userBalance */
+                if (balanceDisplay) {
+                    balanceDisplay.textContent = `${balance.toFixed(2)} ${window.currentCurrency}`;
+                }
+            });
+        }
+
+        /* onValue(notifications/{uid}) */
+        function listenToNotifications(uid) {
+            const notificationsRef = ref(rtdb, `notifications/${uid}`);
+            onValue(notificationsRef, (snapshot) => {
+                const notifications = snapshot.val() || {};
+                const notificationsArray = Object.entries(notifications).map(([id, data]) => ({ id, ...data }));
+                const unreadCount = notificationsArray.filter(n => !n.read).length;
+                
+                const badge = document.getElementById('notificationBadge');
+                if (badge) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+                }
+
+                // Display notifications in dropdown
+                const dropdownList = document.getElementById('notificationList');
+                if (dropdownList) {
+                    dropdownList.innerHTML = notificationsArray.length > 0 
+                        ? notificationsArray.map(n => `
+                            <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
+                                <p style="margin: 0; font-size: 0.9rem;">${n.message}</p>
+                                <small style="color: var(--text-light);">${new Date(n.timestamp).toLocaleString('ar-EG')}</small>
+                            </div>
+                        `).join('')
+                        : '<div class="notification-item"><p style="margin: 0; text-align: center; color: var(--text-light);">لا توجد إشعارات</p></div>';
+                }
+            });
+        }
+
+        window.markNotificationRead = async function(notificationId) {
+            if (!window.currentUser) return;
+            const notifRef = ref(rtdb, `notifications/${window.currentUser.uid}/${notificationId}`);
+            await update(notifRef, { read: true });
+        };
+        
+        window.markAllNotificationsRead = async function() {
+            if (!window.currentUser) return;
+            const notificationsRef = ref(rtdb, `notifications/${window.currentUser.uid}`);
+            const snapshot = await get(notificationsRef);
+            const notifications = snapshot.val();
+            if (!notifications) return;
+            
+            const updates = {};
+            Object.keys(notifications).forEach(id => {
+                updates[id] = { ...notifications[id], read: true };
+            });
+            await update(notificationsRef, updates);
+        };
+
+        window.toggleNotifications = function() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+            }
+        };
+
+        /* onSnapshot(products) */
+        function loadProducts() {
+            const productsRef = collection(db, 'products');
+            onSnapshot(query(productsRef, where('visible', '==', true)), (snapshot) => {
+                const products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                
+                displayProducts(products);
+            });
+        }
+
+        function displayProducts(products) {
+            const smmProducts = products.filter(p => p.type === 'smm');
+            const realProducts = products.filter(p => p.type === 'real');
+            const digitalProducts = products.filter(p => p.type === 'digital');
+            const offerProducts = products.filter(p => p.isOffer === true);
+            const featured = products.slice(0, 6);
+
+            renderProductGrid('featuredProducts', featured);
+            renderProductGrid('smmProducts', smmProducts);
+            renderProductGrid('realProducts', realProducts);
+            renderProductGrid('digitalProducts', digitalProducts);
+            renderProductGrid('offersProducts', offerProducts);
+        }
+
+        function renderProductGrid(elementId, products) {
+            const grid = document.getElementById(elementId);
+            if (!grid) return;
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات حالياً</p></div>';
+                return;
+            }
+
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="fas fa-box"></i>'}
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${product.price} ${product.currency}</div>
+                        ${product.isOffer ? '<span class="badge" style="background: var(--danger); color: white;">عرض خاص</span>' : ''}
+                        <button class="btn btn-primary" onclick="viewProduct('${product.id}')" style="width: 100%; margin-top: 0.5rem;">
+                            عرض التفاصيل
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.viewProduct = async function(productId) {
+            const productDoc = await getDoc(doc(db, 'products', productId));
+            if (!productDoc.exists()) return;
+
+            const product = productDoc.data();
+            window.currentProduct = { id: productId, ...product };
+
+            document.getElementById('productModalTitle').textContent = product.title;
+            document.getElementById('productModalContent').innerHTML = `
+                ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.title}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">` : ''}
+                <p style="margin-bottom: 1rem;">${product.description}</p>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">
+                    ${product.price} ${product.currency}
+                </div>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">المخزون المتاح: ${product.stock}</p>
+                <button class="btn btn-primary" onclick="initiateCheckout()" style="width: 100%;">شراء الآن</button>
+            `;
+
+            showModal('productDetailsModal');
+        };
+
+        window.initiateCheckout = function() {
+            if (!window.currentUser) {
+                alert('يرجى تسجيل الدخول أولاً');
+                closeModal('productDetailsModal');
+                showModal('loginModal');
+                return;
+            }
+
+            const product = window.currentProduct;
+            const customFields = product.customFields || [];
+
+            const fieldsHTML = customFields.map((field, index) => `
+                <div class="form-group">
+                    <label class="form-label">${field.label} ${field.required ? '*' : '(اختياري)'}</label>
+                    ${field.type === 'textarea' 
+                        ? `<textarea class="form-input" name="field_${index}" ${field.required ? 'required' : ''} placeholder="${field.hint || ''}"></textarea>`
+                        : `<input type="${field.type || 'text'}" class="form-input" name="field_${index}" ${field.required ? 'required' : ''} placeholder="${field.hint || ''}">`
+                    }
+                </div>
+            `).join('');
+
+            document.getElementById('checkoutCustomFields').innerHTML = fieldsHTML;
+            closeModal('productDetailsModal');
+            showModal('checkoutModal');
+        };
+
+        window.completeOrder = async function(event) {
+            event.preventDefault();
+            
+            const product = window.currentProduct;
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const customFieldsData = {};
+            formData.forEach((value, key) => {
+                if (key.startsWith('field_')) {
+                    const index = parseInt(key.split('_')[1]);
+                    const field = product.customFields[index];
+                    customFieldsData[field.label] = value;
+                }
+            });
+
+            try {
+                const balanceRef = ref(rtdb, `balances/${window.currentUser.uid}`);
+                const balanceSnapshot = await get(balanceRef);
+                const currentBalance = balanceSnapshot.val() || 0;
+
+                if (currentBalance < product.price) {
+                    alert('رصيدك غير كافٍ لإتمام الطلب');
+                    return;
+                }
+
+                await addDoc(collection(db, 'orders'), {
+                    userId: window.currentUser.uid,
+                    productId: product.id,
+                    productTitle: product.title,
+                    price: product.price,
+                    currency: product.currency,
+                    customFields: customFieldsData,
+                    status: 'pending',
+                    createdAt: serverTimestamp()
+                });
+
+                await set(balanceRef, currentBalance - product.price);
+
+                await updateDoc(doc(db, 'products', product.id), {
+                    stock: product.stock - 1
+                });
+
+                await sendNotification(window.currentUser.uid, `تم استلام طلبك: ${product.title}`);
+
+                alert('تم إرسال طلبك بنجاح!');
+                closeModal('checkoutModal');
+                form.reset();
+            } catch (error) {
+                console.error('Order error:', error);
+                alert('حدث خطأ أثناء إتمام الطلب');
+            }
+        };
+
+        // AUTHENTICATION
+        window.login = async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[type="email"]').value;
+            const password = form.querySelector('input[type="password"]').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                closeModal('loginModal');
+                form.reset();
+            } catch (error) {
+                alert('خطأ في تسجيل الدخول: ' + error.message);
+            }
+        };
+
+        window.signup = async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const inputs = form.querySelectorAll('input');
+            const email = inputs[0].value;
+            const password = inputs[1].value;
+            const confirmPassword = inputs[2].value;
+
+            if (password !== confirmPassword) {
+                alert('كلمات المرور غير متطابقة');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    email,
+                    role: 'user',
+                    verified: false,
+                    createdAt: serverTimestamp()
+                });
+
+                await set(ref(rtdb, `balances/${userCredential.user.uid}`), 0);
+
+                closeModal('signupModal');
+                form.reset();
+            } catch (error) {
+                alert('خطأ في إنشاء الحساب: ' + error.message);
+            }
+        };
+
+        window.resetPassword = async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[type="email"]').value;
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني');
+                closeModal('resetPasswordModal');
+                form.reset();
+            } catch (error) {
+                alert('خطأ: ' + error.message);
+            }
+        };
+
+        window.logout = async function() {
+            try {
+                await signOut(auth);
+                showSection('home');
+                location.reload(); // Reload to ensure all UI elements reset
+            } catch (error) {
+                alert('خطأ في تسجيل الخروج: ' + error.message);
+            }
+        };
+
+        // DEPOSITS
+        window.requestDeposit = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUser) return;
+
+            const form = event.target;
+            const inputs = form.querySelectorAll('input, select');
+            const amount = parseFloat(inputs[0].value);
+            const method = inputs[1].value;
+            const proof = inputs[2].value;
+
+            try {
+                await addDoc(collection(db, 'deposits'), {
+                    userId: window.currentUser.uid,
+                    amount,
+                    method,
+                    proof,
+                    status: 'pending',
+                    createdAt: serverTimestamp()
+                });
+
+                alert('تم إرسال طلب الإيداع بنجاح!');
+                closeModal('depositModal');
+                form.reset();
+            } catch (error) {
+                console.error('Deposit error:', error);
+                alert('حدث خطأ أثناء إرسال الطلب');
+            }
+        };
+
+        function loadUserDeposits() {
+            if (!window.currentUser) return;
+            
+            const depositsRef = collection(db, 'deposits');
+            const q = query(depositsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const depositsList = document.getElementById('userDepositsList');
+                if (!depositsList) return;
+                
+                if (snapshot.empty) {
+                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد إيداعات</p></div>';
+                    return;
+                }
+                
+                depositsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const deposit = doc.data();
+                    const statusColors = {
+                        'pending': 'var(--warning)',
+                        'approved': 'var(--success)',
+                        'rejected': 'var(--danger)'
+                    };
+                    
+                    const depositCard = document.createElement('div');
+                    depositCard.className = 'card';
+                    depositCard.style.marginBottom = '1rem';
+                    depositCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-dark);">${deposit.amount} ${window.currentCurrency}</h3>
+                                <p style="color: var(--text-light); margin: 0.5rem 0;">الطريقة: ${deposit.method}</p>
+                            </div>
+                            <span class="badge" style="background: ${statusColors[deposit.status]}; color: white;">${deposit.status}</span>
+                        </div>
+                    `;
+                    depositsList.appendChild(depositCard);
+                });
+            });
+        }
+
+        // TICKETS
+        window.createTicket = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUser) return;
+
+            const form = event.target;
+            const subject = form.querySelector('input[name="subject"]').value;
+            const message = form.querySelector('textarea[name="message"]').value;
+
+            try {
+                await addDoc(collection(db, 'tickets'), {
+                    userId: window.currentUser.uid,
+                    userEmail: window.currentUser.email,
+                    subject,
+                    status: 'open',
+                    messages: [{
+                        from: window.currentUser.uid,
+                        message,
+                        timestamp: new Date().toISOString()
+                    }],
+                    createdAt: serverTimestamp()
+                });
+
+                alert('تم إرسال التذكرة بنجاح!');
+                form.reset();
+                switchTab('myTickets');
+            } catch (error) {
+                console.error('Create ticket error:', error);
+                alert('حدث خطأ أثناء إرسال التذكرة');
+            }
+        };
+
+        function loadUserTickets() {
+            if (!window.currentUser) return;
+            
+            const ticketsRef = collection(db, 'tickets');
+            const q = query(ticketsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ticketsList = document.getElementById('ticketsList');
+                if (!ticketsList) return;
+                
+                if (snapshot.empty) {
+                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر حالياً</p></div>';
+                    return;
+                }
+                
+                ticketsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const statusColors = {
+                        'open': 'var(--success)',
+                        'closed': 'var(--text-light)',
+                        'pending': 'var(--warning)'
+                    };
+                    
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = 'card';
+                    ticketCard.style.marginBottom = '1rem';
+                    
+                    let messagesHtml = '';
+                    if (ticket.messages && ticket.messages.length > 0) {
+                        messagesHtml = ticket.messages.map(msg => `
+                            <div style="padding: 0.75rem; margin: 0.5rem 0; background: ${msg.isAdmin ? 'var(--bg-light)' : 'var(--primary-light)'}; border-radius: 8px; border-right: 3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">
+                                <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'الدعم الفني' : 'أنت'}:</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-dark);">${msg.message}</p>
+                                <small style="color: var(--text-light);">${new Date(msg.timestamp).toLocaleString('ar-EG')}</small>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    ticketCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${ticket.subject}</h3>
+                            <span class="badge" style="background: ${statusColors[ticket.status] || 'var(--text-light)'}; color: white;">${ticket.status}</span>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            ${messagesHtml}
+                        </div>
+                        <small style="color: var(--text-light); display: block; margin-top: 1rem;">رقم التذكرة: ${doc.id}</small>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+            });
+        }
+
+        function loadUserOrders() {
+            if (!window.currentUser) return;
+            
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ordersList = document.getElementById('userOrdersList');
+                if (!ordersList) return;
+                
+                if (snapshot.empty) {
+                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات</p></div>';
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const statusColors = {
+                        'pending': 'var(--warning)',
+                        'completed': 'var(--success)',
+                        'cancelled': 'var(--danger)'
+                    };
+                    
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'card';
+                    orderCard.style.marginBottom = '1rem';
+                    orderCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${order.productTitle}</h3>
+                            <span class="badge" style="background: ${statusColors[order.status]}; color: white;">${order.status}</span>
+                        </div>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">السعر: ${order.price} ${order.currency}</p>
+                        <small style="color: var(--text-light);">رقم الطلب: ${doc.id}</small>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            });
+        }
+
+        // LIVE CHAT
+        window.openLiveChat = function() {
+            if (!window.currentUser) {
+                alert('يرجى تسجيل الدخول أولاً');
+                showModal('loginModal');
+                return;
+            }
+
+            showModal('liveChatModal');
+            loadChatMessages();
+        };
+
+        function loadChatMessages() {
+            const chatRef = collection(db, 'liveChat');
+            const q = query(chatRef, where('userId', '==', window.currentUser.uid), orderBy('timestamp', 'asc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const messagesDiv = document.getElementById('chatMessages');
+                messagesDiv.innerHTML = '';
+                
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const messageEl = document.createElement('div');
+                    messageEl.style.marginBottom = '1rem';
+                    messageEl.style.padding = '0.5rem';
+                    messageEl.style.borderRadius = '8px';
+                    messageEl.style.background = msg.isAdmin ? 'var(--bg-light)' : 'var(--primary)';
+                    messageEl.style.color = msg.isAdmin ? 'var(--text-dark)' : 'white';
+                    messageEl.textContent = msg.message;
+                    messagesDiv.appendChild(messageEl);
+                });
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        window.sendChatMessage = async function(event) {
+            event.preventDefault();
+            
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            try {
+                await addDoc(collection(db, 'liveChat'), {
+                    userId: window.currentUser.uid,
+                    message,
+                    isAdmin: false,
+                    timestamp: serverTimestamp()
+                });
+
+                input.value = '';
+            } catch (error) {
+                console.error('Send message error:', error);
+            }
+        };
+
+        window.customFieldsData = [];
+
+        window.addCustomField = function() {
+            const fieldId = Date.now();
+            window.customFieldsData.push({
+                id: fieldId,
+                label: '',
+                type: 'text',
+                hint: '',
+                required: false
+            });
+            renderCustomFields();
+        };
+
+        window.removeCustomField = function(fieldId) {
+            window.customFieldsData = window.customFieldsData.filter(f => f.id !== fieldId);
+            renderCustomFields();
+        };
+
+        window.updateCustomField = function(fieldId, property, value) {
+            const field = window.customFieldsData.find(f => f.id === fieldId);
+            if (field) {
+                field[property] = value;
+            }
+        };
+
+        function renderCustomFields() {
+            const container = document.getElementById('customFieldsList');
+            if (!container) return;
+
+            container.innerHTML = window.customFieldsData.map(field => `
+                <div class="custom-field-item">
+                    <div class="field-info">
+                        <input type="text" class="form-input" placeholder="اسم الحقل" value="${field.label}" 
+                            onchange="updateCustomField(${field.id}, 'label', this.value)" style="margin-bottom: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <select class="form-input" onchange="updateCustomField(${field.id}, 'type', this.value)" style="flex: 1;">
+                                <option value="text" ${field.type === 'text' ? 'selected' : ''}>نص</option>
+                                <option value="email" ${field.type === 'email' ? 'selected' : ''}>بريد إلكتروني</option>
+                                <option value="number" ${field.type === 'number' ? 'selected' : ''}>رقم</option>
+                                <option value="textarea" ${field.type === 'textarea' ? 'selected' : ''}>نص طويل</option>
+                            </select>
+                            <input type="text" class="form-input" placeholder="تلميح" value="${field.hint}" 
+                                onchange="updateCustomField(${field.id}, 'hint', this.value)" style="flex: 1;">
+                            <label style="display: flex; align-items: center; gap: 0.25rem; white-space: nowrap;">
+                                <input type="checkbox" ${field.required ? 'checked' : ''} 
+                                    onchange="updateCustomField(${field.id}, 'required', this.checked)">
+                                إجباري
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field-actions">
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeCustomField(${field.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ADMIN FUNCTIONS
+        window.addProduct = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const productData = {
+                title: formData.get('title'),
+                type: formData.get('category'),
+                description: formData.get('description'),
+                price: parseFloat(formData.get('price')),
+                currency: formData.get('currency'),
+                stock: parseInt(formData.get('stock')),
+                imageUrl: formData.get('imageUrl') || '',
+                isOffer: formData.get('isOffer') === 'on',
+                customFields: window.customFieldsData,
+                visible: true,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'products'), productData);
+                alert('تم إضافة المنتج بنجاح!');
+                closeModal('addProductModal');
+                form.reset();
+                window.customFieldsData = [];
+                renderCustomFields();
+            } catch (error) {
+                console.error('Add product error:', error);
+                alert('حدث خطأ أثناء إضافة المنتج');
+            }
+        };
+
+        window.addCategory = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const categoryData = {
+                name: formData.get('name'),
+                slug: formData.get('slug'),
+                icon: formData.get('icon') || 'fas fa-box',
+                description: formData.get('description') || '',
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'categories'), categoryData);
+                alert('تم إضافة الفئة بنجاح!');
+                closeModal('addCategoryModal');
+                form.reset();
+                loadCategories();
+            } catch (error) {
+                console.error('Add category error:', error);
+                alert('حدث خطأ أثناء إضافة الفئة');
+            }
+        };
+
+        function loadCategories() {
+            const categoriesRef = collection(db, 'categories');
+            onSnapshot(categoriesRef, (snapshot) => {
+                const categoriesList = document.getElementById('adminCategoriesList');
+                const categorySelect = document.getElementById('productCategorySelect');
+                
+                if (!snapshot.empty) {
+                    // Update admin categories list
+                    if (categoriesList) {
+                        categoriesList.innerHTML = '';
+                        snapshot.forEach((doc) => {
+                            const category = doc.data();
+                            const categoryCard = document.createElement('div');
+                            categoryCard.className = 'card';
+                            categoryCard.style.marginBottom = '1rem';
+                            categoryCard.innerHTML = `
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <h3 style="margin: 0; color: var(--text-dark);">
+                                            <i class="${category.icon}"></i> ${category.name}
+                                        </h3>
+                                        <p style="color: var(--text-light); margin: 0.5rem 0;">${category.description}</p>
+                                        <small style="color: var(--text-light);">المعرف: ${category.slug}</small>
+                                    </div>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-sm btn-primary" onclick="openEditCategory('${doc.id}', '${category.name}', '${category.slug}', '${category.description}', '${category.icon}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteCategory('${doc.id}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            categoriesList.appendChild(categoryCard);
+                        });
+                    }
+
+                    // Update category select in add product form
+                    if (categorySelect) {
+                        const defaultOptions = categorySelect.innerHTML; // Keep existing default option
+                        const customOptions = [];
+                        snapshot.forEach((doc) => {
+                            const category = doc.data();
+                            customOptions.push(`<option value="${category.slug}">${category.name}</option>`);
+                        });
+                        categorySelect.innerHTML = defaultOptions + customOptions.join('');
+                    }
+                } else {
+                    // Handle case where there are no categories
+                    if (categoriesList) categoriesList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد فئات</p></div>';
+                    if (categorySelect) categorySelect.innerHTML = '<option value="">اختر الفئة</option>';
+                }
+            });
+        }
+
+        window.deleteCategory = async function(categoryId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+            
+            if (!confirm('هل أنت متأكد من حذف هذه الفئة؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'categories', categoryId));
+                alert('تم حذف الفئة بنجاح');
+            } catch (error) {
+                console.error('Delete category error:', error);
+                alert('حدث خطأ أثناء حذف الفئة');
+            }
+        };
+
+        window.addCoupon = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const inputs = form.querySelectorAll('input');
+            
+            const couponData = {
+                code: inputs[0].value.toUpperCase(),
+                discount: parseInt(inputs[1].value),
+                expiresAt: new Date(inputs[2].value).toISOString(),
+                active: true,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'coupons'), couponData);
+                alert('تم إضافة الكوبون بنجاح!');
+                closeModal('addCouponModal');
+                form.reset();
+            } catch (error) {
+                console.error('Add coupon error:', error);
+                alert('حدث خطأ أثناء إضافة الكوبون');
+            }
+        };
+
+        window.updateSiteSettings = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const title = document.getElementById('siteTitle').value;
+            const description = document.getElementById('siteDescription').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            const telegram = document.getElementById('telegramUsername').value;
+
+            try {
+                await set(ref(rtdb, 'settings/site'), {
+                    title,
+                    description,
+                    whatsapp,
+                    telegram,
+                    updatedAt: Date.now()
+                });
+
+                // Update UI immediately
+                document.getElementById('siteLogo').textContent = title;
+                updateContactButtons(whatsapp, telegram);
+
+                alert('تم تحديث إعدادات الموقع بنجاح');
+            } catch (error) {
+                console.error('Update settings error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.updateFakeStats = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const activeUsers = parseInt(document.getElementById('fakeActiveUsers').value);
+            const completedOrders = parseInt(document.getElementById('fakeCompletedOrders').value);
+            const satisfaction = parseInt(document.getElementById('fakeSatisfaction').value);
+
+            try {
+                await set(ref(rtdb, 'stats/global'), {
+                    activeUsers,
+                    completedOrders,
+                    satisfiedCustomers: satisfaction,
+                    updatedAt: Date.now()
+                });
+
+                alert('تم تحديث الإحصائيات بنجاح');
+            } catch (error) {
+                console.error('Update stats error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        function loadFakeStats() {
+            const statsRef = ref(rtdb, 'stats/global');
+            onValue(statsRef, (snapshot) => {
+                const stats = snapshot.val() || { activeUsers: 33000, completedOrders: 15420, satisfiedCustomers: 98 };
+                
+                document.getElementById('activeUsers').textContent = stats.activeUsers.toLocaleString('ar-EG');
+                document.getElementById('completedOrders').textContent = stats.completedOrders.toLocaleString('ar-EG');
+                document.getElementById('satisfiedCustomers').textContent = stats.satisfiedCustomers + '%';
+                
+                // Update admin inputs
+                const activeUsersInput = document.getElementById('fakeActiveUsers');
+                const completedOrdersInput = document.getElementById('fakeCompletedOrders');
+                const satisfactionInput = document.getElementById('fakeSatisfaction');
+                
+                if (activeUsersInput) activeUsersInput.value = stats.activeUsers;
+                if (completedOrdersInput) completedOrdersInput.value = stats.completedOrders;
+                if (satisfactionInput) satisfactionInput.value = stats.satisfiedCustomers;
+            });
+        }
+
+        function loadSiteSettings() {
+            const settingsRef = ref(rtdb, 'settings/site');
+            onValue(settingsRef, (snapshot) => {
+                const settings = snapshot.val();
+                if (settings) {
+                    const titleInput = document.getElementById('siteTitle');
+                    const descInput = document.getElementById('siteDescription');
+                    const whatsappInput = document.getElementById('whatsappNumber');
+                    const telegramInput = document.getElementById('telegramUsername');
+                    const logo = document.getElementById('siteLogo');
+                    
+                    if (titleInput) titleInput.value = settings.title || 'Fule Online';
+                    if (descInput) descInput.value = settings.description || '';
+                    if (whatsappInput) whatsappInput.value = settings.whatsapp || '';
+                    if (telegramInput) telegramInput.value = settings.telegram || '';
+                    if (logo) logo.textContent = settings.title || 'Fule Online';
+                    
+                    updateContactButtons(settings.whatsapp, settings.telegram);
+                }
+            });
+        }
+
+        function updateContactButtons(whatsapp, telegram) {
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const telegramBtn = document.getElementById('telegramBtn');
+            
+            if (whatsappBtn) {
+                if (whatsapp) {
+                    whatsappBtn.href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
+                    whatsappBtn.style.display = 'flex';
+                } else {
+                    whatsappBtn.style.display = 'none';
+                }
+            }
+            
+            if (telegramBtn) {
+                if (telegram) {
+                    telegramBtn.href = `https://t.me/${telegram.replace('@', '')}`;
+                    telegramBtn.style.display = 'flex';
+                } else {
+                    telegramBtn.style.display = 'none';
+                }
+            }
+        }
+
+        async function sendNotification(userId, message) {
+            const notificationRef = push(ref(rtdb, `notifications/${userId}`));
+            await set(notificationRef, {
+                message,
+                read: false,
+                timestamp: Date.now()
+            });
+        }
+
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'orders', orderId), {
+                    status: newStatus
+                });
+
+                const orderDoc = await getDoc(doc(db, 'orders', orderId));
+                if (orderDoc.exists()) {
+                    const order = orderDoc.data();
+                    await sendNotification(order.userId, `تم تحديث حالة طلبك: ${order.productTitle} إلى ${newStatus}`);
+                }
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'order_status_updated',
+                    orderId,
+                    newStatus,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تم تحديث حالة الطلب');
+            } catch (error) {
+                console.error('Update order status error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.approveDeposit = async function(depositId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const depositDoc = await getDoc(doc(db, 'deposits', depositId));
+                if (!depositDoc.exists()) return;
+
+                const deposit = depositDoc.data();
+                
+                const balanceRef = ref(rtdb, `balances/${deposit.userId}`);
+                const snapshot = await get(balanceRef);
+                const currentBalance = snapshot.val() || 0;
+                
+                await set(balanceRef, currentBalance + deposit.amount);
+
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'approved'
+                });
+
+                await sendNotification(deposit.userId, `تمت الموافقة على طلب الإيداع بمبلغ ${deposit.amount}`);
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'deposit_approved',
+                    depositId,
+                    amount: deposit.amount,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تمت الموافقة على الإيداع');
+            } catch (error) {
+                console.error('Approve deposit error:', error);
+                alert('حدث خطأ أثناء الموافقة');
+            }
+        };
+
+        window.rejectDeposit = async function(depositId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const depositDoc = await getDoc(doc(db, 'deposits', depositId));
+                if (!depositDoc.exists()) return;
+
+                const deposit = depositDoc.data();
+
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'rejected'
+                });
+
+                await sendNotification(deposit.userId, `تم رفض طلب الإيداع بمبلغ ${deposit.amount}`);
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'deposit_rejected',
+                    depositId,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تم رفض الإيداع');
+            } catch (error) {
+                console.error('Reject deposit error:', error);
+                alert('حدث خطأ أثناء الرفض');
+            }
+        };
+
+        window.adminAdjustBalance = async function(userId, amount) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const balanceRef = ref(rtdb, `balances/${userId}`);
+                const snapshot = await get(balanceRef);
+                const currentBalance = snapshot.val() || 0;
+                const newBalance = currentBalance + amount;
+
+                await set(balanceRef, newBalance);
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'balance_adjusted',
+                    userId,
+                    amount,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                await sendNotification(userId, `تم ${amount > 0 ? 'إضافة' : 'خصم'} ${Math.abs(amount)} من رصيدك`);
+
+                alert('تم تعديل الرصيد بنجاح');
+            } catch (error) {
+                console.error('Adjust balance error:', error);
+                alert('حدث خطأ أثناء تعديل الرصيد');
+            }
+        };
+
+        window.toggleUserVerification = async function(userId, currentStatus) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    verified: !currentStatus
+                });
+
+                alert('تم تحديث حالة التحقق');
+            } catch (error) {
+                console.error('Toggle verification error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.toggleUserBan = async function(userId, currentStatus) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    banned: !currentStatus
+                });
+
+                alert('تم تحديث حالة الحظر');
+            } catch (error) {
+                console.error('Toggle ban error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.updateTicketStatus = async function(ticketId, status) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'tickets', ticketId), {
+                    status: status
+                });
+
+                const ticketDoc = await getDoc(doc(db, 'tickets', ticketId));
+                if (ticketDoc.exists()) {
+                    const ticket = ticketDoc.data();
+                    await sendNotification(ticket.userId, `تم تحديث حالة تذكرتك إلى: ${status}`);
+                }
+
+                alert('تم تحديث حالة التذكرة');
+            } catch (error) {
+                console.error('Update ticket status error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.promptAdjustBalance = function(userId) {
+            const amount = parseFloat(prompt('أدخل المبلغ (استخدم - للخصم):'));
+            if (isNaN(amount)) {
+                alert('المبلغ غير صحيح');
+                return;
+            }
+            adminAdjustBalance(userId, amount);
+        };
+
+        function loadAdminProducts() {
+            const productsRef = collection(db, 'products');
+            onSnapshot(productsRef, (snapshot) => {
+                const productsList = document.getElementById('adminProductsList');
+                if (!productsList) return;
+                
+                if (snapshot.empty) {
+                    productsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات</p></div>';
+                    return;
+                }
+                
+                productsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const product = doc.data();
+                    const productCard = document.createElement('div');
+                    productCard.className = 'card';
+                    productCard.style.marginBottom = '1rem';
+                    productCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${product.title}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">${product.description}</p>
+                                <p style="color: var(--primary); font-weight: bold; margin: 0.5rem 0;">${product.price} ${product.currency || 'USD'}</p>
+                                <small style="color: var(--text-light);">الفئة: ${product.category}</small>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-sm btn-primary" onclick='openEditProduct(${JSON.stringify({id: doc.id, ...product})})'>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productsList.appendChild(productCard);
+                });
+            });
+        }
+
+        window.deleteProduct = async function(productId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+            
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'products', productId));
+                alert('تم حذف المنتج بنجاح');
+            } catch (error) {
+                console.error('Delete product error:', error);
+                alert('حدث خطأ أثناء حذف المنتج');
+            }
+        };
+
+        function loadAdminOrders() {
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ordersList = document.getElementById('adminOrdersList');
+                if (!ordersList) return;
+                
+                if (snapshot.empty) {
+                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات</p></div>';
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'card';
+                    orderCard.style.marginBottom = '1rem';
+                    orderCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${order.productTitle}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${order.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">السعر: ${order.price} ${order.currency}</p>
+                            </div>
+                            <span class="badge">${order.status}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-success" onclick="updateOrderStatus('${doc.id}', 'completed')">إكمال</button>
+                            <button class="btn btn-sm btn-danger" onclick="updateOrderStatus('${doc.id}', 'cancelled')">إلغاء</button>
+                        </div>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            });
+        }
+
+        function loadAdminDeposits() {
+            const depositsRef = collection(db, 'deposits');
+            const q = query(depositsRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const depositsList = document.getElementById('adminDepositsList');
+                if (!depositsList) return;
+                
+                if (snapshot.empty) {
+                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد إيداعات</p></div>';
+                    return;
+                }
+                
+                depositsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const deposit = doc.data();
+                    const depositCard = document.createElement('div');
+                    depositCard.className = 'card';
+                    depositCard.style.marginBottom = '1rem';
+                    depositCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${deposit.amount} ${window.currentCurrency}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${deposit.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الطريقة: ${deposit.method}</p>
+                                <a href="${deposit.proof}" target="_blank" style="color: var(--primary); font-size: 0.875rem;">عرض الإثبات</a>
+                            </div>
+                            <span class="badge">${deposit.status}</span>
+                        </div>
+                        ${deposit.status === 'pending' ? `
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-sm btn-success" onclick="approveDeposit('${doc.id}')">موافقة</button>
+                                <button class="btn btn-sm btn-danger" onclick="rejectDeposit('${doc.id}')">رفض</button>
+                            </div>
+                        ` : ''}
+                    `;
+                    depositsList.appendChild(depositCard);
+                });
+            });
+        }
+
+        function loadAdminUsers() {
+            const usersRef = collection(db, 'users');
+            onSnapshot(usersRef, (snapshot) => {
+                const usersList = document.getElementById('adminUsersList');
+                if (!usersList) return;
+                
+                if (snapshot.empty) {
+                    usersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا يوجد مستخدمين</p></div>';
+                    return;
+                }
+                
+                usersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const userCard = document.createElement('div');
+                    userCard.className = 'card';
+                    userCard.style.marginBottom = '1rem';
+                    userCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${user.email}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الدور: ${user.role}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">
+                                    ${user.verified ? '<span class="badge" style="background: var(--success); color: white;">موثق</span>' : '<span class="badge" style="background: var(--warning); color: white;">غير موثق</span>'}
+                                    ${user.banned ? '<span class="badge" style="background: var(--danger); color: white; margin-right: 0.5rem;">محظور</span>' : ''}
+                                </p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick="toggleUserVerification('${doc.id}', ${user.verified || false})">
+                                ${user.verified ? 'إلغاء التوثيق' : 'توثيق'}
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="toggleUserBan('${doc.id}', ${user.banned || false})">
+                                ${user.banned ? 'إلغاء الحظر' : 'حظر'}
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="promptAdjustBalance('${doc.id}')">تعديل الرصيد</button>
+                        </div>
+                    `;
+                    usersList.appendChild(userCard);
+                });
+            });
+        }
+
+        function loadAdminTickets() {
+            const ticketsRef = collection(db, 'tickets');
+            const q = query(ticketsRef, orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ticketsList = document.getElementById('adminTicketsList');
+                if (!ticketsList) return;
+                
+                if (snapshot.empty) {
+                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر</p></div>';
+                    return;
+                }
+                
+                ticketsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const statusColors = {
+                        'open': 'var(--success)',
+                        'closed': 'var(--text-light)',
+                        'pending': 'var(--warning)'
+                    };
+                    
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = 'card';
+                    ticketCard.style.marginBottom = '1rem';
+                    ticketCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${ticket.subject}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${ticket.userEmail || ticket.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">عدد الرسائل: ${ticket.messages ? ticket.messages.length : 0}</p>
+                            </div>
+                            <span class="badge">${ticket.status}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick='openTicketReply("${doc.id}", ${JSON.stringify(ticket.messages || [])})'>
+                                <i class="fas fa-reply"></i> رد
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="updateTicketStatus('${doc.id}', 'closed')">إغلاق</button>
+                            <button class="btn btn-sm btn-warning" onclick="updateTicketStatus('${doc.id}', 'open')">فتح</button>
+                        </div>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+            });
+        }
+
+        function loadAdminCoupons() {
+            const couponsRef = collection(db, 'coupons');
+            onSnapshot(couponsRef, (snapshot) => {
+                const couponsList = document.getElementById('adminCouponsList');
+                if (!couponsList) return;
+                
+                if (snapshot.empty) {
+                    couponsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد كوبونات</p></div>';
+                    return;
+                }
+                
+                couponsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const coupon = doc.data();
+                    const couponCard = document.createElement('div');
+                    couponCard.className = 'card';
+                    couponCard.style.marginBottom = '1rem';
+                    couponCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-dark);">${coupon.code}</h3>
+                                <p style="color: var(--text-light); margin: 0.5rem 0;">خصم: ${coupon.discount}%</p>
+                                <p style="color: var(--text-light); font-size: 0.875rem;">ينتهي: ${new Date(coupon.expiresAt).toLocaleDateString('ar-EG')}</p>
+                            </div>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCoupon('${doc.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    couponsList.appendChild(couponCard);
+                });
+            });
+        }
+
+        window.deleteCoupon = async function(couponId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+            
+            if (!confirm('هل أنت متأكد من حذف هذا الكوبون؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'coupons', couponId));
+                alert('تم حذف الكوبون بنجاح');
+            } catch (error) {
+                console.error('Delete coupon error:', error);
+                alert('حدث خطأ أثناء حذف الكوبون');
+            }
+        };
+
+        function loadAdminLogs() {
+            const logsRef = collection(db, 'adminLogs');
+            const q = query(logsRef, orderBy('timestamp', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const logsList = document.getElementById('adminLogsList');
+                if (!logsList) return;
+                
+                if (snapshot.empty) {
+                    logsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد سجلات</p></div>';
+                    return;
+                }
+                
+                logsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const log = doc.data();
+                    const logCard = document.createElement('div');
+                    logCard.className = 'card';
+                    logCard.style.marginBottom = '0.5rem';
+                    logCard.style.padding = '1rem';
+                    logCard.innerHTML = `
+                        <p style="margin: 0; color: var(--text-dark); font-weight: 600;">${log.action}</p>
+                        <small style="color: var(--text-light);">المسؤول: ${log.adminId}</small>
+                    `;
+                    logsList.appendChild(logCard);
+                });
+            });
+        }
+
+        window.exportLogs = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const logsRef = collection(db, 'adminLogs');
+                const q = query(logsRef, orderBy('timestamp', 'desc'));
+                const snapshot = await getDocs(q);
+                
+                const logs = [];
+                snapshot.forEach((doc) => {
+                    logs.push(doc.data());
+                });
+
+                const dataStr = JSON.stringify(logs, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `admin-logs-${Date.now()}.json`;
+                link.click();
+            } catch (error) {
+                console.error('Export logs error:', error);
+                alert('حدث خطأ أثناء التصدير');
+            }
+        };
+
+        // UI FUNCTIONS
+        window.showSection = function(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            const sectionMap = {
+                'home': 'homeSection',
+                'smm-services': 'smmServicesSection',
+                'real-products': 'realProductsSection',
+                'digital-products': 'digitalProductsSection',
+                'website-design': 'websiteDesignSection',
+                'offers': 'offersSection',
+                'support': 'supportSection',
+                'profile': 'profileSection',
+                'admin': 'adminSection'
+            };
+
+            const targetSection = document.getElementById(sectionMap[sectionName]);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        window.switchTab = function(tabName) {
+            const parentSection = event.target.closest('.section');
+            if (!parentSection) return;
+
+            parentSection.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            parentSection.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const targetTab = document.getElementById(tabName + 'Tab');
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        };
+
+        window.switchAdminTab = function(tab) {
+            document.querySelectorAll('.admin-menu-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('#adminSection .tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            
+            const tabMap = {
+                'products': 'adminProductsTab',
+                'categories': 'adminCategoriesTab',
+                'orders': 'adminOrdersTab',
+                'deposits': 'adminDepositsTab',
+                'users': 'adminUsersTab',
+                'tickets': 'adminTicketsTab',
+                'coupons': 'adminCouponsTab',
+                'settings': 'adminSettingsTab',
+                'logs': 'adminLogsTab',
+                'chat': 'adminLiveChatModal' // Special case for chat modal
+            };
+
+            const targetTabId = tabMap[tab];
+            
+            if (targetTabId === 'adminLiveChatModal') {
+                openAdminLiveChat();
+            } else {
+                const targetTab = document.getElementById(targetTabId);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
+            }
+
+            // Load data for the selected tab
+            if (tab === 'products') loadAdminProducts();
+            else if (tab === 'categories') loadCategories();
+            else if (tab === 'orders') loadAdminOrders();
+            else if (tab === 'deposits') loadAdminDeposits();
+            else if (tab === 'users') loadAdminUsers();
+            else if (tab === 'tickets') loadAdminTickets();
+            else if (tab === 'coupons') loadAdminCoupons();
+            else if (tab === 'logs') loadAdminLogs();
+        };
+
+
+        window.showModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+            }
+        };
+
+        window.closeModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                // Also reset form values if it's a form modal
+                const form = modal.querySelector('form');
+                if (form) {
+                    form.reset();
+                }
+            }
+        };
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            
+            // Update the icon
+            const themeIcon = document.getElementById('themeToggle').querySelector('i');
+            if (themeIcon) {
+                themeIcon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+        };
+
+        window.changeCurrency = function() {
+            const selector = document.getElementById('currencySelector');
+            window.currentCurrency = selector.value;
+            
+            if (window.currentUser) {
+                listenToBalance(window.currentUser.uid);
+            }
+        };
+
+        // Updated to show profile section directly
+        window.toggleProfileMenu = function() {
+            showSection('profile');
+        };
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target.id);
+            }
+        });
+        
+        /* toggleUserMenu */
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', function(event) {
+            const userSection = document.getElementById('userSection');
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu && userMenu.style.display === 'block') {
+                if (!userSection.contains(event.target)) {
+                    userMenu.style.display = 'none';
+                }
+            }
+        });
+
+
+        // INITIALIZE
+        loadProducts();
+        loadFakeStats();
+        loadSiteSettings();
+        loadCategories();
+
+        // Profile Data Loading
+        function loadProfileData() {
+            if (!window.currentUser) return;
+            
+            const userRef = doc(db, 'users', window.currentUser.uid);
+            onSnapshot(userRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.data();
+                    document.getElementById('profileName').value = userData.name || '';
+                    document.getElementById('profileEmail').value = window.currentUser.email;
+                    document.getElementById('profilePhone').value = userData.phone || '';
+                }
+            });
+        }
+
+        // Profile Update Function
+        window.updateProfile = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUser) return;
+
+            const form = event.target;
+            const name = form.querySelector('input[name="name"]').value;
+            const phone = form.querySelector('input[name="phone"]').value;
+
+            try {
+                await updateDoc(doc(db, 'users', window.currentUser.uid), {
+                    name,
+                    phone
+                });
+
+                alert('تم تحديث الملف الشخصي بنجاح!');
+            } catch (error) {
+                console.error('Update profile error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Edit Category Functions
+        window.openEditCategory = function(id, name, slug, description, icon) {
+            document.getElementById('editCategoryId').value = id;
+            document.getElementById('editCategoryName').value = name;
+            document.getElementById('editCategorySlug').value = slug;
+            document.getElementById('editCategoryDescription').value = description;
+            document.getElementById('editCategoryIcon').value = icon;
+            showModal('editCategoryModal');
+        };
+
+        window.updateCategory = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const categoryId = document.getElementById('editCategoryId').value;
+            const name = document.getElementById('editCategoryName').value;
+            const slug = document.getElementById('editCategorySlug').value;
+            const description = document.getElementById('editCategoryDescription').value;
+            const icon = document.getElementById('editCategoryIcon').value;
+
+            try {
+                await updateDoc(doc(db, 'categories', categoryId), {
+                    name,
+                    slug,
+                    description,
+                    icon
+                });
+
+                alert('تم تحديث الفئة بنجاح!');
+                closeModal('editCategoryModal');
+            } catch (error) {
+                console.error('Update category error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Edit Product Functions
+        window.openEditProduct = function(product) {
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductTitle').value = product.title;
+            document.getElementById('editProductDescription').value = product.description;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductCategory').value = product.category;
+            document.getElementById('editProductImage').value = product.imageUrl || ''; // Use imageUrl
+            showModal('editProductModal');
+        };
+
+        window.updateProduct = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const productId = document.getElementById('editProductId').value;
+            const title = document.getElementById('editProductTitle').value;
+            const description = document.getElementById('editProductDescription').value;
+            const price = parseFloat(document.getElementById('editProductPrice').value);
+            const category = document.getElementById('editProductCategory').value;
+            const image = document.getElementById('editProductImage').value;
+
+            try {
+                await updateDoc(doc(db, 'products', productId), {
+                    title,
+                    description,
+                    price,
+                    category,
+                    imageUrl: image || null // Use imageUrl
+                });
+
+                alert('تم تحديث المنتج بنجاح!');
+                closeModal('editProductModal');
+            } catch (error) {
+                console.error('Update product error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Ticket Reply Functions
+        window.openTicketReply = function(ticketId, messages) {
+            document.getElementById('replyTicketId').value = ticketId;
+            
+            const messagesContainer = document.getElementById('ticketMessagesContainer');
+            messagesContainer.innerHTML = messages.map(msg => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: ${msg.isAdmin ? 'var(--success-light)' : 'var(--bg-white)'}; border-radius: 8px; border-right: 3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">
+                    <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'الدعم الفني' : 'المستخدم'}:</strong>
+                    <p style="margin: 0.5rem 0 0 0;">${msg.message}</p>
+                    <small style="color: var(--text-light);">${new Date(msg.timestamp).toLocaleString('ar-EG')}</small>
+                </div>
+            `).join('');
+            
+            showModal('ticketReplyModal');
+        };
+
+        window.replyToTicket = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const ticketId = document.getElementById('replyTicketId').value;
+            const message = form.querySelector('textarea').value;
+
+            try {
+                const ticketRef = doc(db, 'tickets', ticketId);
+                const ticketDoc = await getDoc(ticketRef);
+                
+                if (ticketDoc.exists()) {
+                    const ticket = ticketDoc.data();
+                    const messages = ticket.messages || [];
+                    
+                    messages.push({
+                        from: 'admin',
+                        isAdmin: true,
+                        message,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    await updateDoc(ticketRef, {
+                        messages,
+                        status: 'open' // Ensure status is updated if needed, or keep as is
+                    });
+
+                    await sendNotification(ticket.userId, `تم الرد على تذكرتك: ${ticket.subject}`);
+
+                    alert('تم إرسال الرد بنجاح!');
+                    closeModal('ticketReplyModal');
+                    form.reset();
+                }
+            } catch (error) {
+                console.error('Reply to ticket error:', error);
+                alert('حدث خطأ أثناء إرسال الرد');
+            }
+        };
+
+        // Admin Live Chat Management
+        window.openAdminLiveChat = function() {
+            showModal('adminLiveChatModal');
+            loadChatUsers();
+        };
+
+        function loadChatUsers() {
+            const chatRef = collection(db, 'liveChat');
+            
+            onSnapshot(chatRef, (snapshot) => {
+                const usersMap = new Map();
+                
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    if (!usersMap.has(msg.userId)) {
+                        usersMap.set(msg.userId, {
+                            userId: msg.userId,
+                            lastMessage: msg.message,
+                            timestamp: msg.timestamp
+                        });
+                    } else {
+                        // Update timestamp if newer message
+                        if (msg.timestamp > usersMap.get(msg.userId).timestamp) {
+                            usersMap.get(msg.userId).timestamp = msg.timestamp;
+                            usersMap.get(msg.userId).lastMessage = msg.message;
+                        }
+                    }
+                });
+
+                const usersList = document.getElementById('chatUsersList');
+                if (usersMap.size === 0) {
+                    usersList.innerHTML = '<p style="text-align: center; color: var(--text-light);">لا توجد محادثات</p>';
+                    return;
+                }
+
+                // Sort users by last message timestamp
+                const sortedUsers = Array.from(usersMap.values()).sort((a, b) => b.timestamp - a.timestamp);
+
+                usersList.innerHTML = '';
+                sortedUsers.forEach((user) => {
+                    const userItem = document.createElement('div');
+                    userItem.style.padding = '0.75rem';
+                    userItem.style.marginBottom = '0.5rem';
+                    userItem.style.background = 'var(--bg-light)';
+                    userItem.style.borderRadius = '8px';
+                    userItem.style.cursor = 'pointer';
+                    userItem.onclick = () => selectChatUser(user.userId);
+                    userItem.innerHTML = `
+                        <strong style="display: block; margin-bottom: 0.25rem;">${user.userId.substring(0, 8)}...</strong>
+                        <small style="color: var(--text-light);">${user.lastMessage.substring(0, 30)}...</small>
+                    `;
+                    usersList.appendChild(userItem);
+                });
+            });
+        }
+
+        function selectChatUser(userId) {
+            document.getElementById('selectedChatUserId').value = userId;
+            document.getElementById('adminChatForm').style.display = 'flex';
+            
+            const chatRef = collection(db, 'liveChat');
+            const q = query(chatRef, where('userId', '==', userId), orderBy('timestamp', 'asc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const messagesDiv = document.getElementById('adminChatMessages');
+                messagesDiv.innerHTML = '';
+                
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const messageEl = document.createElement('div');
+                    messageEl.style.marginBottom = '1rem';
+                    messageEl.style.padding = '0.75rem';
+                    messageEl.style.borderRadius = '8px';
+                    messageEl.style.background = msg.isAdmin ? 'var(--success-light)' : 'var(--primary-light)';
+                    messageEl.style.borderRight = `3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'}`;
+                    messageEl.innerHTML = `
+                        <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'أنت' : 'المستخدم'}:</strong>
+                        <p style="margin: 0.5rem 0 0 0;">${msg.message}</p>
+                    `;
+                    messagesDiv.appendChild(messageEl);
+                });
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        window.sendAdminChatMessage = async function(event) {
+            event.preventDefault();
+            
+            const userId = document.getElementById('selectedChatUserId').value;
+            const input = document.getElementById('adminChatInput');
+            const message = input.value.trim();
+            
+            if (!message || !userId) return;
+
+            try {
+                await addDoc(collection(db, 'liveChat'), {
+                    userId,
+                    message,
+                    isAdmin: true,
+                    timestamp: serverTimestamp()
+                });
+
+                await sendNotification(userId, 'لديك رسالة جديدة من الدعم الفني');
+
+                input.value = '';
+            } catch (error) {
+                console.error('Send admin message error:', error);
+            }
+        };
+    </script>
+</body>
+</html>
