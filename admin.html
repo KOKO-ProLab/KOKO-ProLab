@@ -5,37 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fule Online - منصة الخدمات الرقمية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* GLOBAL STYLES */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #1a1a2e;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        [data-theme="dark"] {
+            --bg-dark: #0f0f1e;
+            --bg-light: #1a1a2e;
+            --bg-white: #16213e;
+            --text-dark: #f8f9fa;
+            --text-light: #9ca3af;
+            --border: #374151;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1e40af;
-            --primary-dark: #1e3a8a;
-            --accent: #f97316;
-            --accent-dark: #ea580c;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --text-dark: #1e293b;
-            --text-gray: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
-
-        [data-theme="dark"] {
-            --bg-light: #0f172a;
-            --bg-white: #1e293b;
-            --text-dark: #f1f5f9;
-            --text-gray: #94a3b8;
-            --border: #334155;
         }
 
         body {
@@ -43,50 +45,45 @@
             background: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 1rem;
         }
 
-        /* HEADER & NAVIGATION */
-        .header {
+        /* HEADER */
+        header {
             background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .nav {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
-            gap: 2rem;
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-            text-decoration: none;
         }
 
         .nav-links {
             display: flex;
-            gap: 1.5rem;
             list-style: none;
-            flex: 1;
+            gap: 2rem;
         }
 
         .nav-links a {
-            color: var(--text-dark);
             text-decoration: none;
+            color: var(--text-dark);
             font-weight: 500;
             transition: color 0.3s;
         }
@@ -146,50 +143,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--bg-white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-top: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            display: none;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background: var(--bg-light);
-        }
-
-        .theme-toggle {
-            background: var(--bg-light);
-            border: 1px solid var(--border);
-            padding: 0.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.2rem;
         }
 
         /* BUTTONS */
@@ -197,8 +150,8 @@
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 8px;
-            font-weight: 600;
             cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s;
             font-family: 'Cairo', sans-serif;
         }
@@ -217,10 +170,6 @@
             color: white;
         }
 
-        .btn-accent:hover {
-            background: var(--accent-dark);
-        }
-
         .btn-success {
             background: var(--success);
             color: white;
@@ -231,45 +180,82 @@
             color: white;
         }
 
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
         /* CARDS */
         .card {
             background: var(--bg-white);
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
+        /* PRODUCT GRID */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
         }
 
         .product-card {
             background: var(--bg-white);
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
 
         .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
         }
 
         .product-image {
             width: 100%;
             height: 200px;
-            object-fit: cover;
             background: var(--bg-light);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            color: var(--text-gray);
+            color: var(--primary);
         }
 
         .product-content {
@@ -277,96 +263,50 @@
         }
 
         .product-title {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .product-description {
-            color: var(--text-gray);
-            font-size: 0.9rem;
+            color: var(--text-light);
             margin-bottom: 1rem;
         }
 
         .product-price {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 1rem;
         }
 
-        /* FORMS */
-        .form-group {
-            margin-bottom: 1.5rem;
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
         }
 
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
             font-weight: 600;
         }
 
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg-white);
-            color: var(--text-dark);
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        /* MODAL */
-        .modal {
+        .tab-content {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
         }
 
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-white);
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-gray);
+        .tab-content.active {
+            display: block;
         }
 
         /* ADMIN PANEL */
@@ -423,10 +363,10 @@
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
         }
 
         .stat-label {
+            margin-top: 0.5rem;
             opacity: 0.9;
         }
 
@@ -473,10 +413,11 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: transform 0.3s;
+            text-decoration: none;
         }
 
         .contact-btn:hover {
@@ -484,68 +425,129 @@
         }
 
         .whatsapp-btn {
-            background: #25d366;
+            background: #25D366;
         }
 
         .telegram-btn {
             background: #0088cc;
         }
 
-        /* TABLE */
-        .table {
+        /* MODALS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
         }
 
-        .table th,
-        .table td {
-            padding: 1rem;
-            text-align: right;
-            border-bottom: 1px solid var(--border);
+        .modal.active {
+            display: flex;
         }
 
-        .table th {
-            background: var(--bg-light);
+        .modal-content {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
-        /* BADGE */
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* FORMS */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         .badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
             border-radius: 12px;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             font-weight: 600;
         }
 
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .badge-danger {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .badge-info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        /* CURRENCY SELECTOR */
-        .currency-selector {
-            padding: 0.5rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        /* NOTIFICATIONS DROPDOWN */
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
             background: var(--bg-white);
-            color: var(--text-dark);
-            font-family: 'Cairo', sans-serif;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            margin-top: 0.5rem;
+            z-index: 1000;
+        }
+
+        .notifications-dropdown.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: var(--bg-light);
+        }
+
+        .notification-item.unread {
+            background: rgba(99, 102, 241, 0.1);
         }
 
         /* RESPONSIVE */
@@ -558,8 +560,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .admin-sidebar {
-                position: static;
+            .hero h1 {
+                font-size: 2rem;
             }
 
             .product-grid {
@@ -567,103 +569,41 @@
             }
         }
 
-        /* LOADING */
-        .loading {
-            text-align: center;
-            padding: 2rem;
+        /* CUSTOM FIELDS BUILDER */
+        .custom-fields-list {
+            margin-top: 1rem;
         }
 
-        .spinner {
-            border: 3px solid var(--border);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* HIDDEN */
-        .hidden {
-            display: none !important;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* SECTION */
-        .section {
-            padding: 3rem 0;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        /* TABS */
-        .tabs {
+        .custom-field-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
             display: flex;
-            gap: 1rem;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 2rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .tab {
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            font-weight: 600;
+        .field-info {
+            flex: 1;
         }
 
-        .tab.active {
-            border-bottom-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
+        .field-actions {
+            display: flex;
+            gap: 0.5rem;
         }
     </style>
 </head>
 <body>
      HEADER 
-    <header class="header">
+    <header>
         <div class="container">
-            <nav class="nav">
-                <a href="#" class="logo" onclick="showSection('home')">Fule Online</a>
+            <nav>
+                <div class="logo" id="siteLogo">Fule Online</div>
                 
-                <ul class="nav-links" id="navLinks">
+                <ul class="nav-links">
                     <li><a href="#" onclick="showSection('home')">الرئيسية</a></li>
-                    <li><a href="#" onclick="showSection('smm')">خدمات SMM</a></li>
+                    <li><a href="#" onclick="showSection('smm-services')">خدمات SMM</a></li>
                     <li><a href="#" onclick="showSection('real-products')">منتجات حقيقية</a></li>
                     <li><a href="#" onclick="showSection('digital-products')">منتجات رقمية</a></li>
                     <li><a href="#" onclick="showSection('website-design')">طلب تصميم موقع</a></li>
@@ -672,11 +612,11 @@
                 </ul>
 
                 <div class="nav-actions">
-                    <button class="theme-toggle" onclick="toggleTheme()">
-                        <i class="fas fa-moon" id="themeIcon"></i>
+                    <button class="btn btn-sm" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
                     </button>
 
-                    <select class="currency-selector" id="currencySelector" onchange="changeCurrency()">
+                    <select id="currencySelector" onchange="changeCurrency()" style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border);">
                         <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
                         <option value="SAR">SAR</option>
@@ -688,33 +628,24 @@
                         <button class="btn btn-accent" onclick="showModal('signupModal')">إنشاء حساب</button>
                     </div>
 
-                    <div id="userActions" class="hidden">
+                    <div id="userSection" style="display: none;">
                         <div class="balance-display">
                             <i class="fas fa-wallet"></i>
-                            <span id="balanceDisplay">0</span>
+                            <span id="balanceDisplay">0.00 USD</span>
                         </div>
 
                         <div class="notification-icon" onclick="toggleNotifications()">
                             <i class="fas fa-bell"></i>
                             <span class="notification-badge" id="notificationBadge">0</span>
+                            <div class="notifications-dropdown" id="notificationsDropdown">
+                                 Notifications will be loaded here 
+                            </div>
                         </div>
 
                         <div class="profile-dropdown">
                             <button class="profile-btn" onclick="toggleProfileMenu()">
                                 <i class="fas fa-user"></i>
-                                <span id="userDisplayName">المستخدم</span>
                             </button>
-                            <div class="dropdown-menu" id="profileMenu">
-                                <div class="dropdown-item" onclick="showSection('profile')">
-                                    <i class="fas fa-user"></i> ملفي
-                                </div>
-                                <div class="dropdown-item" onclick="showSection('settings')">
-                                    <i class="fas fa-cog"></i> الإعدادات
-                                </div>
-                                <div class="dropdown-item" onclick="logout()">
-                                    <i class="fas fa-sign-out-alt"></i> تسجيل خروج
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -722,15 +653,17 @@
         </div>
     </header>
 
-     MAIN CONTENT 
-    <main class="container">
-         HOME SECTION 
-        <section id="homeSection" class="section">
-            <div class="hero">
-                <h1 class="hero-title">مرحباً بك في Fule Online</h1>
-                <p class="hero-subtitle">منصتك الشاملة للخدمات الرقمية والمنتجات</p>
+     HOME SECTION 
+    <section id="homeSection" class="section">
+        <div class="hero">
+            <div class="container">
+                <h1>مرحباً بك في Fule Online</h1>
+                <p>منصتك الشاملة للخدمات الرقمية والمنتجات</p>
+                <button class="btn btn-accent" onclick="showSection('smm-services')">استكشف الخدمات</button>
             </div>
+        </div>
 
+        <div class="container">
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="activeUsers">33,000</div>
@@ -746,65 +679,56 @@
                 </div>
             </div>
 
-            <h2 class="section-title">الخدمات المميزة</h2>
+            <h2 class="section-title">المنتجات المميزة</h2>
             <div class="product-grid" id="featuredProducts"></div>
-        </section>
+        </div>
+    </section>
 
-         SMM SERVICES SECTION 
-        <section id="smmSection" class="section hidden">
+     SMM SERVICES SECTION 
+    <section id="smmServicesSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">خدمات SMM</h2>
             <div class="product-grid" id="smmProducts"></div>
-        </section>
+        </div>
+    </section>
 
-         REAL PRODUCTS SECTION 
-        <section id="realProductsSection" class="section hidden">
+     REAL PRODUCTS SECTION 
+    <section id="realProductsSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">منتجات حقيقية</h2>
             <div class="product-grid" id="realProducts"></div>
-        </section>
+        </div>
+    </section>
 
-         DIGITAL PRODUCTS SECTION 
-        <section id="digitalProductsSection" class="section hidden">
+     DIGITAL PRODUCTS SECTION 
+    <section id="digitalProductsSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">منتجات رقمية</h2>
             <div class="product-grid" id="digitalProducts"></div>
-        </section>
+        </div>
+    </section>
 
-         WEBSITE DESIGN SECTION 
-        <section id="websiteDesignSection" class="section hidden">
+     WEBSITE DESIGN SECTION 
+    <section id="websiteDesignSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">طلب تصميم موقع</h2>
             <div class="card">
-                <form id="websiteDesignForm" onsubmit="submitWebsiteDesign(event)">
-                    <div class="form-group">
-                        <label class="form-label">نوع الموقع</label>
-                        <select class="form-input" required>
-                            <option value="">اختر نوع الموقع</option>
-                            <option value="business">موقع شركة</option>
-                            <option value="ecommerce">متجر إلكتروني</option>
-                            <option value="portfolio">معرض أعمال</option>
-                            <option value="blog">مدونة</option>
-                            <option value="custom">مخصص</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">وصف المشروع</label>
-                        <textarea class="form-input" rows="5" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">الميزانية المتوقعة</label>
-                        <input type="text" class="form-input" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">إرسال الطلب</button>
-                </form>
+                <p>قريباً...</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-         OFFERS SECTION 
-        <section id="offersSection" class="section hidden">
+     OFFERS SECTION 
+    <section id="offersSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">العروض الخاصة</h2>
             <div class="product-grid" id="offersProducts"></div>
-        </section>
+        </div>
+    </section>
 
-         SUPPORT SECTION 
-        <section id="supportSection" class="section hidden">
+     SUPPORT SECTION 
+    <section id="supportSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">الدعم الفني</h2>
             
             <div class="tabs">
@@ -821,52 +745,54 @@
                     <form id="newTicketForm" onsubmit="createTicket(event)">
                         <div class="form-group">
                             <label class="form-label">الموضوع</label>
-                            <input type="text" class="form-input" required>
+                            <input type="text" class="form-input" name="subject" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">الرسالة</label>
-                            <textarea class="form-input" rows="5" required></textarea>
+                            <textarea class="form-input" name="message" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">إرسال التذكرة</button>
                     </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-         PROFILE SECTION 
-        <section id="profileSection" class="section hidden">
-            <h2 class="section-title">ملفي الشخصي</h2>
-            <div class="card">
-                <div class="form-group">
-                    <label class="form-label">اسم المستخدم</label>
-                    <input type="text" class="form-input" id="profileUsername" disabled>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">الاسم المعروض</label>
-                    <input type="text" class="form-input" id="profileDisplayName">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">البريد الإلكتروني</label>
-                    <input type="email" class="form-input" id="profileEmail" disabled>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">الحالة</label>
-                    <span class="badge badge-success" id="verifiedBadge">موثق</span>
-                </div>
-                <button class="btn btn-primary" onclick="updateProfile()">حفظ التغييرات</button>
+     PROFILE SECTION 
+    <section id="profileSection" class="section hidden">
+        <div class="container">
+            <h2 class="section-title">الملف الشخصي</h2>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('myOrders')">طلباتي</div>
+                <div class="tab" onclick="switchTab('myDeposits')">إيداعاتي</div>
+                <div class="tab" onclick="switchTab('accountSettings')">إعدادات الحساب</div>
             </div>
 
-            <h3 class="section-title" style="margin-top: 2rem;">طلباتي</h3>
-            <div id="userOrders"></div>
-
-            <h3 class="section-title" style="margin-top: 2rem;">المحفظة</h3>
-            <div class="card">
-                <button class="btn btn-accent" onclick="showModal('depositModal')">إيداع رصيد</button>
+            <div class="tab-content active" id="myOrdersTab">
+                <div id="userOrdersList"></div>
             </div>
-        </section>
 
-         ADMIN SECTION 
-        <section id="adminSection" class="section hidden">
+            <div class="tab-content" id="myDepositsTab">
+                <button class="btn btn-primary" onclick="showModal('depositModal')" style="margin-bottom: 1rem;">
+                    <i class="fas fa-plus"></i> طلب إيداع جديد
+                </button>
+                <div id="userDepositsList"></div>
+            </div>
+
+            <div class="tab-content" id="accountSettingsTab">
+                <div class="card">
+                    <h3>معلومات الحساب</h3>
+                    <p>البريد الإلكتروني: <span id="userEmail"></span></p>
+                    <button class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     ADMIN SECTION 
+    <section id="adminSection" class="section hidden">
+        <div class="container">
             <h2 class="section-title">لوحة الإدارة</h2>
             
             <div class="admin-layout">
@@ -874,6 +800,9 @@
                     <ul class="admin-menu">
                         <li class="admin-menu-item active" onclick="switchAdminTab('products')">
                             <i class="fas fa-box"></i> المنتجات
+                        </li>
+                        <li class="admin-menu-item" onclick="switchAdminTab('categories')">
+                            <i class="fas fa-folder"></i> الفئات
                         </li>
                         <li class="admin-menu-item" onclick="switchAdminTab('orders')">
                             <i class="fas fa-shopping-cart"></i> الطلبات
@@ -906,6 +835,15 @@
                             <i class="fas fa-plus"></i> إضافة منتج
                         </button>
                         <div id="adminProductsList"></div>
+                    </div>
+
+                     Added Categories Management Tab 
+                     CATEGORIES TAB 
+                    <div id="adminCategoriesTab" class="tab-content">
+                        <button class="btn btn-primary" onclick="showModal('addCategoryModal')" style="margin-bottom: 1rem;">
+                            <i class="fas fa-plus"></i> إضافة فئة جديدة
+                        </button>
+                        <div id="adminCategoriesList"></div>
                     </div>
 
                      ORDERS TAB 
@@ -942,11 +880,19 @@
                             <h3>إعدادات الموقع</h3>
                             <div class="form-group">
                                 <label class="form-label">عنوان الموقع</label>
-                                <input type="text" class="form-input" id="siteTitle">
+                                <input type="text" class="form-input" id="siteTitle" value="Fule Online">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">وصف الموقع</label>
-                                <textarea class="form-input" id="siteDescription" rows="3"></textarea>
+                                <textarea class="form-input" id="siteDescription" rows="3">منصتك الشاملة للخدمات الرقمية</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">رقم الواتساب</label>
+                                <input type="text" class="form-input" id="whatsappNumber" placeholder="+201234567890">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">معرف التيليجرام</label>
+                                <input type="text" class="form-input" id="telegramUsername" placeholder="@username">
                             </div>
                             <button class="btn btn-primary" onclick="updateSiteSettings()">حفظ الإعدادات</button>
                         </div>
@@ -955,11 +901,15 @@
                             <h3>الإحصائيات الوهمية</h3>
                             <div class="form-group">
                                 <label class="form-label">المستخدمين النشطين</label>
-                                <input type="number" class="form-input" id="fakeActiveUsers">
+                                <input type="number" class="form-input" id="fakeActiveUsers" value="33000">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">الطلبات المكتملة</label>
-                                <input type="number" class="form-input" id="fakeCompletedOrders">
+                                <input type="number" class="form-input" id="fakeCompletedOrders" value="15420">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">نسبة رضا العملاء (%)</label>
+                                <input type="number" class="form-input" id="fakeSatisfaction" value="98" min="0" max="100">
                             </div>
                             <button class="btn btn-primary" onclick="updateFakeStats()">تحديث الإحصائيات</button>
                         </div>
@@ -974,25 +924,27 @@
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
      FLOATING CHAT 
     <div class="floating-chat" onclick="openLiveChat()">
         <i class="fas fa-comments"></i>
     </div>
 
+     Added WhatsApp and Telegram contact buttons 
      CONTACT BUTTONS 
     <div class="contact-buttons">
-        <a href="https://wa.me/YOUR_NUMBER" target="_blank" class="contact-btn whatsapp-btn">
+        <a href="#" id="whatsappBtn" class="contact-btn whatsapp-btn" target="_blank" title="تواصل عبر الواتساب">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="https://t.me/YOUR_USERNAME" target="_blank" class="contact-btn telegram-btn">
+        <a href="#" id="telegramBtn" class="contact-btn telegram-btn" target="_blank" title="تواصل عبر التيليجرام">
             <i class="fab fa-telegram"></i>
         </a>
     </div>
 
      MODALS 
+    
      LOGIN MODAL 
     <div id="loginModal" class="modal">
         <div class="modal-content">
@@ -1026,20 +978,16 @@
             </div>
             <form id="signupForm" onsubmit="signup(event)">
                 <div class="form-group">
-                    <label class="form-label">اسم المستخدم</label>
-                    <input type="text" class="form-input" id="signupUsername" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">الاسم المعروض</label>
-                    <input type="text" class="form-input" id="signupDisplayName" required>
-                </div>
-                <div class="form-group">
                     <label class="form-label">البريد الإلكتروني</label>
-                    <input type="email" class="form-input" id="signupEmail" required>
+                    <input type="email" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">كلمة المرور</label>
-                    <input type="password" class="form-input" id="signupPassword" required>
+                    <input type="password" class="form-input" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-input" required minlength="6">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">إنشاء حساب</button>
             </form>
@@ -1064,11 +1012,11 @@
     </div>
 
      PRODUCT DETAILS MODAL 
-    <div id="productModal" class="modal">
+    <div id="productDetailsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="productModalTitle">تفاصيل المنتج</h2>
-                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+                <h2 class="modal-title" id="productModalTitle"></h2>
+                <button class="modal-close" onclick="closeModal('productDetailsModal')">&times;</button>
             </div>
             <div id="productModalContent"></div>
         </div>
@@ -1081,29 +1029,8 @@
                 <h2 class="modal-title">إتمام الطلب</h2>
                 <button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button>
             </div>
-            <form id="checkoutForm" onsubmit="submitOrder(event)">
-                <div id="checkoutDynamicFields"></div>
-                <div class="form-group">
-                    <label class="form-label">تفاصيل إضافية (اختياري)</label>
-                    <textarea class="form-input" rows="3" id="orderDetails"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">طريقة الدفع</label>
-                    <select class="form-input" id="paymentMethod" required>
-                        <option value="">اختر طريقة الدفع</option>
-                        <option value="balance">الرصيد</option>
-                        <option value="crypto">عملات رقمية</option>
-                        <option value="vodafone">فودافون كاش</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">كود الخصم (اختياري)</label>
-                    <input type="text" class="form-input" id="couponCode">
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>السعر النهائي: </strong>
-                    <span id="finalPrice">0</span>
-                </div>
+            <form id="checkoutForm" onsubmit="completeOrder(event)">
+                <div id="checkoutCustomFields"></div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">تأكيد الطلب</button>
             </form>
         </div>
@@ -1113,27 +1040,33 @@
     <div id="depositModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">إيداع رصيد</h2>
+                <h2 class="modal-title">طلب إيداع</h2>
                 <button class="modal-close" onclick="closeModal('depositModal')">&times;</button>
             </div>
-            <form id="depositForm" onsubmit="submitDeposit(event)">
+            <form id="depositForm" onsubmit="requestDeposit(event)">
                 <div class="form-group">
                     <label class="form-label">المبلغ</label>
-                    <input type="number" class="form-input" required min="1">
+                    <input type="number" class="form-input" required min="1" step="0.01">
                 </div>
                 <div class="form-group">
                     <label class="form-label">طريقة الدفع</label>
                     <select class="form-input" required>
                         <option value="">اختر طريقة الدفع</option>
-                        <option value="crypto">عملات رقمية</option>
+                        <option value="bank">تحويل بنكي</option>
                         <option value="vodafone">فودافون كاش</option>
+                        <option value="paypal">PayPal</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال طلب الإيداع</button>
+                <div class="form-group">
+                    <label class="form-label">إثبات الدفع (رابط الصورة)</label>
+                    <input type="url" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال الطلب</button>
             </form>
         </div>
     </div>
 
+     Enhanced Add Product Modal with optional fields and custom fields builder 
      ADD PRODUCT MODAL (ADMIN) 
     <div id="addProductModal" class="modal">
         <div class="modal-content">
@@ -1144,12 +1077,12 @@
             <form id="addProductForm" onsubmit="addProduct(event)">
                 <div class="form-group">
                     <label class="form-label">العنوان</label>
-                    <input type="text" class="form-input" required>
+                    <input type="text" class="form-input" name="title" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">النوع</label>
-                    <select class="form-input" required>
-                        <option value="">اختر النوع</option>
+                    <label class="form-label">الفئة</label>
+                    <select class="form-input" name="category" id="productCategorySelect" required>
+                        <option value="">اختر الفئة</option>
                         <option value="smm">خدمات SMM</option>
                         <option value="real">منتج حقيقي</option>
                         <option value="digital">منتج رقمي</option>
@@ -1157,15 +1090,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">الوصف</label>
-                    <textarea class="form-input" rows="3" required></textarea>
+                    <textarea class="form-input" name="description" rows="3" required></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">السعر</label>
-                    <input type="number" class="form-input" required min="0" step="0.01">
+                    <input type="number" class="form-input" name="price" required min="0" step="0.01">
                 </div>
                 <div class="form-group">
                     <label class="form-label">العملة</label>
-                    <select class="form-input" required>
+                    <select class="form-input" name="currency" required>
                         <option value="USD">USD</option>
                         <option value="EGP">EGP</option>
                         <option value="SAR">SAR</option>
@@ -1174,13 +1107,57 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">المخزون</label>
-                    <input type="number" class="form-input" required min="0">
+                    <input type="number" class="form-input" name="stock" required min="0">
                 </div>
                 <div class="form-group">
                     <label class="form-label">رابط الصورة (اختياري)</label>
-                    <input type="url" class="form-input">
+                    <input type="url" class="form-input" name="imageUrl">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">إضافة المنتج</button>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" name="isOffer"> عرض خاص
+                    </label>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">الحقول المطلوبة من المستخدم عند الشراء</h3>
+                <div id="customFieldsBuilder">
+                    <div class="custom-fields-list" id="customFieldsList"></div>
+                    <button type="button" class="btn btn-sm btn-accent" onclick="addCustomField()">
+                        <i class="fas fa-plus"></i> إضافة حقل
+                    </button>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">إضافة المنتج</button>
+            </form>
+        </div>
+    </div>
+
+     Added Category Management Modal 
+     ADD CATEGORY MODAL (ADMIN) 
+    <div id="addCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">إضافة فئة جديدة</h2>
+                <button class="modal-close" onclick="closeModal('addCategoryModal')">&times;</button>
+            </div>
+            <form id="addCategoryForm" onsubmit="addCategory(event)">
+                <div class="form-group">
+                    <label class="form-label">اسم الفئة</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المعرف (بالإنجليزية)</label>
+                    <input type="text" class="form-input" name="slug" required pattern="[a-z-]+" placeholder="smm-services">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الأيقونة (Font Awesome class)</label>
+                    <input type="text" class="form-input" name="icon" placeholder="fas fa-box">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" name="description" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إضافة الفئة</button>
             </form>
         </div>
     </div>
@@ -1189,12 +1166,12 @@
     <div id="addCouponModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">إضافة كوبون جديد</h2>
+                <h2 class="modal-title">إضافة كوبون</h2>
                 <button class="modal-close" onclick="closeModal('addCouponModal')">&times;</button>
             </div>
             <form id="addCouponForm" onsubmit="addCoupon(event)">
                 <div class="form-group">
-                    <label class="form-label">الكود</label>
+                    <label class="form-label">كود الكوبون</label>
                     <input type="text" class="form-input" required>
                 </div>
                 <div class="form-group">
@@ -1204,10 +1181,6 @@
                 <div class="form-group">
                     <label class="form-label">تاريخ الانتهاء</label>
                     <input type="date" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عدد الاستخدامات المتاحة</label>
-                    <input type="number" class="form-input" required min="1">
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">إضافة الكوبون</button>
             </form>
@@ -1234,18 +1207,17 @@
 
      FIREBASE SDK 
     <script type="module">
-        /* FIREBASE CONFIG HERE */
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, where, onSnapshot, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-        import { getDatabase, ref, set, get, update, onValue, push } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDoc, getDocs, query, where, orderBy, onSnapshot, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getDatabase, ref, set, get, onValue, push, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyCcxGOaiiy6Dy1MybOIOxn69xab4rsOOJ0",
             authDomain: "koko-caffe.firebaseapp.com",
             databaseURL: "https://koko-caffe-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "koko-caffe",
-            storageBucket: "koko-caffe.firestorage.app",
+            storageBucket: "koko-caffe.firebasestorage.app",
             messagingSenderId: "382318796715",
             appId: "1:382318796715:web:ee9f3aca9a107f86da7cee",
             measurementId: "G-B83G77QPWW"
@@ -1256,82 +1228,62 @@
         const db = getFirestore(app);
         const rtdb = getDatabase(app);
 
-        // Make Firebase available globally
-        window.firebaseAuth = auth;
-        window.firebaseDb = db;
-        window.firebaseRtdb = rtdb;
-        window.firebaseModules = {
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            signOut,
-            sendPasswordResetEmail,
-            onAuthStateChanged,
-            collection,
-            addDoc,
-            updateDoc,
-            deleteDoc,
-            doc,
-            getDoc,
-            getDocs,
-            query,
-            where,
-            onSnapshot,
-            orderBy,
-            serverTimestamp,
-            ref,
-            set,
-            get,
-            update,
-            onValue,
-            push
-        };
-
-        // Global state
+        window.auth = auth;
+        window.db = db;
+        window.rtdb = rtdb;
         window.currentUser = null;
         window.currentUserData = null;
         window.currentCurrency = 'USD';
-        window.currentProduct = null;
+        window.customFieldsData = [];
 
-        /* AUTH: signup/login/reset */
-        // AUTH STATE LISTENER
+        /* onAuthStateChanged */
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 window.currentUser = user;
-                await loadUserData(user.uid);
-                showUserInterface();
+                
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    window.currentUserData = userDoc.data();
+                } else {
+                    await setDoc(doc(db, 'users', user.uid), {
+                        email: user.email,
+                        role: 'user',
+                        verified: false,
+                        createdAt: serverTimestamp()
+                    });
+                    window.currentUserData = { email: user.email, role: 'user', verified: false };
+                }
+
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userSection').style.display = 'flex';
+                document.getElementById('userEmail').textContent = user.email;
+
                 listenToBalance(user.uid);
                 listenToNotifications(user.uid);
-                loadProducts();
-                
                 loadUserTickets();
                 loadUserOrders();
-                
-                // Check if admin
-                if (window.currentUserData?.role === 'admin') {
-                    document.getElementById('navLinks').innerHTML += '<li><a href="#" onclick="showSection(\'admin\')">الإدارة</a></li>';
-                    loadAdminData();
+                loadUserDeposits();
+
+                if (window.currentUserData.role === 'admin') {
+                    document.querySelector('.nav-links').innerHTML += '<li><a href="#" onclick="showSection(\'admin\')">لوحة الإدارة</a></li>';
                 }
             } else {
                 window.currentUser = null;
                 window.currentUserData = null;
-                showAuthInterface();
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userSection').style.display = 'none';
             }
         });
-
-        async function loadUserData(uid) {
-            const userDoc = await getDoc(doc(db, 'users', uid));
-            if (userDoc.exists()) {
-                window.currentUserData = { id: uid, ...userDoc.data() };
-                document.getElementById('userDisplayName').textContent = window.currentUserData.displayName || 'المستخدم';
-            }
-        }
 
         /* onValue(balances/{uid}) */
         function listenToBalance(uid) {
             const balanceRef = ref(rtdb, `balances/${uid}`);
             onValue(balanceRef, (snapshot) => {
                 const balance = snapshot.val() || 0;
-                document.getElementById('balanceDisplay').textContent = `${balance.toFixed(2)} ${window.currentCurrency}`;
+                const balanceDisplay = document.getElementById('balanceDisplay');
+                if (balanceDisplay) {
+                    balanceDisplay.textContent = `${balance.toFixed(2)} ${window.currentCurrency}`;
+                }
             });
         }
 
@@ -1340,10 +1292,42 @@
             const notificationsRef = ref(rtdb, `notifications/${uid}`);
             onValue(notificationsRef, (snapshot) => {
                 const notifications = snapshot.val() || {};
-                const unreadCount = Object.values(notifications).filter(n => !n.read).length;
-                document.getElementById('notificationBadge').textContent = unreadCount;
+                const notificationsArray = Object.entries(notifications).map(([id, data]) => ({ id, ...data }));
+                const unreadCount = notificationsArray.filter(n => !n.read).length;
+                
+                const badge = document.getElementById('notificationBadge');
+                if (badge) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+                }
+
+                // Display notifications in dropdown
+                const dropdown = document.getElementById('notificationsDropdown');
+                if (dropdown) {
+                    dropdown.innerHTML = notificationsArray.length > 0 
+                        ? notificationsArray.map(n => `
+                            <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
+                                <p style="margin: 0; font-size: 0.9rem;">${n.message}</p>
+                                <small style="color: var(--text-light);">${new Date(n.timestamp).toLocaleString('ar-EG')}</small>
+                            </div>
+                        `).join('')
+                        : '<div class="notification-item"><p style="margin: 0; text-align: center; color: var(--text-light);">لا توجد إشعارات</p></div>';
+                }
             });
         }
+
+        window.markNotificationRead = async function(notificationId) {
+            if (!window.currentUser) return;
+            const notifRef = ref(rtdb, `notifications/${window.currentUser.uid}/${notificationId}`);
+            await update(notifRef, { read: true });
+        };
+
+        window.toggleNotifications = function() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+            }
+        };
 
         /* onSnapshot(products) */
         function loadProducts() {
@@ -1362,17 +1346,24 @@
             const smmProducts = products.filter(p => p.type === 'smm');
             const realProducts = products.filter(p => p.type === 'real');
             const digitalProducts = products.filter(p => p.type === 'digital');
+            const offerProducts = products.filter(p => p.isOffer === true);
             const featured = products.slice(0, 6);
 
             renderProductGrid('featuredProducts', featured);
             renderProductGrid('smmProducts', smmProducts);
             renderProductGrid('realProducts', realProducts);
             renderProductGrid('digitalProducts', digitalProducts);
+            renderProductGrid('offersProducts', offerProducts);
         }
 
         function renderProductGrid(elementId, products) {
             const grid = document.getElementById(elementId);
             if (!grid) return;
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات حالياً</p></div>';
+                return;
+            }
 
             grid.innerHTML = products.map(product => `
                 <div class="product-card">
@@ -1383,7 +1374,8 @@
                         <h3 class="product-title">${product.title}</h3>
                         <p class="product-description">${product.description}</p>
                         <div class="product-price">${product.price} ${product.currency}</div>
-                        <button class="btn btn-primary" onclick="viewProduct('${product.id}')" style="width: 100%;">
+                        ${product.isOffer ? '<span class="badge" style="background: var(--danger); color: white;">عرض خاص</span>' : ''}
+                        <button class="btn btn-primary" onclick="viewProduct('${product.id}')" style="width: 100%; margin-top: 0.5rem;">
                             عرض التفاصيل
                         </button>
                     </div>
@@ -1393,147 +1385,106 @@
 
         window.viewProduct = async function(productId) {
             const productDoc = await getDoc(doc(db, 'products', productId));
-            if (productDoc.exists()) {
-                const product = { id: productId, ...productDoc.data() };
-                window.currentProduct = product;
-                
-                const modalContent = document.getElementById('productModalContent');
-                modalContent.innerHTML = `
-                    <div class="product-image" style="margin-bottom: 1rem;">
-                        ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.title}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">` : '<i class="fas fa-box"></i>'}
-                    </div>
-                    <h3>${product.title}</h3>
-                    <p>${product.description}</p>
-                    <div class="product-price" style="margin: 1rem 0;">${product.price} ${product.currency}</div>
-                    <p><strong>المخزون:</strong> ${product.stock}</p>
-                    <button class="btn btn-primary" onclick="startCheckout()" style="width: 100%; margin-top: 1rem;">
-                        شراء الآن
-                    </button>
-                `;
-                
-                showModal('productModal');
-            }
+            if (!productDoc.exists()) return;
+
+            const product = productDoc.data();
+            window.currentProduct = { id: productId, ...product };
+
+            document.getElementById('productModalTitle').textContent = product.title;
+            document.getElementById('productModalContent').innerHTML = `
+                ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.title}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">` : ''}
+                <p style="margin-bottom: 1rem;">${product.description}</p>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">
+                    ${product.price} ${product.currency}
+                </div>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">المخزون المتاح: ${product.stock}</p>
+                <button class="btn btn-primary" onclick="initiateCheckout()" style="width: 100%;">شراء الآن</button>
+            `;
+
+            showModal('productDetailsModal');
         };
 
-        window.startCheckout = function() {
+        window.initiateCheckout = function() {
             if (!window.currentUser) {
                 alert('يرجى تسجيل الدخول أولاً');
-                closeModal('productModal');
+                closeModal('productDetailsModal');
                 showModal('loginModal');
                 return;
             }
 
             const product = window.currentProduct;
-            const dynamicFields = document.getElementById('checkoutDynamicFields');
-            
-            if (product.adminFields && product.adminFields.length > 0) {
-                dynamicFields.innerHTML = product.adminFields.map((field, index) => `
-                    <div class="form-group">
-                        <label class="form-label">${field.label} ${field.required ? '*' : '(اختياري)'}</label>
-                        <input type="text" class="form-input" data-field-index="${index}" ${field.required ? 'required' : ''} placeholder="${field.hint || ''}">
-                    </div>
-                `).join('');
-            } else {
-                dynamicFields.innerHTML = '';
-            }
+            const customFields = product.customFields || [];
 
-            document.getElementById('finalPrice').textContent = `${product.price} ${product.currency}`;
-            
-            closeModal('productModal');
+            const fieldsHTML = customFields.map((field, index) => `
+                <div class="form-group">
+                    <label class="form-label">${field.label} ${field.required ? '*' : '(اختياري)'}</label>
+                    ${field.type === 'textarea' 
+                        ? `<textarea class="form-input" name="field_${index}" ${field.required ? 'required' : ''} placeholder="${field.hint || ''}"></textarea>`
+                        : `<input type="${field.type || 'text'}" class="form-input" name="field_${index}" ${field.required ? 'required' : ''} placeholder="${field.hint || ''}">`
+                    }
+                </div>
+            `).join('');
+
+            document.getElementById('checkoutCustomFields').innerHTML = fieldsHTML;
+            closeModal('productDetailsModal');
             showModal('checkoutModal');
         };
 
-        /* CALL createOrder() */
-        window.submitOrder = async function(event) {
+        window.completeOrder = async function(event) {
             event.preventDefault();
             
-            if (!window.currentUser || !window.currentProduct) return;
-
+            const product = window.currentProduct;
             const form = event.target;
-            const paymentMethod = form.querySelector('#paymentMethod').value;
-            const orderDetails = form.querySelector('#orderDetails').value;
-            const couponCode = form.querySelector('#couponCode').value;
-
-            // Collect dynamic fields
-            const dynamicFieldsData = {};
-            const dynamicInputs = form.querySelectorAll('[data-field-index]');
-            dynamicInputs.forEach(input => {
-                const index = input.getAttribute('data-field-index');
-                const field = window.currentProduct.adminFields[index];
-                dynamicFieldsData[field.label] = input.value;
+            const formData = new FormData(form);
+            
+            const customFieldsData = {};
+            formData.forEach((value, key) => {
+                if (key.startsWith('field_')) {
+                    const index = parseInt(key.split('_')[1]);
+                    const field = product.customFields[index];
+                    customFieldsData[field.label] = value;
+                }
             });
 
             try {
-                // Create order in Firestore
-                const orderData = {
+                const balanceRef = ref(rtdb, `balances/${window.currentUser.uid}`);
+                const balanceSnapshot = await get(balanceRef);
+                const currentBalance = balanceSnapshot.val() || 0;
+
+                if (currentBalance < product.price) {
+                    alert('رصيدك غير كافٍ لإتمام الطلب');
+                    return;
+                }
+
+                await addDoc(collection(db, 'orders'), {
                     userId: window.currentUser.uid,
-                    productId: window.currentProduct.id,
-                    productTitle: window.currentProduct.title,
-                    price: window.currentProduct.price,
-                    currency: window.currentProduct.currency,
-                    paymentMethod,
-                    orderDetails,
-                    dynamicFields: dynamicFieldsData,
-                    couponCode,
+                    productId: product.id,
+                    productTitle: product.title,
+                    price: product.price,
+                    currency: product.currency,
+                    customFields: customFieldsData,
                     status: 'pending',
                     createdAt: serverTimestamp()
-                };
-
-                await addDoc(collection(db, 'orders'), orderData);
-
-                // Log admin action
-                await addDoc(collection(db, 'adminLogs'), {
-                    action: 'order_created',
-                    userId: window.currentUser.uid,
-                    orderId: 'pending',
-                    timestamp: serverTimestamp()
                 });
 
-                alert('تم إرسال طلبك بنجاح! سيتم مراجعته قريباً.');
+                await set(balanceRef, currentBalance - product.price);
+
+                await updateDoc(doc(db, 'products', product.id), {
+                    stock: product.stock - 1
+                });
+
+                await sendNotification(window.currentUser.uid, `تم استلام طلبك: ${product.title}`);
+
+                alert('تم إرسال طلبك بنجاح!');
                 closeModal('checkoutModal');
                 form.reset();
             } catch (error) {
-                console.error('Error creating order:', error);
-                alert('حدث خطأ أثناء إرسال الطلب');
+                console.error('Order error:', error);
+                alert('حدث خطأ أثناء إتمام الطلب');
             }
         };
 
-        // SIGNUP
-        window.signup = async function(event) {
-            event.preventDefault();
-            const form = event.target;
-            const username = form.querySelector('#signupUsername').value;
-            const displayName = form.querySelector('#signupDisplayName').value;
-            const email = form.querySelector('#signupEmail').value;
-            const password = form.querySelector('#signupPassword').value;
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Create user document in Firestore
-                await set(doc(db, 'users', user.uid), {
-                    username,
-                    displayName,
-                    email,
-                    role: 'user',
-                    verified: false,
-                    createdAt: serverTimestamp()
-                });
-
-                // Initialize balance in Realtime DB
-                await set(ref(rtdb, `balances/${user.uid}`), 0);
-
-                alert('تم إنشاء الحساب بنجاح!');
-                closeModal('signupModal');
-                form.reset();
-            } catch (error) {
-                console.error('Signup error:', error);
-                alert('حدث خطأ: ' + error.message);
-            }
-        };
-
-        // LOGIN
+        // AUTHENTICATION
         window.login = async function(event) {
             event.preventDefault();
             const form = event.target;
@@ -1545,22 +1496,42 @@
                 closeModal('loginModal');
                 form.reset();
             } catch (error) {
-                console.error('Login error:', error);
-                alert('حدث خطأ: ' + error.message);
+                alert('خطأ في تسجيل الدخول: ' + error.message);
             }
         };
 
-        // LOGOUT
-        window.logout = async function() {
+        window.signup = async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const inputs = form.querySelectorAll('input');
+            const email = inputs[0].value;
+            const password = inputs[1].value;
+            const confirmPassword = inputs[2].value;
+
+            if (password !== confirmPassword) {
+                alert('كلمات المرور غير متطابقة');
+                return;
+            }
+
             try {
-                await signOut(auth);
-                location.reload();
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    email,
+                    role: 'user',
+                    verified: false,
+                    createdAt: serverTimestamp()
+                });
+
+                await set(ref(rtdb, `balances/${userCredential.user.uid}`), 0);
+
+                closeModal('signupModal');
+                form.reset();
             } catch (error) {
-                console.error('Logout error:', error);
+                alert('خطأ في إنشاء الحساب: ' + error.message);
             }
         };
 
-        // RESET PASSWORD
         window.resetPassword = async function(event) {
             event.preventDefault();
             const form = event.target;
@@ -1572,50 +1543,43 @@
                 closeModal('resetPasswordModal');
                 form.reset();
             } catch (error) {
-                console.error('Reset password error:', error);
-                alert('حدث خطأ: ' + error.message);
+                alert('خطأ: ' + error.message);
             }
         };
 
-        // UPDATE PROFILE
-        window.updateProfile = async function() {
-            if (!window.currentUser) return;
-
-            const displayName = document.getElementById('profileDisplayName').value;
-
+        window.logout = async function() {
             try {
-                await updateDoc(doc(db, 'users', window.currentUser.uid), {
-                    displayName
-                });
-
-                alert('تم تحديث الملف الشخصي بنجاح');
-                await loadUserData(window.currentUser.uid);
+                await signOut(auth);
+                showSection('home');
+                location.reload();
             } catch (error) {
-                console.error('Update profile error:', error);
-                alert('حدث خطأ أثناء التحديث');
+                alert('خطأ في تسجيل الخروج: ' + error.message);
             }
         };
 
-        // DEPOSIT
-        window.submitDeposit = async function(event) {
+        // DEPOSITS
+        window.requestDeposit = async function(event) {
             event.preventDefault();
             
             if (!window.currentUser) return;
 
             const form = event.target;
-            const amount = parseFloat(form.querySelector('input[type="number"]').value);
-            const method = form.querySelector('select').value;
+            const inputs = form.querySelectorAll('input, select');
+            const amount = parseFloat(inputs[0].value);
+            const method = inputs[1].value;
+            const proof = inputs[2].value;
 
             try {
                 await addDoc(collection(db, 'deposits'), {
                     userId: window.currentUser.uid,
                     amount,
                     method,
+                    proof,
                     status: 'pending',
                     createdAt: serverTimestamp()
                 });
 
-                alert('تم إرسال طلب الإيداع بنجاح! سيتم مراجعته من قبل الإدارة.');
+                alert('تم إرسال طلب الإيداع بنجاح!');
                 closeModal('depositModal');
                 form.reset();
             } catch (error) {
@@ -1624,6 +1588,47 @@
             }
         };
 
+        function loadUserDeposits() {
+            if (!window.currentUser) return;
+            
+            const depositsRef = collection(db, 'deposits');
+            const q = query(depositsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const depositsList = document.getElementById('userDepositsList');
+                if (!depositsList) return;
+                
+                if (snapshot.empty) {
+                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد إيداعات</p></div>';
+                    return;
+                }
+                
+                depositsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const deposit = doc.data();
+                    const statusColors = {
+                        'pending': 'var(--warning)',
+                        'approved': 'var(--success)',
+                        'rejected': 'var(--danger)'
+                    };
+                    
+                    const depositCard = document.createElement('div');
+                    depositCard.className = 'card';
+                    depositCard.style.marginBottom = '1rem';
+                    depositCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-dark);">${deposit.amount} ${window.currentCurrency}</h3>
+                                <p style="color: var(--text-light); margin: 0.5rem 0;">الطريقة: ${deposit.method}</p>
+                            </div>
+                            <span class="badge" style="background: ${statusColors[deposit.status]}; color: white;">${deposit.status}</span>
+                        </div>
+                    `;
+                    depositsList.appendChild(depositCard);
+                });
+            });
+        }
+
         // TICKETS
         window.createTicket = async function(event) {
             event.preventDefault();
@@ -1631,12 +1636,13 @@
             if (!window.currentUser) return;
 
             const form = event.target;
-            const subject = form.querySelector('input[type="text"]').value;
-            const message = form.querySelector('textarea').value;
+            const subject = form.querySelector('input[name="subject"]').value;
+            const message = form.querySelector('textarea[name="message"]').value;
 
             try {
                 await addDoc(collection(db, 'tickets'), {
                     userId: window.currentUser.uid,
+                    userEmail: window.currentUser.email,
                     subject,
                     status: 'open',
                     messages: [{
@@ -1655,6 +1661,86 @@
                 alert('حدث خطأ أثناء إرسال التذكرة');
             }
         };
+
+        function loadUserTickets() {
+            if (!window.currentUser) return;
+            
+            const ticketsRef = collection(db, 'tickets');
+            const q = query(ticketsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ticketsList = document.getElementById('ticketsList');
+                if (!ticketsList) return;
+                
+                if (snapshot.empty) {
+                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر حالياً</p></div>';
+                    return;
+                }
+                
+                ticketsList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const statusColors = {
+                        'open': 'var(--success)',
+                        'closed': 'var(--text-light)',
+                        'pending': 'var(--warning)'
+                    };
+                    
+                    const ticketCard = document.createElement('div');
+                    ticketCard.className = 'card';
+                    ticketCard.style.marginBottom = '1rem';
+                    ticketCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${ticket.subject}</h3>
+                            <span class="badge" style="background: ${statusColors[ticket.status] || 'var(--text-light)'}; color: white;">${ticket.status}</span>
+                        </div>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
+                        <small style="color: var(--text-light);">رقم التذكرة: ${doc.id}</small>
+                    `;
+                    ticketsList.appendChild(ticketCard);
+                });
+            });
+        }
+
+        function loadUserOrders() {
+            if (!window.currentUser) return;
+            
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const ordersList = document.getElementById('userOrdersList');
+                if (!ordersList) return;
+                
+                if (snapshot.empty) {
+                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات</p></div>';
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const order = doc.data();
+                    const statusColors = {
+                        'pending': 'var(--warning)',
+                        'completed': 'var(--success)',
+                        'cancelled': 'var(--danger)'
+                    };
+                    
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'card';
+                    orderCard.style.marginBottom = '1rem';
+                    orderCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: var(--text-dark);">${order.productTitle}</h3>
+                            <span class="badge" style="background: ${statusColors[order.status]}; color: white;">${order.status}</span>
+                        </div>
+                        <p style="color: var(--text-light); margin: 0.5rem 0;">السعر: ${order.price} ${order.currency}</p>
+                        <small style="color: var(--text-light);">رقم الطلب: ${doc.id}</small>
+                    `;
+                    ordersList.appendChild(orderCard);
+                });
+            });
+        }
 
         // LIVE CHAT
         window.openLiveChat = function() {
@@ -1714,41 +1800,333 @@
             }
         };
 
+        window.customFieldsData = [];
+
+        window.addCustomField = function() {
+            const fieldId = Date.now();
+            window.customFieldsData.push({
+                id: fieldId,
+                label: '',
+                type: 'text',
+                hint: '',
+                required: false
+            });
+            renderCustomFields();
+        };
+
+        window.removeCustomField = function(fieldId) {
+            window.customFieldsData = window.customFieldsData.filter(f => f.id !== fieldId);
+            renderCustomFields();
+        };
+
+        window.updateCustomField = function(fieldId, property, value) {
+            const field = window.customFieldsData.find(f => f.id === fieldId);
+            if (field) {
+                field[property] = value;
+            }
+        };
+
+        function renderCustomFields() {
+            const container = document.getElementById('customFieldsList');
+            if (!container) return;
+
+            container.innerHTML = window.customFieldsData.map(field => `
+                <div class="custom-field-item">
+                    <div class="field-info">
+                        <input type="text" class="form-input" placeholder="اسم الحقل" value="${field.label}" 
+                            onchange="updateCustomField(${field.id}, 'label', this.value)" style="margin-bottom: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <select class="form-input" onchange="updateCustomField(${field.id}, 'type', this.value)" style="flex: 1;">
+                                <option value="text" ${field.type === 'text' ? 'selected' : ''}>نص</option>
+                                <option value="email" ${field.type === 'email' ? 'selected' : ''}>بريد إلكتروني</option>
+                                <option value="number" ${field.type === 'number' ? 'selected' : ''}>رقم</option>
+                                <option value="textarea" ${field.type === 'textarea' ? 'selected' : ''}>نص طويل</option>
+                            </select>
+                            <input type="text" class="form-input" placeholder="تلميح" value="${field.hint}" 
+                                onchange="updateCustomField(${field.id}, 'hint', this.value)" style="flex: 1;">
+                            <label style="display: flex; align-items: center; gap: 0.25rem; white-space: nowrap;">
+                                <input type="checkbox" ${field.required ? 'checked' : ''} 
+                                    onchange="updateCustomField(${field.id}, 'required', this.checked)">
+                                إجباري
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field-actions">
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeCustomField(${field.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // ADMIN FUNCTIONS
-        /* CALL updateOrderStatus() */
-        window.updateOrderStatus = async function(orderId, newStatus) {
+        window.addProduct = async function(event) {
+            event.preventDefault();
+            
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
 
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const productData = {
+                title: formData.get('title'),
+                type: formData.get('category'),
+                description: formData.get('description'),
+                price: parseFloat(formData.get('price')),
+                currency: formData.get('currency'),
+                stock: parseInt(formData.get('stock')),
+                imageUrl: formData.get('imageUrl') || '',
+                isOffer: formData.get('isOffer') === 'on',
+                customFields: window.customFieldsData,
+                visible: true,
+                createdAt: serverTimestamp()
+            };
+
             try {
-                await updateDoc(doc(db, 'orders', orderId), {
-                    status: newStatus,
-                    updatedAt: serverTimestamp()
-                });
-
-                // Log action
-                await addDoc(collection(db, 'adminLogs'), {
-                    action: 'order_status_updated',
-                    orderId,
-                    newStatus,
-                    adminId: window.currentUser.uid,
-                    timestamp: serverTimestamp()
-                });
-
-                // Send notification to user
-                const orderDoc = await getDoc(doc(db, 'orders', orderId));
-                if (orderDoc.exists()) {
-                    const order = orderDoc.data();
-                    await sendNotification(order.userId, `تم تحديث حالة طلبك إلى: ${newStatus}`);
-                }
-
-                alert('تم تحديث حالة الطلب');
+                await addDoc(collection(db, 'products'), productData);
+                alert('تم إضافة المنتج بنجاح!');
+                closeModal('addProductModal');
+                form.reset();
+                window.customFieldsData = [];
+                renderCustomFields();
             } catch (error) {
-                console.error('Update order status error:', error);
+                console.error('Add product error:', error);
+                alert('حدث خطأ أثناء إضافة المنتج');
+            }
+        };
+
+        window.addCategory = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const categoryData = {
+                name: formData.get('name'),
+                slug: formData.get('slug'),
+                icon: formData.get('icon') || 'fas fa-box',
+                description: formData.get('description') || '',
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'categories'), categoryData);
+                alert('تم إضافة الفئة بنجاح!');
+                closeModal('addCategoryModal');
+                form.reset();
+                loadCategories();
+            } catch (error) {
+                console.error('Add category error:', error);
+                alert('حدث خطأ أثناء إضافة الفئة');
+            }
+        };
+
+        function loadCategories() {
+            const categoriesRef = collection(db, 'categories');
+            onSnapshot(categoriesRef, (snapshot) => {
+                const categoriesList = document.getElementById('adminCategoriesList');
+                const categorySelect = document.getElementById('productCategorySelect');
+                
+                if (!snapshot.empty) {
+                    // Update admin categories list
+                    if (categoriesList) {
+                        categoriesList.innerHTML = '';
+                        snapshot.forEach((doc) => {
+                            const category = doc.data();
+                            const categoryCard = document.createElement('div');
+                            categoryCard.className = 'card';
+                            categoryCard.style.marginBottom = '1rem';
+                            categoryCard.innerHTML = `
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <h3 style="margin: 0; color: var(--text-dark);">
+                                            <i class="${category.icon}"></i> ${category.name}
+                                        </h3>
+                                        <p style="color: var(--text-light); margin: 0.5rem 0;">${category.description}</p>
+                                        <small style="color: var(--text-light);">المعرف: ${category.slug}</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteCategory('${doc.id}')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+                            categoriesList.appendChild(categoryCard);
+                        });
+                    }
+
+                    // Update category select in add product form
+                    if (categorySelect) {
+                        const defaultOptions = categorySelect.innerHTML;
+                        const customOptions = [];
+                        snapshot.forEach((doc) => {
+                            const category = doc.data();
+                            customOptions.push(`<option value="${category.slug}">${category.name}</option>`);
+                        });
+                        categorySelect.innerHTML = defaultOptions + customOptions.join('');
+                    }
+                }
+            });
+        }
+
+        window.deleteCategory = async function(categoryId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+            
+            if (!confirm('هل أنت متأكد من حذف هذه الفئة؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'categories', categoryId));
+                alert('تم حذف الفئة بنجاح');
+            } catch (error) {
+                console.error('Delete category error:', error);
+                alert('حدث خطأ أثناء حذف الفئة');
+            }
+        };
+
+        window.addCoupon = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const inputs = form.querySelectorAll('input');
+            
+            const couponData = {
+                code: inputs[0].value.toUpperCase(),
+                discount: parseInt(inputs[1].value),
+                expiresAt: new Date(inputs[2].value).toISOString(),
+                active: true,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, 'coupons'), couponData);
+                alert('تم إضافة الكوبون بنجاح!');
+                closeModal('addCouponModal');
+                form.reset();
+            } catch (error) {
+                console.error('Add coupon error:', error);
+                alert('حدث خطأ أثناء إضافة الكوبون');
+            }
+        };
+
+        window.updateSiteSettings = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const title = document.getElementById('siteTitle').value;
+            const description = document.getElementById('siteDescription').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            const telegram = document.getElementById('telegramUsername').value;
+
+            try {
+                await set(ref(rtdb, 'settings/site'), {
+                    title,
+                    description,
+                    whatsapp,
+                    telegram,
+                    updatedAt: Date.now()
+                });
+
+                // Update UI immediately
+                document.getElementById('siteLogo').textContent = title;
+                updateContactButtons(whatsapp, telegram);
+
+                alert('تم تحديث إعدادات الموقع بنجاح');
+            } catch (error) {
+                console.error('Update settings error:', error);
                 alert('حدث خطأ أثناء التحديث');
             }
         };
 
-        /* CALL sendNotification() */
+        window.updateFakeStats = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const activeUsers = parseInt(document.getElementById('fakeActiveUsers').value);
+            const completedOrders = parseInt(document.getElementById('fakeCompletedOrders').value);
+            const satisfaction = parseInt(document.getElementById('fakeSatisfaction').value);
+
+            try {
+                await set(ref(rtdb, 'stats/global'), {
+                    activeUsers,
+                    completedOrders,
+                    satisfiedCustomers: satisfaction,
+                    updatedAt: Date.now()
+                });
+
+                alert('تم تحديث الإحصائيات بنجاح');
+            } catch (error) {
+                console.error('Update stats error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        function loadFakeStats() {
+            const statsRef = ref(rtdb, 'stats/global');
+            onValue(statsRef, (snapshot) => {
+                const stats = snapshot.val() || { activeUsers: 33000, completedOrders: 15420, satisfiedCustomers: 98 };
+                
+                document.getElementById('activeUsers').textContent = stats.activeUsers.toLocaleString('ar-EG');
+                document.getElementById('completedOrders').textContent = stats.completedOrders.toLocaleString('ar-EG');
+                document.getElementById('satisfiedCustomers').textContent = stats.satisfiedCustomers + '%';
+                
+                // Update admin inputs
+                const activeUsersInput = document.getElementById('fakeActiveUsers');
+                const completedOrdersInput = document.getElementById('fakeCompletedOrders');
+                const satisfactionInput = document.getElementById('fakeSatisfaction');
+                
+                if (activeUsersInput) activeUsersInput.value = stats.activeUsers;
+                if (completedOrdersInput) completedOrdersInput.value = stats.completedOrders;
+                if (satisfactionInput) satisfactionInput.value = stats.satisfiedCustomers;
+            });
+        }
+
+        function loadSiteSettings() {
+            const settingsRef = ref(rtdb, 'settings/site');
+            onValue(settingsRef, (snapshot) => {
+                const settings = snapshot.val();
+                if (settings) {
+                    const titleInput = document.getElementById('siteTitle');
+                    const descInput = document.getElementById('siteDescription');
+                    const whatsappInput = document.getElementById('whatsappNumber');
+                    const telegramInput = document.getElementById('telegramUsername');
+                    const logo = document.getElementById('siteLogo');
+                    
+                    if (titleInput) titleInput.value = settings.title || 'Fule Online';
+                    if (descInput) descInput.value = settings.description || '';
+                    if (whatsappInput) whatsappInput.value = settings.whatsapp || '';
+                    if (telegramInput) telegramInput.value = settings.telegram || '';
+                    if (logo) logo.textContent = settings.title || 'Fule Online';
+                    
+                    updateContactButtons(settings.whatsapp, settings.telegram);
+                }
+            });
+        }
+
+        function updateContactButtons(whatsapp, telegram) {
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const telegramBtn = document.getElementById('telegramBtn');
+            
+            if (whatsappBtn) {
+                if (whatsapp) {
+                    whatsappBtn.href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
+                    whatsappBtn.style.display = 'flex';
+                } else {
+                    whatsappBtn.style.display = 'none';
+                }
+            }
+            
+            if (telegramBtn) {
+                if (telegram) {
+                    telegramBtn.href = `https://t.me/${telegram.replace('@', '')}`;
+                    telegramBtn.style.display = 'flex';
+                } else {
+                    telegramBtn.style.display = 'none';
+                }
+            }
+        }
+
         async function sendNotification(userId, message) {
             const notificationRef = push(ref(rtdb, `notifications/${userId}`));
             await set(notificationRef, {
@@ -1758,7 +2136,100 @@
             });
         }
 
-        /* CALL adminAdjustBalance() */
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                await updateDoc(doc(db, 'orders', orderId), {
+                    status: newStatus
+                });
+
+                const orderDoc = await getDoc(doc(db, 'orders', orderId));
+                if (orderDoc.exists()) {
+                    const order = orderDoc.data();
+                    await sendNotification(order.userId, `تم تحديث حالة طلبك: ${order.productTitle} إلى ${newStatus}`);
+                }
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'order_status_updated',
+                    orderId,
+                    newStatus,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تم تحديث حالة الطلب');
+            } catch (error) {
+                console.error('Update order status error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        window.approveDeposit = async function(depositId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const depositDoc = await getDoc(doc(db, 'deposits', depositId));
+                if (!depositDoc.exists()) return;
+
+                const deposit = depositDoc.data();
+                
+                const balanceRef = ref(rtdb, `balances/${deposit.userId}`);
+                const snapshot = await get(balanceRef);
+                const currentBalance = snapshot.val() || 0;
+                
+                await set(balanceRef, currentBalance + deposit.amount);
+
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'approved'
+                });
+
+                await sendNotification(deposit.userId, `تمت الموافقة على طلب الإيداع بمبلغ ${deposit.amount}`);
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'deposit_approved',
+                    depositId,
+                    amount: deposit.amount,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تمت الموافقة على الإيداع');
+            } catch (error) {
+                console.error('Approve deposit error:', error);
+                alert('حدث خطأ أثناء الموافقة');
+            }
+        };
+
+        window.rejectDeposit = async function(depositId) {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const depositDoc = await getDoc(doc(db, 'deposits', depositId));
+                if (!depositDoc.exists()) return;
+
+                const deposit = depositDoc.data();
+
+                await updateDoc(doc(db, 'deposits', depositId), {
+                    status: 'rejected'
+                });
+
+                await sendNotification(deposit.userId, `تم رفض طلب الإيداع بمبلغ ${deposit.amount}`);
+
+                await addDoc(collection(db, 'adminLogs'), {
+                    action: 'deposit_rejected',
+                    depositId,
+                    adminId: window.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                alert('تم رفض الإيداع');
+            } catch (error) {
+                console.error('Reject deposit error:', error);
+                alert('حدث خطأ أثناء الرفض');
+            }
+        };
+
         window.adminAdjustBalance = async function(userId, amount) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
 
@@ -1770,7 +2241,6 @@
 
                 await set(balanceRef, newBalance);
 
-                // Log action
                 await addDoc(collection(db, 'adminLogs'), {
                     action: 'balance_adjusted',
                     userId,
@@ -1788,260 +2258,114 @@
             }
         };
 
-        /* CALL updateFakeStats() */
-        window.updateFakeStats = async function() {
+        window.toggleUserVerification = async function(userId, currentStatus) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
 
-            const activeUsers = parseInt(document.getElementById('fakeActiveUsers').value);
-            const completedOrders = parseInt(document.getElementById('fakeCompletedOrders').value);
-
             try {
-                await set(ref(rtdb, 'stats/global'), {
-                    activeUsers,
-                    completedOrders,
-                    satisfiedCustomers: 98
+                await updateDoc(doc(db, 'users', userId), {
+                    verified: !currentStatus
                 });
 
-                alert('تم تحديث الإحصائيات بنجاح');
-                loadFakeStats();
+                alert('تم تحديث حالة التحقق');
             } catch (error) {
-                console.error('Update stats error:', error);
+                console.error('Toggle verification error:', error);
                 alert('حدث خطأ أثناء التحديث');
             }
         };
 
-        function loadFakeStats() {
-            const statsRef = ref(rtdb, 'stats/global');
-            onValue(statsRef, (snapshot) => {
-                const stats = snapshot.val() || { activeUsers: 33000, completedOrders: 15420, satisfiedCustomers: 98 };
-                document.getElementById('activeUsers').textContent = stats.activeUsers.toLocaleString();
-                document.getElementById('completedOrders').textContent = stats.completedOrders.toLocaleString();
-                document.getElementById('satisfiedCustomers').textContent = stats.satisfiedCustomers + '%';
-            });
-        }
-
-        // ADMIN: ADD PRODUCT
-        window.addProduct = async function(event) {
-            event.preventDefault();
-            
+        window.toggleUserBan = async function(userId, currentStatus) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
 
-            const form = event.target;
-            const title = form.querySelector('input[type="text"]').value;
-            const type = form.querySelectorAll('select')[0].value;
-            const description = form.querySelector('textarea').value;
-            const price = parseFloat(form.querySelector('input[type="number"]').value);
-            const currency = form.querySelectorAll('select')[1].value;
-            const stock = parseInt(form.querySelectorAll('input[type="number"]')[1].value);
-            const imageUrl = form.querySelector('input[type="url"]').value;
-
             try {
-                await addDoc(collection(db, 'products'), {
-                    title,
-                    type,
-                    description,
-                    price,
-                    currency,
-                    stock,
-                    imageUrl,
-                    visible: true,
-                    adminFields: [],
-                    createdAt: serverTimestamp()
+                await updateDoc(doc(db, 'users', userId), {
+                    banned: !currentStatus
                 });
 
-                alert('تم إضافة المنتج بنجاح');
-                closeModal('addProductModal');
-                form.reset();
+                alert('تم تحديث حالة الحظر');
             } catch (error) {
-                console.error('Add product error:', error);
-                alert('حدث خطأ أثناء إضافة المنتج');
-            }
-        };
-
-        // ADMIN: ADD COUPON
-        window.addCoupon = async function(event) {
-            event.preventDefault();
-            
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            const form = event.target;
-            const code = form.querySelectorAll('input[type="text"]')[0].value;
-            const discount = parseInt(form.querySelector('input[type="number"]').value);
-            const expiryDate = form.querySelector('input[type="date"]').value;
-            const maxUses = parseInt(form.querySelectorAll('input[type="number"]')[1].value);
-
-            try {
-                await addDoc(collection(db, 'coupons'), {
-                    code,
-                    discount,
-                    expiryDate,
-                    maxUses,
-                    currentUses: 0,
-                    active: true,
-                    createdAt: serverTimestamp()
-                });
-
-                alert('تم إضافة الكوبون بنجاح');
-                closeModal('addCouponModal');
-                form.reset();
-            } catch (error) {
-                console.error('Add coupon error:', error);
-                alert('حدث خطأ أثناء إضافة الكوبون');
-            }
-        };
-
-        /* ADMIN: edit settings/site.texts */
-        window.updateSiteSettings = async function() {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            const title = document.getElementById('siteTitle').value;
-            const description = document.getElementById('siteDescription').value;
-
-            try {
-                await set(ref(rtdb, 'settings/site'), {
-                    title,
-                    description
-                });
-
-                alert('تم تحديث إعدادات الموقع بنجاح');
-            } catch (error) {
-                console.error('Update settings error:', error);
+                console.error('Toggle ban error:', error);
                 alert('حدث خطأ أثناء التحديث');
             }
         };
 
-        window.exportLogs = async function() {
+        window.updateTicketStatus = async function(ticketId, status) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
 
             try {
-                const logsSnapshot = await getDocs(collection(db, 'adminLogs'));
-                const logs = [];
-                logsSnapshot.forEach((doc) => {
-                    logs.push(doc.data());
+                await updateDoc(doc(db, 'tickets', ticketId), {
+                    status: status
                 });
 
-                const dataStr = JSON.stringify(logs, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'admin-logs.json';
-                link.click();
+                const ticketDoc = await getDoc(doc(db, 'tickets', ticketId));
+                if (ticketDoc.exists()) {
+                    const ticket = ticketDoc.data();
+                    await sendNotification(ticket.userId, `تم تحديث حالة تذكرتك إلى: ${status}`);
+                }
+
+                alert('تم تحديث حالة التذكرة');
             } catch (error) {
-                console.error('Export logs error:', error);
-                alert('حدث خطأ أثناء تصدير السجلات');
+                console.error('Update ticket status error:', error);
+                alert('حدث خطأ أثناء التحديث');
             }
         };
 
-        // Initialize
-        loadFakeStats();
-
-        /* handleCryptoWebhook() + handleVodafoneCash() */
-        // These would be HTTP endpoints handled by Firebase Functions or external service
-        // Stub implementation for reference
-        window.handleCryptoWebhook = function(data) {
-            // Verify payment and update deposit status
-            console.log('Crypto webhook received:', data);
+        window.promptAdjustBalance = function(userId) {
+            const amount = parseFloat(prompt('أدخل المبلغ (استخدم - للخصم):'));
+            if (isNaN(amount)) {
+                alert('المبلغ غير صحيح');
+                return;
+            }
+            adminAdjustBalance(userId, amount);
         };
 
-        window.handleVodafoneCash = function(data) {
-            // Verify payment and update deposit status
-            console.log('Vodafone Cash webhook received:', data);
-        };
-        
-        function loadUserTickets() {
-            if (!window.currentUser) return;
-            
-            const ticketsRef = collection(db, 'tickets');
-            const q = query(ticketsRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
-            
-            onSnapshot(q, (snapshot) => {
-                const ticketsList = document.getElementById('ticketsList');
-                if (!ticketsList) return;
+        function loadAdminProducts() {
+            const productsRef = collection(db, 'products');
+            onSnapshot(productsRef, (snapshot) => {
+                const productsList = document.getElementById('adminProductsList');
+                if (!productsList) return;
                 
                 if (snapshot.empty) {
-                    ticketsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد تذاكر حالياً</p></div>';
+                    productsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات</p></div>';
                     return;
                 }
                 
-                ticketsList.innerHTML = '';
+                productsList.innerHTML = '';
                 snapshot.forEach((doc) => {
-                    const ticket = doc.data();
-                    const statusColors = {
-                        'open': 'var(--success)',
-                        'closed': 'var(--text-light)',
-                        'pending': 'var(--warning)'
-                    };
-                    
-                    const ticketCard = document.createElement('div');
-                    ticketCard.className = 'card';
-                    ticketCard.style.marginBottom = '1rem';
-                    ticketCard.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                            <h3 style="margin: 0; color: var(--text-dark);">${ticket.subject}</h3>
-                            <span class="badge" style="background: ${statusColors[ticket.status] || 'var(--text-light)'}; color: white;">${ticket.status}</span>
+                    const product = doc.data();
+                    const productCard = document.createElement('div');
+                    productCard.className = 'card';
+                    productCard.style.marginBottom = '1rem';
+                    productCard.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h3 style="margin: 0; color: var(--text-dark);">${product.title}</h3>
+                                <p style="color: var(--text-light); margin: 0.5rem 0;">${product.description}</p>
+                                <p style="color: var(--primary); font-weight: 600;">${product.price} ${product.currency}</p>
+                                <p style="color: var(--text-light); font-size: 0.875rem;">المخزون: ${product.stock}</p>
+                            </div>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
-                        <p style="color: var(--text-light); margin: 0.5rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
-                        <small style="color: var(--text-light);">رقم التذكرة: ${doc.id}</small>
                     `;
-                    ticketsList.appendChild(ticketCard);
+                    productsList.appendChild(productCard);
                 });
             });
         }
 
-        function loadUserOrders() {
-            if (!window.currentUser) return;
-            
-            const ordersRef = collection(db, 'orders');
-            const q = query(ordersRef, where('userId', '==', window.currentUser.uid), orderBy('createdAt', 'desc'));
-            
-            onSnapshot(q, (snapshot) => {
-                const ordersList = document.getElementById('userOrders');
-                if (!ordersList) return;
-                
-                if (snapshot.empty) {
-                    ordersList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات حالياً</p></div>';
-                    return;
-                }
-                
-                ordersList.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const order = doc.data();
-                    const statusColors = {
-                        'pending': 'var(--warning)',
-                        'processing': 'var(--primary)',
-                        'completed': 'var(--success)',
-                        'cancelled': 'var(--danger)'
-                    };
-                    
-                    const orderCard = document.createElement('div');
-                    orderCard.className = 'card';
-                    orderCard.style.marginBottom = '1rem';
-                    orderCard.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                            <h3 style="margin: 0; color: var(--text-dark);">${order.productTitle}</h3>
-                            <span class="badge" style="background: ${statusColors[order.status] || 'var(--text-light)'}; color: white;">${order.status}</span>
-                        </div>
-                        <p style="color: var(--text-light); margin: 0.5rem 0;">السعر: ${order.price} ${order.currency}</p>
-                        <p style="color: var(--text-light); margin: 0.5rem 0;">طريقة الدفع: ${order.paymentMethod}</p>
-                        <small style="color: var(--text-light);">رقم الطلب: ${doc.id}</small>
-                    `;
-                    ordersList.appendChild(orderCard);
-                });
-            });
-        }
-
-        function loadAdminData() {
+        window.deleteProduct = async function(productId) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
             
-            loadAdminOrders();
-            loadAdminDeposits();
-            loadAdminUsers();
-            loadAdminTickets();
-            loadAdminCoupons();
-            loadAdminLogs();
-            loadAdminProducts();
-        }
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+
+            try {
+                await deleteDoc(doc(db, 'products', productId));
+                alert('تم حذف المنتج بنجاح');
+            } catch (error) {
+                console.error('Delete product error:', error);
+                alert('حدث خطأ أثناء حذف المنتج');
+            }
+        };
 
         function loadAdminOrders() {
             const ordersRef = collection(db, 'orders');
@@ -2068,15 +2392,12 @@
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${order.productTitle}</h3>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${order.userId}</p>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">السعر: ${order.price} ${order.currency}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">طريقة الدفع: ${order.paymentMethod}</p>
-                                ${order.orderDetails ? `<p style="color: var(--text-light); margin: 0.25rem 0;">التفاصيل: ${order.orderDetails}</p>` : ''}
                             </div>
                             <span class="badge">${order.status}</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button class="btn btn-sm btn-primary" onclick="updateOrderStatus('${doc.id}', 'processing')">قيد المعالجة</button>
-                            <button class="btn btn-sm btn-success" onclick="updateOrderStatus('${doc.id}', 'completed')">مكتمل</button>
-                            <button class="btn btn-sm btn-danger" onclick="updateOrderStatus('${doc.id}', 'cancelled')">ملغي</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-sm btn-success" onclick="updateOrderStatus('${doc.id}', 'completed')">إكمال</button>
+                            <button class="btn btn-sm btn-danger" onclick="updateOrderStatus('${doc.id}', 'cancelled')">إلغاء</button>
                         </div>
                     `;
                     ordersList.appendChild(orderCard);
@@ -2093,7 +2414,7 @@
                 if (!depositsList) return;
                 
                 if (snapshot.empty) {
-                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد طلبات إيداع</p></div>';
+                    depositsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد إيداعات</p></div>';
                     return;
                 }
                 
@@ -2106,18 +2427,18 @@
                     depositCard.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                             <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">طلب إيداع</h3>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${deposit.amount} ${window.currentCurrency}</h3>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${deposit.userId}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">المبلغ: ${deposit.amount}</p>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">الطريقة: ${deposit.method}</p>
+                                <a href="${deposit.proof}" target="_blank" style="color: var(--primary); font-size: 0.875rem;">عرض الإثبات</a>
                             </div>
                             <span class="badge">${deposit.status}</span>
                         </div>
                         ${deposit.status === 'pending' ? `
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-sm btn-success" onclick="approveDeposit('${doc.id}', '${deposit.userId}', ${deposit.amount})">قبول</button>
-                            <button class="btn btn-sm btn-danger" onclick="rejectDeposit('${doc.id}', '${deposit.userId}')">رفض</button>
-                        </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-sm btn-success" onclick="approveDeposit('${doc.id}')">موافقة</button>
+                                <button class="btn btn-sm btn-danger" onclick="rejectDeposit('${doc.id}')">رفض</button>
+                            </div>
                         ` : ''}
                     `;
                     depositsList.appendChild(depositCard);
@@ -2125,47 +2446,8 @@
             });
         }
 
-        window.approveDeposit = async function(depositId, userId, amount) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                // Update deposit status
-                await updateDoc(doc(db, 'deposits', depositId), {
-                    status: 'approved',
-                    approvedAt: serverTimestamp()
-                });
-
-                // Add balance to user
-                await adminAdjustBalance(userId, amount);
-
-                alert('تم قبول الإيداع وإضافة الرصيد');
-            } catch (error) {
-                console.error('Approve deposit error:', error);
-                alert('حدث خطأ أثناء قبول الإيداع');
-            }
-        };
-
-        window.rejectDeposit = async function(depositId, userId) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'deposits', depositId), {
-                    status: 'rejected',
-                    rejectedAt: serverTimestamp()
-                });
-
-                await sendNotification(userId, 'تم رفض طلب الإيداع الخاص بك');
-
-                alert('تم رفض الإيداع');
-            } catch (error) {
-                console.error('Reject deposit error:', error);
-                alert('حدث خطأ أثناء رفض الإيداع');
-            }
-        };
-
         function loadAdminUsers() {
             const usersRef = collection(db, 'users');
-            
             onSnapshot(usersRef, (snapshot) => {
                 const usersList = document.getElementById('adminUsersList');
                 if (!usersList) return;
@@ -2182,18 +2464,21 @@
                     userCard.className = 'card';
                     userCard.style.marginBottom = '1rem';
                     userCard.innerHTML = `
-                        <div style="margin-bottom: 1rem;">
-                            <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${user.displayName || 'مستخدم'}</h3>
-                            <p style="color: var(--text-light); margin: 0.25rem 0;">البريد: ${user.email}</p>
-                            <p style="color: var(--text-light); margin: 0.25rem 0;">الدور: ${user.role || 'user'}</p>
-                            <p style="color: var(--text-light); margin: 0.25rem 0;">موثق: ${user.verified ? 'نعم' : 'لا'}</p>
-                            <p style="color: var(--text-light); margin: 0.25rem 0;">محظور: ${user.banned ? 'نعم' : 'لا'}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${user.email}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">الدور: ${user.role}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">
+                                    ${user.verified ? '<span class="badge" style="background: var(--success); color: white;">موثق</span>' : '<span class="badge" style="background: var(--warning); color: white;">غير موثق</span>'}
+                                    ${user.banned ? '<span class="badge" style="background: var(--danger); color: white; margin-right: 0.5rem;">محظور</span>' : ''}
+                                </p>
+                            </div>
                         </div>
                         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button class="btn btn-sm btn-primary" onclick="toggleUserVerification('${doc.id}', ${!user.verified})">
+                            <button class="btn btn-sm btn-primary" onclick="toggleUserVerification('${doc.id}', ${user.verified || false})">
                                 ${user.verified ? 'إلغاء التوثيق' : 'توثيق'}
                             </button>
-                            <button class="btn btn-sm btn-danger" onclick="toggleUserBan('${doc.id}', ${!user.banned})">
+                            <button class="btn btn-sm btn-danger" onclick="toggleUserBan('${doc.id}', ${user.banned || false})">
                                 ${user.banned ? 'إلغاء الحظر' : 'حظر'}
                             </button>
                             <button class="btn btn-sm btn-success" onclick="promptAdjustBalance('${doc.id}')">تعديل الرصيد</button>
@@ -2203,49 +2488,6 @@
                 });
             });
         }
-
-        window.toggleUserVerification = async function(userId, verified) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'users', userId), {
-                    verified: verified
-                });
-
-                await sendNotification(userId, verified ? 'تم توثيق حسابك' : 'تم إلغاء توثيق حسابك');
-
-                alert('تم تحديث حالة التوثيق');
-            } catch (error) {
-                console.error('Toggle verification error:', error);
-                alert('حدث خطأ أثناء التحديث');
-            }
-        };
-
-        window.toggleUserBan = async function(userId, banned) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'users', userId), {
-                    banned: banned
-                });
-
-                await sendNotification(userId, banned ? 'تم حظر حسابك' : 'تم إلغاء حظر حسابك');
-
-                alert('تم تحديث حالة الحظر');
-            } catch (error) {
-                console.error('Toggle ban error:', error);
-                alert('حدث خطأ أثناء التحديث');
-            }
-        };
-
-        window.promptAdjustBalance = function(userId) {
-            const amount = parseFloat(prompt('أدخل المبلغ (استخدم - للخصم):'));
-            if (isNaN(amount)) {
-                alert('المبلغ غير صحيح');
-                return;
-            }
-            adminAdjustBalance(userId, amount);
-        };
 
         function loadAdminTickets() {
             const ticketsRef = collection(db, 'tickets');
@@ -2270,7 +2512,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${ticket.subject}</h3>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${ticket.userId}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${ticket.userEmail || ticket.userId}</p>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
                             </div>
                             <span class="badge">${ticket.status}</span>
@@ -2285,30 +2527,8 @@
             });
         }
 
-        window.updateTicketStatus = async function(ticketId, status) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'tickets', ticketId), {
-                    status: status
-                });
-
-                const ticketDoc = await getDoc(doc(db, 'tickets', ticketId));
-                if (ticketDoc.exists()) {
-                    const ticket = ticketDoc.data();
-                    await sendNotification(ticket.userId, `تم تحديث حالة تذكرتك إلى: ${status}`);
-                }
-
-                alert('تم تحديث حالة التذكرة');
-            } catch (error) {
-                console.error('Update ticket status error:', error);
-                alert('حدث خطأ أثناء التحديث');
-            }
-        };
-
         function loadAdminCoupons() {
             const couponsRef = collection(db, 'coupons');
-            
             onSnapshot(couponsRef, (snapshot) => {
                 const couponsList = document.getElementById('adminCouponsList');
                 if (!couponsList) return;
@@ -2325,20 +2545,15 @@
                     couponCard.className = 'card';
                     couponCard.style.marginBottom = '1rem';
                     couponCard.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
                             <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${coupon.code}</h3>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">الخصم: ${coupon.discount}%</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">الاستخدامات: ${coupon.currentUses || 0} / ${coupon.maxUses}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">تاريخ الانتهاء: ${coupon.expiryDate}</p>
+                                <h3 style="margin: 0; color: var(--text-dark);">${coupon.code}</h3>
+                                <p style="color: var(--text-light); margin: 0.5rem 0;">خصم: ${coupon.discount}%</p>
+                                <p style="color: var(--text-light); font-size: 0.875rem;">ينتهي: ${new Date(coupon.expiresAt).toLocaleDateString('ar-EG')}</p>
                             </div>
-                            <span class="badge">${coupon.active ? 'نشط' : 'غير نشط'}</span>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-sm btn-primary" onclick="toggleCouponStatus('${doc.id}', ${!coupon.active})">
-                                ${coupon.active ? 'تعطيل' : 'تفعيل'}
+                            <button class="btn btn-sm btn-danger" onclick="deleteCoupon('${doc.id}')">
+                                <i class="fas fa-trash"></i>
                             </button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteCoupon('${doc.id}')">حذف</button>
                         </div>
                     `;
                     couponsList.appendChild(couponCard);
@@ -2346,32 +2561,17 @@
             });
         }
 
-        window.toggleCouponStatus = async function(couponId, active) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'coupons', couponId), {
-                    active: active
-                });
-
-                alert('تم تحديث حالة الكوبون');
-            } catch (error) {
-                console.error('Toggle coupon error:', error);
-                alert('حدث خطأ أثناء التحديث');
-            }
-        };
-
         window.deleteCoupon = async function(couponId) {
             if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
+            
             if (!confirm('هل أنت متأكد من حذف هذا الكوبون؟')) return;
 
             try {
                 await deleteDoc(doc(db, 'coupons', couponId));
-                alert('تم حذف الكوبون');
+                alert('تم حذف الكوبون بنجاح');
             } catch (error) {
                 console.error('Delete coupon error:', error);
-                alert('حدث خطأ أثناء الحذف');
+                alert('حدث خطأ أثناء حذف الكوبون');
             }
         };
 
@@ -2394,192 +2594,109 @@
                     const logCard = document.createElement('div');
                     logCard.className = 'card';
                     logCard.style.marginBottom = '0.5rem';
-                    logCard.style.padding = '0.75rem';
+                    logCard.style.padding = '1rem';
                     logCard.innerHTML = `
-                        <p style="margin: 0; color: var(--text-dark);"><strong>${log.action}</strong></p>
-                        <p style="margin: 0.25rem 0 0 0; color: var(--text-light); font-size: 0.875rem;">
-                            ${log.userId ? `المستخدم: ${log.userId}` : ''} 
-                            ${log.adminId ? `| المشرف: ${log.adminId}` : ''}
-                        </p>
+                        <p style="margin: 0; color: var(--text-dark); font-weight: 600;">${log.action}</p>
+                        <small style="color: var(--text-light);">المسؤول: ${log.adminId}</small>
                     `;
                     logsList.appendChild(logCard);
                 });
             });
         }
 
-        function loadAdminProducts() {
-            const productsRef = collection(db, 'products');
-            
-            onSnapshot(productsRef, (snapshot) => {
-                const productsList = document.getElementById('adminProductsList');
-                if (!productsList) return;
+        window.exportLogs = async function() {
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            try {
+                const logsRef = collection(db, 'adminLogs');
+                const q = query(logsRef, orderBy('timestamp', 'desc'));
+                const snapshot = await getDocs(q);
                 
-                if (snapshot.empty) {
-                    productsList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد منتجات</p></div>';
-                    return;
-                }
-                
-                productsList.innerHTML = '';
+                const logs = [];
                 snapshot.forEach((doc) => {
-                    const product = doc.data();
-                    const productCard = document.createElement('div');
-                    productCard.className = 'card';
-                    productCard.style.marginBottom = '1rem';
-                    productCard.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                            <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${product.title}</h3>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">النوع: ${product.type}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">السعر: ${product.price} ${product.currency}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">المخزون: ${product.stock}</p>
-                            </div>
-                            <span class="badge">${product.visible ? 'ظاهر' : 'مخفي'}</span>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-sm btn-primary" onclick="toggleProductVisibility('${doc.id}', ${!product.visible})">
-                                ${product.visible ? 'إخفاء' : 'إظهار'}
-                            </button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">حذف</button>
-                        </div>
-                    `;
-                    productsList.appendChild(productCard);
-                });
-            });
-        }
-
-        window.toggleProductVisibility = async function(productId, visible) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            try {
-                await updateDoc(doc(db, 'products', productId), {
-                    visible: visible
+                    logs.push(doc.data());
                 });
 
-                alert('تم تحديث حالة المنتج');
+                const dataStr = JSON.stringify(logs, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `admin-logs-${Date.now()}.json`;
+                link.click();
             } catch (error) {
-                console.error('Toggle product visibility error:', error);
-                alert('حدث خطأ أثناء التحديث');
+                console.error('Export logs error:', error);
+                alert('حدث خطأ أثناء التصدير');
             }
         };
 
-        window.deleteProduct = async function(productId) {
-            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
-
-            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
-
-            try {
-                await deleteDoc(doc(db, 'products', productId));
-                alert('تم حذف المنتج');
-            } catch (error) {
-                console.error('Delete product error:', error);
-                alert('حدث خطأ أثناء الحذف');
-            }
-        };
-    </script>
-
-    <script>
         // UI FUNCTIONS
-        function showSection(sectionName) {
-            // Hide all sections
+        window.showSection = function(sectionName) {
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.add('hidden');
             });
 
-            // Show selected section
             const sectionMap = {
                 'home': 'homeSection',
-                'smm': 'smmSection',
+                'smm-services': 'smmServicesSection',
                 'real-products': 'realProductsSection',
                 'digital-products': 'digitalProductsSection',
                 'website-design': 'websiteDesignSection',
                 'offers': 'offersSection',
                 'support': 'supportSection',
                 'profile': 'profileSection',
-                'settings': 'profileSection',
                 'admin': 'adminSection'
             };
 
-            const sectionId = sectionMap[sectionName];
-            if (sectionId) {
-                document.getElementById(sectionId).classList.remove('hidden');
+            const targetSection = document.getElementById(sectionMap[sectionName]);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+        };
 
-            // Close profile menu if open
-            document.getElementById('profileMenu').classList.remove('show');
-        }
+        window.switchTab = function(tabName) {
+            const parentSection = event.target.closest('.section');
+            if (!parentSection) return;
 
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-        }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-
-        function toggleProfileMenu() {
-            document.getElementById('profileMenu').classList.toggle('show');
-        }
-
-        function toggleNotifications() {
-            alert('عرض الإشعارات - قيد التطوير');
-        }
-
-        function changeCurrency() {
-            window.currentCurrency = document.getElementById('currencySelector').value;
-            // Reload balance display
-            if (window.currentUser) {
-                const balanceRef = window.firebaseModules.ref(window.firebaseRtdb, `balances/${window.currentUser.uid}`);
-                window.firebaseModules.get(balanceRef).then((snapshot) => {
-                    const balance = snapshot.val() || 0;
-                    document.getElementById('balanceDisplay').textContent = `${balance.toFixed(2)} ${window.currentCurrency}`;
-                });
-            }
-        }
-
-        function showUserInterface() {
-            document.getElementById('authButtons').classList.add('hidden');
-            document.getElementById('userActions').classList.remove('hidden');
-        }
-
-        function showAuthInterface() {
-            document.getElementById('authButtons').classList.remove('hidden');
-            document.getElementById('userActions').classList.add('hidden');
-        }
-
-        function switchTab(tabName) {
-            document.querySelectorAll('.tabs .tab').forEach(tab => {
+            parentSection.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelectorAll('.tab-content').forEach(content => {
+            event.target.classList.add('active');
+
+            parentSection.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
 
-            event.target.classList.add('active');
-            document.getElementById(tabName + 'Tab').classList.add('active');
-        }
+            const targetTab = document.getElementById(tabName + 'Tab');
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        };
 
-        function switchAdminTab(tabName) {
+        window.switchAdminTab = function(tabName) {
             document.querySelectorAll('.admin-menu-item').forEach(item => {
                 item.classList.remove('active');
             });
+            event.target.classList.add('active');
+
             document.querySelectorAll('.admin-content .tab-content').forEach(content => {
                 content.classList.remove('active');
             });
 
-            event.target.classList.add('active');
-            document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1) + 'Tab').classList.add('active');
-            
+            const targetTab = document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1) + 'Tab');
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            // Load data for the selected tab
             switch(tabName) {
+                case 'products':
+                    loadAdminProducts();
+                    break;
+                case 'categories':
+                    loadCategories();
+                    break;
                 case 'orders':
                     loadAdminOrders();
                     break;
@@ -2598,32 +2715,54 @@
                 case 'logs':
                     loadAdminLogs();
                     break;
-                case 'products':
-                    loadAdminProducts();
-                    break;
             }
-        }
+        };
 
-        function submitWebsiteDesign(event) {
-            event.preventDefault();
-            alert('تم إرسال طلب تصميم الموقع بنجاح! سنتواصل معك قريباً.');
-            event.target.reset();
-        }
+        window.showModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+            }
+        };
+
+        window.closeModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        };
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        };
+
+        window.changeCurrency = function() {
+            const selector = document.getElementById('currencySelector');
+            window.currentCurrency = selector.value;
+            
+            if (window.currentUser) {
+                listenToBalance(window.currentUser.uid);
+            }
+        };
+
+        window.toggleProfileMenu = function() {
+            showSection('profile');
+        };
 
         // Close modals when clicking outside
-        window.addEventListener('click', (event) => {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('show');
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
             }
         });
 
-        // Close profile menu when clicking outside
-        document.addEventListener('click', (event) => {
-            const profileDropdown = document.querySelector('.profile-dropdown');
-            if (profileDropdown && !profileDropdown.contains(event.target)) {
-                document.getElementById('profileMenu').classList.remove('show');
-            }
-        });
+        // INITIALIZE
+        loadProducts();
+        loadFakeStats();
+        loadSiteSettings();
+        loadCategories();
     </script>
 </body>
 </html>
