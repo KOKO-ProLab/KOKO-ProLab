@@ -676,7 +676,7 @@
                             </button>
                             <div id="userMenu" style="display: none; position: absolute; left: 0; top: 100%; margin-top: 0.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; min-width: 200px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;">
                                 <a href="#" onclick="showSection('profile'); toggleUserMenu();" style="display: block; padding: 0.75rem 1rem; text-decoration: none; color: var(--text-dark); border-bottom: 1px solid var(--border);">
-                                    <i class="fas fa-user"></i> الملف الشخصي
+                                    <i class="fas fa-user"></i>الملف الشخصي
                                 </a>
                                  Added admin link to user menu for better accessibility 
                                 <a href="#" id="adminMenuLink" onclick="showSection('admin'); toggleUserMenu();" style="display: none; padding: 0.75rem 1rem; text-decoration: none; color: #ef4444; font-weight: 600; border-bottom: 1px solid var(--border);">
@@ -1501,7 +1501,7 @@
             const balanceRef = ref(rtdb, `balances/${uid}`);
             onValue(balanceRef, (snapshot) => {
                 const balance = snapshot.val() || 0;
-                const balanceDisplay = document.getElementById('balanceDisplay');
+                const balanceDisplay = document.getElementById('userBalance'); /* Changed ID from balanceDisplay to userBalance */
                 if (balanceDisplay) {
                     balanceDisplay.textContent = `${balance.toFixed(2)} ${window.currentCurrency}`;
                 }
