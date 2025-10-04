@@ -629,7 +629,7 @@
                     </div>
 
                     <div id="userSection" style="display: none;">
-                        <div class="balance-display">
+                        <div class="balance-display" id="userBalance">
                             <i class="fas fa-wallet"></i>
                             <span id="balanceDisplay">0.00 USD</span>
                         </div>
@@ -643,7 +643,7 @@
                         </div>
 
                         <div class="profile-dropdown">
-                            <button class="profile-btn" onclick="toggleProfileMenu()">
+                            <button class="profile-btn" onclick="showSection('profile')">
                                 <i class="fas fa-user"></i>
                             </button>
                         </div>
@@ -780,10 +780,26 @@
                 <div id="userDepositsList"></div>
             </div>
 
+             Added profile editing form 
             <div class="tab-content" id="accountSettingsTab">
                 <div class="card">
                     <h3>معلومات الحساب</h3>
-                    <p>البريد الإلكتروني: <span id="userEmail"></span></p>
+                    <form id="editProfileForm" onsubmit="updateProfile(event)" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">الاسم</label>
+                            <input type="text" class="form-input" id="profileName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-input" id="profileEmail" readonly style="background: var(--bg-light);">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" class="form-input" id="profilePhone" name="phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </form>
+                    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
                     <button class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
                 </div>
             </div>
@@ -825,6 +841,10 @@
                         <li class="admin-menu-item" onclick="switchAdminTab('logs')">
                             <i class="fas fa-file-alt"></i> السجلات
                         </li>
+                         Added Live Chat menu item 
+                        <li class="admin-menu-item" onclick="switchAdminTab('chat')">
+                            <i class="fas fa-comments"></i> المحادثات المباشرة
+                        </li>
                     </ul>
                 </aside>
 
@@ -862,6 +882,7 @@
                     </div>
 
                      TICKETS TAB 
+                     Enhanced tickets tab with reply functionality 
                     <div id="adminTicketsTab" class="tab-content">
                         <div id="adminTicketsList"></div>
                     </div>
@@ -1083,9 +1104,6 @@
                     <label class="form-label">الفئة</label>
                     <select class="form-input" name="category" id="productCategorySelect" required>
                         <option value="">اختر الفئة</option>
-                        <option value="smm">خدمات SMM</option>
-                        <option value="real">منتج حقيقي</option>
-                        <option value="digital">منتج رقمي</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1205,6 +1223,126 @@
         </div>
     </div>
 
+     Enhanced Edit Category Modal 
+     EDIT CATEGORY MODAL (ADMIN) 
+    <div id="editCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">تعديل الفئة</h2>
+                <button class="modal-close" onclick="closeModal('editCategoryModal')">&times;</button>
+            </div>
+            <form id="editCategoryForm" onsubmit="updateCategory(event)">
+                <input type="hidden" id="editCategoryId">
+                <div class="form-group">
+                    <label class="form-label">اسم الفئة</label>
+                    <input type="text" class="form-input" id="editCategoryName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المعرف (slug)</label>
+                    <input type="text" class="form-input" id="editCategorySlug" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" id="editCategoryDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الأيقونة (Font Awesome class)</label>
+                    <input type="text" class="form-input" id="editCategoryIcon" placeholder="fas fa-box">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ التغييرات</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Edit Product Modal 
+     EDIT PRODUCT MODAL (ADMIN) 
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">تعديل المنتج</h2>
+                <button class="modal-close" onclick="closeModal('editProductModal')">&times;</button>
+            </div>
+            <form id="editProductForm" onsubmit="updateProduct(event)">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label class="form-label">عنوان المنتج</label>
+                    <input type="text" class="form-input" id="editProductTitle" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الوصف</label>
+                    <textarea class="form-input" id="editProductDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">السعر</label>
+                    <input type="number" class="form-input" id="editProductPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">الفئة</label>
+                    <select class="form-input" id="editProductCategory" required>
+                        <option value="smm">خدمات SMM</option>
+                        <option value="real">منتجات حقيقية</option>
+                        <option value="digital">منتجات رقمية</option>
+                        <option value="design">تصميم المواقع</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رابط الصورة (اختياري)</label>
+                    <input type="url" class="form-input" id="editProductImage">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ التغييرات</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Ticket Reply Modal 
+     TICKET REPLY MODAL (ADMIN) 
+    <div id="ticketReplyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">الرد على التذكرة</h2>
+                <button class="modal-close" onclick="closeModal('ticketReplyModal')">&times;</button>
+            </div>
+            <div id="ticketMessagesContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">
+            </div>
+            <form id="ticketReplyForm" onsubmit="replyToTicket(event)">
+                <input type="hidden" id="replyTicketId">
+                <div class="form-group">
+                    <label class="form-label">الرد</label>
+                    <textarea class="form-input" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">إرسال الرد</button>
+            </form>
+        </div>
+    </div>
+
+     Enhanced Admin Live Chat Modal 
+     ADMIN LIVE CHAT MODAL 
+    <div id="adminLiveChatModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 class="modal-title">المحادثات المباشرة</h2>
+                <button class="modal-close" onclick="closeModal('adminLiveChatModal')">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: 250px 1fr; gap: 1rem; height: 500px;">
+                <div id="chatUsersList" style="overflow-y: auto; border-left: 1px solid var(--border); padding-left: 1rem;">
+                     Users list will be loaded here 
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <div id="adminChatMessages" style="flex: 1; overflow-y: auto; border: 1px solid var(--border); padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+                        <p style="text-align: center; color: var(--text-light);">اختر محادثة من القائمة</p>
+                    </div>
+                    <form id="adminChatForm" onsubmit="sendAdminChatMessage(event)" style="display: none;">
+                        <input type="hidden" id="selectedChatUserId">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" class="form-input" id="adminChatInput" placeholder="اكتب رسالتك..." required>
+                            <button type="submit" class="btn btn-primary">إرسال</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
      FIREBASE SDK 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -1217,7 +1355,7 @@
             authDomain: "koko-caffe.firebaseapp.com",
             databaseURL: "https://koko-caffe-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "koko-caffe",
-            storageBucket: "koko-caffe.firebasestorage.app",
+            storageBucket: "koko-caffe.firestorage.app",
             messagingSenderId: "382318796715",
             appId: "1:382318796715:web:ee9f3aca9a107f86da7cee",
             measurementId: "G-B83G77QPWW"
@@ -1254,6 +1392,7 @@
                     window.currentUserData = { email: user.email, role: 'user', verified: false };
                 }
 
+                // Updated UI elements for logged-in state
                 document.getElementById('authButtons').style.display = 'none';
                 document.getElementById('userSection').style.display = 'flex';
                 document.getElementById('userEmail').textContent = user.email;
@@ -1263,9 +1402,16 @@
                 loadUserTickets();
                 loadUserOrders();
                 loadUserDeposits();
+                loadProfileData(); // Load profile data on login
 
                 if (window.currentUserData.role === 'admin') {
-                    document.querySelector('.nav-links').innerHTML += '<li><a href="#" onclick="showSection(\'admin\')">لوحة الإدارة</a></li>';
+                    // Dynamically add admin link if user is admin
+                    const navLinks = document.querySelector('.nav-links');
+                    if (!navLinks.querySelector('a[href="#admin"]')) { // Prevent duplicates
+                        const adminLink = document.createElement('li');
+                        adminLink.innerHTML = '<a href="#" onclick="showSection(\'admin\')">لوحة الإدارة</a>';
+                        navLinks.appendChild(adminLink);
+                    }
                 }
             } else {
                 window.currentUser = null;
@@ -1689,13 +1835,27 @@
                     const ticketCard = document.createElement('div');
                     ticketCard.className = 'card';
                     ticketCard.style.marginBottom = '1rem';
+                    
+                    let messagesHtml = '';
+                    if (ticket.messages && ticket.messages.length > 0) {
+                        messagesHtml = ticket.messages.map(msg => `
+                            <div style="padding: 0.75rem; margin: 0.5rem 0; background: ${msg.isAdmin ? 'var(--bg-light)' : 'var(--primary-light)'}; border-radius: 8px; border-right: 3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">
+                                <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'الدعم الفني' : 'أنت'}:</strong>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--text-dark);">${msg.message}</p>
+                                <small style="color: var(--text-light);">${new Date(msg.timestamp).toLocaleString('ar-EG')}</small>
+                            </div>
+                        `).join('');
+                    }
+                    
                     ticketCard.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
                             <h3 style="margin: 0; color: var(--text-dark);">${ticket.subject}</h3>
                             <span class="badge" style="background: ${statusColors[ticket.status] || 'var(--text-light)'}; color: white;">${ticket.status}</span>
                         </div>
-                        <p style="color: var(--text-light); margin: 0.5rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
-                        <small style="color: var(--text-light);">رقم التذكرة: ${doc.id}</small>
+                        <div style="margin-top: 1rem;">
+                            ${messagesHtml}
+                        </div>
+                        <small style="color: var(--text-light); display: block; margin-top: 1rem;">رقم التذكرة: ${doc.id}</small>
                     `;
                     ticketsList.appendChild(ticketCard);
                 });
@@ -1948,9 +2108,14 @@
                                         <p style="color: var(--text-light); margin: 0.5rem 0;">${category.description}</p>
                                         <small style="color: var(--text-light);">المعرف: ${category.slug}</small>
                                     </div>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteCategory('${doc.id}')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn btn-sm btn-primary" onclick="openEditCategory('${doc.id}', '${category.name}', '${category.slug}', '${category.description}', '${category.icon}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteCategory('${doc.id}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             `;
                             categoriesList.appendChild(categoryCard);
@@ -1959,7 +2124,7 @@
 
                     // Update category select in add product form
                     if (categorySelect) {
-                        const defaultOptions = categorySelect.innerHTML;
+                        const defaultOptions = categorySelect.innerHTML; // Keep existing default option
                         const customOptions = [];
                         snapshot.forEach((doc) => {
                             const category = doc.data();
@@ -1967,6 +2132,10 @@
                         });
                         categorySelect.innerHTML = defaultOptions + customOptions.join('');
                     }
+                } else {
+                    // Handle case where there are no categories
+                    if (categoriesList) categoriesList.innerHTML = '<div class="card"><p style="text-align: center; color: var(--text-light);">لا توجد فئات</p></div>';
+                    if (categorySelect) categorySelect.innerHTML = '<option value="">اختر الفئة</option>';
                 }
             });
         }
@@ -2338,14 +2507,19 @@
                     productCard.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: start;">
                             <div>
-                                <h3 style="margin: 0; color: var(--text-dark);">${product.title}</h3>
-                                <p style="color: var(--text-light); margin: 0.5rem 0;">${product.description}</p>
-                                <p style="color: var(--primary); font-weight: 600;">${product.price} ${product.currency}</p>
-                                <p style="color: var(--text-light); font-size: 0.875rem;">المخزون: ${product.stock}</p>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${product.title}</h3>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">${product.description}</p>
+                                <p style="color: var(--primary); font-weight: bold; margin: 0.5rem 0;">${product.price} ${product.currency || 'USD'}</p>
+                                <small style="color: var(--text-light);">الفئة: ${product.category}</small>
                             </div>
-                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-sm btn-primary" onclick='openEditProduct(${JSON.stringify({id: doc.id, ...product})})'>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     `;
                     productsList.appendChild(productCard);
@@ -2513,13 +2687,16 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-dark);">${ticket.subject}</h3>
                                 <p style="color: var(--text-light); margin: 0.25rem 0;">المستخدم: ${ticket.userEmail || ticket.userId}</p>
-                                <p style="color: var(--text-light); margin: 0.25rem 0;">${ticket.messages && ticket.messages.length > 0 ? ticket.messages[0].message : ''}</p>
+                                <p style="color: var(--text-light); margin: 0.25rem 0;">عدد الرسائل: ${ticket.messages ? ticket.messages.length : 0}</p>
                             </div>
                             <span class="badge">${ticket.status}</span>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick='openTicketReply("${doc.id}", ${JSON.stringify(ticket.messages || [])})'>
+                                <i class="fas fa-reply"></i> رد
+                            </button>
                             <button class="btn btn-sm btn-success" onclick="updateTicketStatus('${doc.id}', 'closed')">إغلاق</button>
-                            <button class="btn btn-sm btn-primary" onclick="updateTicketStatus('${doc.id}', 'open')">فتح</button>
+                            <button class="btn btn-sm btn-warning" onclick="updateTicketStatus('${doc.id}', 'open')">فتح</button>
                         </div>
                     `;
                     ticketsList.appendChild(ticketCard);
@@ -2674,49 +2851,47 @@
             }
         };
 
-        window.switchAdminTab = function(tabName) {
-            document.querySelectorAll('.admin-menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
+        window.switchAdminTab = function(tab) {
+            document.querySelectorAll('.admin-menu-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('#adminSection .tab-content').forEach(content => content.classList.remove('active'));
+
             event.target.classList.add('active');
+            
+            const tabMap = {
+                'products': 'adminProductsTab',
+                'categories': 'adminCategoriesTab',
+                'orders': 'adminOrdersTab',
+                'deposits': 'adminDepositsTab',
+                'users': 'adminUsersTab',
+                'tickets': 'adminTicketsTab',
+                'coupons': 'adminCouponsTab',
+                'settings': 'adminSettingsTab',
+                'logs': 'adminLogsTab',
+                'chat': 'adminLiveChatModal' // Special case for chat modal
+            };
 
-            document.querySelectorAll('.admin-content .tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            const targetTab = document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1) + 'Tab');
-            if (targetTab) {
-                targetTab.classList.add('active');
+            const targetTabId = tabMap[tab];
+            
+            if (targetTabId === 'adminLiveChatModal') {
+                openAdminLiveChat();
+            } else {
+                const targetTab = document.getElementById(targetTabId);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
             }
 
             // Load data for the selected tab
-            switch(tabName) {
-                case 'products':
-                    loadAdminProducts();
-                    break;
-                case 'categories':
-                    loadCategories();
-                    break;
-                case 'orders':
-                    loadAdminOrders();
-                    break;
-                case 'deposits':
-                    loadAdminDeposits();
-                    break;
-                case 'users':
-                    loadAdminUsers();
-                    break;
-                case 'tickets':
-                    loadAdminTickets();
-                    break;
-                case 'coupons':
-                    loadAdminCoupons();
-                    break;
-                case 'logs':
-                    loadAdminLogs();
-                    break;
-            }
+            if (tab === 'products') loadAdminProducts();
+            else if (tab === 'categories') loadCategories();
+            else if (tab === 'orders') loadAdminOrders();
+            else if (tab === 'deposits') loadAdminDeposits();
+            else if (tab === 'users') loadAdminUsers();
+            else if (tab === 'tickets') loadAdminTickets();
+            else if (tab === 'coupons') loadAdminCoupons();
+            else if (tab === 'logs') loadAdminLogs();
         };
+
 
         window.showModal = function(modalId) {
             const modal = document.getElementById(modalId);
@@ -2747,6 +2922,7 @@
             }
         };
 
+        // Updated to show profile section directly
         window.toggleProfileMenu = function() {
             showSection('profile');
         };
@@ -2763,6 +2939,284 @@
         loadFakeStats();
         loadSiteSettings();
         loadCategories();
+
+        // Profile Data Loading
+        function loadProfileData() {
+            if (!window.currentUser) return;
+            
+            const userRef = doc(db, 'users', window.currentUser.uid);
+            onSnapshot(userRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.data();
+                    document.getElementById('profileName').value = userData.name || '';
+                    document.getElementById('profileEmail').value = window.currentUser.email;
+                    document.getElementById('profilePhone').value = userData.phone || '';
+                }
+            });
+        }
+
+        // Profile Update Function
+        window.updateProfile = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUser) return;
+
+            const form = event.target;
+            const name = form.querySelector('input[name="name"]').value;
+            const phone = form.querySelector('input[name="phone"]').value;
+
+            try {
+                await updateDoc(doc(db, 'users', window.currentUser.uid), {
+                    name,
+                    phone
+                });
+
+                alert('تم تحديث الملف الشخصي بنجاح!');
+            } catch (error) {
+                console.error('Update profile error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Edit Category Functions
+        window.openEditCategory = function(id, name, slug, description, icon) {
+            document.getElementById('editCategoryId').value = id;
+            document.getElementById('editCategoryName').value = name;
+            document.getElementById('editCategorySlug').value = slug;
+            document.getElementById('editCategoryDescription').value = description;
+            document.getElementById('editCategoryIcon').value = icon;
+            showModal('editCategoryModal');
+        };
+
+        window.updateCategory = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const categoryId = document.getElementById('editCategoryId').value;
+            const name = document.getElementById('editCategoryName').value;
+            const slug = document.getElementById('editCategorySlug').value;
+            const description = document.getElementById('editCategoryDescription').value;
+            const icon = document.getElementById('editCategoryIcon').value;
+
+            try {
+                await updateDoc(doc(db, 'categories', categoryId), {
+                    name,
+                    slug,
+                    description,
+                    icon
+                });
+
+                alert('تم تحديث الفئة بنجاح!');
+                closeModal('editCategoryModal');
+            } catch (error) {
+                console.error('Update category error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Edit Product Functions
+        window.openEditProduct = function(product) {
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductTitle').value = product.title;
+            document.getElementById('editProductDescription').value = product.description;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductCategory').value = product.category;
+            document.getElementById('editProductImage').value = product.imageUrl || ''; // Use imageUrl
+            showModal('editProductModal');
+        };
+
+        window.updateProduct = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const productId = document.getElementById('editProductId').value;
+            const title = document.getElementById('editProductTitle').value;
+            const description = document.getElementById('editProductDescription').value;
+            const price = parseFloat(document.getElementById('editProductPrice').value);
+            const category = document.getElementById('editProductCategory').value;
+            const image = document.getElementById('editProductImage').value;
+
+            try {
+                await updateDoc(doc(db, 'products', productId), {
+                    title,
+                    description,
+                    price,
+                    category,
+                    imageUrl: image || null // Use imageUrl
+                });
+
+                alert('تم تحديث المنتج بنجاح!');
+                closeModal('editProductModal');
+            } catch (error) {
+                console.error('Update product error:', error);
+                alert('حدث خطأ أثناء التحديث');
+            }
+        };
+
+        // Ticket Reply Functions
+        window.openTicketReply = function(ticketId, messages) {
+            document.getElementById('replyTicketId').value = ticketId;
+            
+            const messagesContainer = document.getElementById('ticketMessagesContainer');
+            messagesContainer.innerHTML = messages.map(msg => `
+                <div style="padding: 0.75rem; margin: 0.5rem 0; background: ${msg.isAdmin ? 'var(--success-light)' : 'var(--bg-white)'}; border-radius: 8px; border-right: 3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">
+                    <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'الدعم الفني' : 'المستخدم'}:</strong>
+                    <p style="margin: 0.5rem 0 0 0;">${msg.message}</p>
+                    <small style="color: var(--text-light);">${new Date(msg.timestamp).toLocaleString('ar-EG')}</small>
+                </div>
+            `).join('');
+            
+            showModal('ticketReplyModal');
+        };
+
+        window.replyToTicket = async function(event) {
+            event.preventDefault();
+            
+            if (!window.currentUserData || window.currentUserData.role !== 'admin') return;
+
+            const form = event.target;
+            const ticketId = document.getElementById('replyTicketId').value;
+            const message = form.querySelector('textarea').value;
+
+            try {
+                const ticketRef = doc(db, 'tickets', ticketId);
+                const ticketDoc = await getDoc(ticketRef);
+                
+                if (ticketDoc.exists()) {
+                    const ticket = ticketDoc.data();
+                    const messages = ticket.messages || [];
+                    
+                    messages.push({
+                        from: 'admin',
+                        isAdmin: true,
+                        message,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    await updateDoc(ticketRef, {
+                        messages,
+                        status: 'open' // Ensure status is updated if needed, or keep as is
+                    });
+
+                    await sendNotification(ticket.userId, `تم الرد على تذكرتك: ${ticket.subject}`);
+
+                    alert('تم إرسال الرد بنجاح!');
+                    closeModal('ticketReplyModal');
+                    form.reset();
+                }
+            } catch (error) {
+                console.error('Reply to ticket error:', error);
+                alert('حدث خطأ أثناء إرسال الرد');
+            }
+        };
+
+        // Admin Live Chat Management
+        window.openAdminLiveChat = function() {
+            showModal('adminLiveChatModal');
+            loadChatUsers();
+        };
+
+        function loadChatUsers() {
+            const chatRef = collection(db, 'liveChat');
+            
+            onSnapshot(chatRef, (snapshot) => {
+                const usersMap = new Map();
+                
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    if (!usersMap.has(msg.userId)) {
+                        usersMap.set(msg.userId, {
+                            userId: msg.userId,
+                            lastMessage: msg.message,
+                            timestamp: msg.timestamp
+                        });
+                    }
+                });
+
+                const usersList = document.getElementById('chatUsersList');
+                if (usersMap.size === 0) {
+                    usersList.innerHTML = '<p style="text-align: center; color: var(--text-light);">لا توجد محادثات</p>';
+                    return;
+                }
+
+                // Sort users by last message timestamp
+                const sortedUsers = Array.from(usersMap.values()).sort((a, b) => b.timestamp - a.timestamp);
+
+                usersList.innerHTML = '';
+                sortedUsers.forEach((user) => {
+                    const userItem = document.createElement('div');
+                    userItem.style.padding = '0.75rem';
+                    userItem.style.marginBottom = '0.5rem';
+                    userItem.style.background = 'var(--bg-light)';
+                    userItem.style.borderRadius = '8px';
+                    userItem.style.cursor = 'pointer';
+                    userItem.onclick = () => selectChatUser(user.userId);
+                    userItem.innerHTML = `
+                        <strong style="display: block; margin-bottom: 0.25rem;">${user.userId.substring(0, 8)}...</strong>
+                        <small style="color: var(--text-light);">${user.lastMessage.substring(0, 30)}...</small>
+                    `;
+                    usersList.appendChild(userItem);
+                });
+            });
+        }
+
+        function selectChatUser(userId) {
+            document.getElementById('selectedChatUserId').value = userId;
+            document.getElementById('adminChatForm').style.display = 'flex';
+            
+            const chatRef = collection(db, 'liveChat');
+            const q = query(chatRef, where('userId', '==', userId), orderBy('timestamp', 'asc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const messagesDiv = document.getElementById('adminChatMessages');
+                messagesDiv.innerHTML = '';
+                
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const messageEl = document.createElement('div');
+                    messageEl.style.marginBottom = '1rem';
+                    messageEl.style.padding = '0.75rem';
+                    messageEl.style.borderRadius = '8px';
+                    messageEl.style.background = msg.isAdmin ? 'var(--success-light)' : 'var(--primary-light)';
+                    messageEl.style.borderRight = `3px solid ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'}`;
+                    messageEl.innerHTML = `
+                        <strong style="color: ${msg.isAdmin ? 'var(--success)' : 'var(--primary)'};">${msg.isAdmin ? 'أنت' : 'المستخدم'}:</strong>
+                        <p style="margin: 0.5rem 0 0 0;">${msg.message}</p>
+                    `;
+                    messagesDiv.appendChild(messageEl);
+                });
+
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            });
+        }
+
+        window.sendAdminChatMessage = async function(event) {
+            event.preventDefault();
+            
+            const userId = document.getElementById('selectedChatUserId').value;
+            const input = document.getElementById('adminChatInput');
+            const message = input.value.trim();
+            
+            if (!message || !userId) return;
+
+            try {
+                await addDoc(collection(db, 'liveChat'), {
+                    userId,
+                    message,
+                    isAdmin: true,
+                    timestamp: serverTimestamp()
+                });
+
+                await sendNotification(userId, 'لديك رسالة جديدة من الدعم الفني');
+
+                input.value = '';
+            } catch (error) {
+                console.error('Send admin message error:', error);
+            }
+        };
     </script>
 </body>
 </html>
