@@ -23,6 +23,7 @@
             --text-dark: #1f2937;
             --text-light: #6b7280;
             --border: #e5e7eb;
+            --card-bg: var(--bg-white); /* Default card background */
         }
 
         [data-theme="dark"] {
@@ -32,6 +33,7 @@
             --text-dark: #f8f9fa;
             --text-light: #9ca3af;
             --border: #374151;
+            --card-bg: var(--bg-white); /* Dark theme card background */
         }
 
         * {
@@ -165,6 +167,16 @@
             background: var(--primary-dark);
         }
 
+        .btn-secondary { /* Added for consistency */
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
         .btn-accent {
             background: var(--accent);
             color: white;
@@ -222,7 +234,7 @@
 
         /* CARDS */
         .card {
-            background: var(--bg-white);
+            background: var(--card-bg); /* Use card-bg variable */
             border-radius: 12px;
             padding: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -236,7 +248,7 @@
         }
 
         .product-card {
-            background: var(--bg-white);
+            background: var(--card-bg); /* Use card-bg variable */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -549,6 +561,19 @@
         .notification-item.unread {
             background: rgba(99, 102, 241, 0.1);
         }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        #notificationList {
+             /* styles for notification items will be applied dynamically */
+        }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
@@ -609,49 +634,58 @@
                     <li><a href="#" onclick="showSection('website-design')">طلب تصميم موقع</a></li>
                     <li><a href="#" onclick="showSection('offers')">العروض</a></li>
                     <li><a href="#" onclick="showSection('support')">الدعم الفني</a></li>
-                    <!-- Added admin link that will be shown/hidden based on user role -->
+                     Admin link with better visibility 
                     <li id="adminNavLink" style="display: none;">
-                        <a href="#" onclick="showSection('admin')" style="color: var(--primary); font-weight: 600;">
+                        <a href="#" onclick="showSection('admin')" style="color: #ef4444; font-weight: 700; background: rgba(239, 68, 68, 0.1); padding: 0.5rem 1rem; border-radius: 0.5rem;">
                             <i class="fas fa-shield-alt"></i> لوحة الإدارة
                         </a>
                     </li>
                 </ul>
 
                 <div class="nav-actions">
-                    <button class="btn btn-sm" onclick="toggleTheme()">
+                    <button id="themeToggle" onclick="toggleTheme()" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-dark);">
                         <i class="fas fa-moon"></i>
                     </button>
 
-                    <select id="currencySelector" onchange="changeCurrency()" style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border);">
-                        <option value="USD">USD</option>
-                        <option value="EGP">EGP</option>
-                        <option value="SAR">SAR</option>
-                        <option value="AED">AED</option>
-                    </select>
-
-                    <div id="authButtons">
-                        <button class="btn btn-primary" onclick="showModal('loginModal')">تسجيل الدخول</button>
-                        <button class="btn btn-accent" onclick="showModal('signupModal')">إنشاء حساب</button>
+                    <div id="notificationBell" style="position: relative; display: none;">
+                        <button onclick="toggleNotifications()" style="position: relative; background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-dark);">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
+                        </button>
+                        <div id="notificationDropdown" class="notification-dropdown" style="display: none;">
+                            <div class="notification-header">
+                                <h3>الإشعارات</h3>
+                                <button onclick="markAllNotificationsRead()" style="font-size: 0.875rem; padding: 0.25rem 0.5rem; background: var(--primary); color: white; border-radius: 5px;">تحديد الكل كمقروء</button>
+                            </div>
+                            <div id="notificationList"></div>
+                        </div>
                     </div>
 
-                    <div id="userSection" style="display: none;">
-                        <div class="balance-display" id="userBalance">
-                            <i class="fas fa-wallet"></i>
-                            <span id="balanceDisplay">0.00 USD</span>
-                        </div>
+                    <div id="authButtons">
+                        <button class="btn-secondary" onclick="openModal('loginModal')">تسجيل الدخول</button>
+                        <button class="btn-primary" onclick="openModal('signupModal')">إنشاء حساب</button>
+                    </div>
 
-                        <div class="notification-icon" onclick="toggleNotifications()">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-badge" id="notificationBadge">0</span>
-                            <div class="notifications-dropdown" id="notificationsDropdown">
-                                 Notifications will be loaded here 
-                            </div>
-                        </div>
-
-                        <div class="profile-dropdown">
-                            <button class="profile-btn" onclick="showSection('profile')">
-                                <i class="fas fa-user"></i>
+                    <div id="userSection" style="display: none; align-items: center; gap: 1rem;">
+                        <span id="userBalance" style="font-weight: 600; color: var(--primary);">0.00 USD</span>
+                        <div style="position: relative;">
+                            <button onclick="toggleUserMenu()" style="display: flex; align-items: center; gap: 0.5rem; background: none; border: none; cursor: pointer; font-size: 1rem;">
+                                <i class="fas fa-user-circle" style="font-size: 1.5rem; color: var(--primary);"></i>
+                                <span id="userEmail"></span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
                             </button>
+                            <div id="userMenu" style="display: none; position: absolute; left: 0; top: 100%; margin-top: 0.5rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.5rem; min-width: 200px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000;">
+                                <a href="#" onclick="showSection('profile'); toggleUserMenu();" style="display: block; padding: 0.75rem 1rem; text-decoration: none; color: var(--text-dark); border-bottom: 1px solid var(--border);">
+                                    <i class="fas fa-user"></i> الملف الشخصي
+                                </a>
+                                 Added admin link to user menu for better accessibility 
+                                <a href="#" id="adminMenuLink" onclick="showSection('admin'); toggleUserMenu();" style="display: none; padding: 0.75rem 1rem; text-decoration: none; color: #ef4444; font-weight: 600; border-bottom: 1px solid var(--border);">
+                                    <i class="fas fa-shield-alt"></i> لوحة الإدارة
+                                </a>
+                                <a href="#" onclick="logout(); toggleUserMenu();" style="display: block; padding: 0.75rem 1rem; text-decoration: none; color: var(--danger);">
+                                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1424,10 +1458,20 @@
 
                 if (window.currentUserData.role === 'admin') {
                     const adminNavLink = document.getElementById('adminNavLink');
+                    const adminMenuLink = document.getElementById('adminMenuLink');
+                    
                     if (adminNavLink) {
-                        adminNavLink.style.display = 'block';
-                        console.log('[v0] Admin link displayed');
+                        adminNavLink.style.display = 'list-item';
+                        console.log('[v0] Admin nav link displayed');
                     }
+                    
+                    if (adminMenuLink) {
+                        adminMenuLink.style.display = 'block';
+                        console.log('[v0] Admin menu link displayed');
+                    }
+                    
+                    // Show alert to confirm admin access
+                    console.log('[v0] ✅ ADMIN ACCESS GRANTED for:', user.email);
                 }
             } else {
                 window.currentUser = null;
@@ -1438,6 +1482,11 @@
                 const adminNavLink = document.getElementById('adminNavLink');
                 if (adminNavLink) {
                     adminNavLink.style.display = 'none';
+                }
+                
+                const adminMenuLink = document.getElementById('adminMenuLink');
+                if (adminMenuLink) {
+                    adminMenuLink.style.display = 'none';
                 }
 
                 // If the user navigates away from admin section while logged out, hide it.
@@ -1474,9 +1523,9 @@
                 }
 
                 // Display notifications in dropdown
-                const dropdown = document.getElementById('notificationsDropdown');
-                if (dropdown) {
-                    dropdown.innerHTML = notificationsArray.length > 0 
+                const dropdownList = document.getElementById('notificationList');
+                if (dropdownList) {
+                    dropdownList.innerHTML = notificationsArray.length > 0 
                         ? notificationsArray.map(n => `
                             <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
                                 <p style="margin: 0; font-size: 0.9rem;">${n.message}</p>
@@ -1493,11 +1542,25 @@
             const notifRef = ref(rtdb, `notifications/${window.currentUser.uid}/${notificationId}`);
             await update(notifRef, { read: true });
         };
+        
+        window.markAllNotificationsRead = async function() {
+            if (!window.currentUser) return;
+            const notificationsRef = ref(rtdb, `notifications/${window.currentUser.uid}`);
+            const snapshot = await get(notificationsRef);
+            const notifications = snapshot.val();
+            if (!notifications) return;
+            
+            const updates = {};
+            Object.keys(notifications).forEach(id => {
+                updates[id] = { ...notifications[id], read: true };
+            });
+            await update(notificationsRef, updates);
+        };
 
         window.toggleNotifications = function() {
-            const dropdown = document.getElementById('notificationsDropdown');
+            const dropdown = document.getElementById('notificationDropdown');
             if (dropdown) {
-                dropdown.classList.toggle('active');
+                dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
             }
         };
 
@@ -1723,7 +1786,7 @@
             try {
                 await signOut(auth);
                 showSection('home');
-                location.reload();
+                location.reload(); // Reload to ensure all UI elements reset
             } catch (error) {
                 alert('خطأ في تسجيل الخروج: ' + error.message);
             }
@@ -2548,7 +2611,7 @@
                             </div>
                         </div>
                     `;
-                    productsList.appendChild(card);
+                    productsList.appendChild(productCard);
                 });
             });
         }
@@ -2936,6 +2999,11 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
+                // Also reset form values if it's a form modal
+                const form = modal.querySelector('form');
+                if (form) {
+                    form.reset();
+                }
             }
         };
 
@@ -2943,6 +3011,12 @@
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             html.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            
+            // Update the icon
+            const themeIcon = document.getElementById('themeToggle').querySelector('i');
+            if (themeIcon) {
+                themeIcon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
         };
 
         window.changeCurrency = function() {
@@ -2962,9 +3036,26 @@
         // Close modals when clicking outside
         window.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('active');
+                closeModal(e.target.id);
             }
         });
+        
+        /* toggleUserMenu */
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', function(event) {
+            const userSection = document.getElementById('userSection');
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu && userMenu.style.display === 'block') {
+                if (!userSection.contains(event.target)) {
+                    userMenu.style.display = 'none';
+                }
+            }
+        });
+
 
         // INITIALIZE
         loadProducts();
@@ -3165,6 +3256,12 @@
                             lastMessage: msg.message,
                             timestamp: msg.timestamp
                         });
+                    } else {
+                        // Update timestamp if newer message
+                        if (msg.timestamp > usersMap.get(msg.userId).timestamp) {
+                            usersMap.get(msg.userId).timestamp = msg.timestamp;
+                            usersMap.get(msg.userId).lastMessage = msg.message;
+                        }
                     }
                 });
 
